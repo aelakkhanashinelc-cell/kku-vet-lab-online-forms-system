@@ -105,7 +105,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           จำกัดสิทธิ์เฉพาะเจ้าหน้าที่และผู้ดูแลระบบ
         </h2>
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          เมนู "ฐานรายการคำขอ & การอนุมัติ" สงวนสิทธิ์สำหรับ <strong>ผู้ดูแลระบบ (นางสาวลักขณา ฉันทะกลาง)</strong>, <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)</strong> และ <strong>นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</strong> เท่านั้น
+          เมนู "รายการคำขอ & การอนุมัติ" สงวนสิทธิ์สำหรับ <strong>ผู้ดูแลระบบ (นางสาวลักขณา ฉันทะกลาง)</strong>, <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)</strong> และ <strong>นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</strong> เท่านั้น
         </p>
         <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-500">
           บัญชีปัจจุบันของคุณ: <span className="font-mono font-bold text-slate-800">{currentUserEmail || 'ผู้ใช้ทั่วไป'}</span> (สถานะ: ผู้ขอรับบริการ)
@@ -269,7 +269,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-semibold text-[#202124] mt-1.5 tracking-tight">
-            ฐานรายการคำขอ & การอนุมัติ (Request & Approval Portal)
+            รายการคำขอ & การอนุมัติ (Request & Approval Portal)
           </h1>
           <p className="text-xs sm:text-sm text-[#5f6368] mt-1">
             พิจารณาอนุมัติคำขอ (ส่วนที่ 2-3), มอบหมายผู้รับผิดชอบ, ตรวจสอบความพร้อม และส่งออกเอกสาร PDF

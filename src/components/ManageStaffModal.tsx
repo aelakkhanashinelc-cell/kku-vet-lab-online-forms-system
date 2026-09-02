@@ -98,7 +98,7 @@ export const ManageStaffModal: React.FC<ManageStaffModalProps> = ({
             <div>
               <h2 className="text-base font-bold">จัดการรายชื่อนักวิชาการวิทยาศาสตร์ & ผู้มีสิทธิ์</h2>
               <p className="text-xs text-slate-300">
-                เพิ่มชื่อและอีเมลผู้มีสิทธิ์เข้าถึงฐานรายการคำขอ & พิจารณาอนุมัติ
+                เพิ่มชื่อและอีเมลผู้มีสิทธิ์เข้าถึงรายการคำขอ & พิจารณาอนุมัติ
               </p>
             </div>
           </div>
@@ -180,7 +180,7 @@ export const ManageStaffModal: React.FC<ManageStaffModalProps> = ({
                   </span>
                 ) : (
                   <span className="text-slate-400 text-[11px]">
-                    เมื่อเพิ่มแล้ว อีเมลนี้จะสามารถเข้าถึงเมนู "ฐานรายการคำขอ & การอนุมัติ" ได้ทันที
+                    เมื่อเพิ่มแล้ว อีเมลนี้จะสามารถเข้าถึงเมนู "รายการคำขอ & การอนุมัติ" ได้ทันที
                   </span>
                 )}
 

@@ -547,7 +547,7 @@ export function App() {
                     </div>
                     <div className="min-w-0 flex-1 leading-tight">
                       <div className="text-xs font-bold truncate flex items-center gap-1.5 text-slate-900">
-                        <span>ฐานคำขอ & อนุมัติ</span>
+                        <span>รายการคำขอ & การอนุมัติ</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide shadow-2xs">Staff</span>
                       </div>
                       <div className={`text-[10px] truncate ${activeTab === 'DASHBOARD' ? 'text-indigo-800 font-medium' : 'text-slate-500'}`}>
