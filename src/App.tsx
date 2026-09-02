@@ -528,8 +528,7 @@ export function App() {
 
                 {/* Menu 5: Request Management & Status Portal */}
                 {roleInfo.isStaff ? (
-                  <>
-                    <button
+                  <button
                     type="button"
                     onClick={() => {
                       setActiveTab('DASHBOARD');
@@ -560,30 +559,6 @@ export function App() {
                       </div>
                     </div>
                   </button>
-                  {isSuperAdmin && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowGasSettings(true);
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-full group flex items-center gap-3 px-3.5 py-2 rounded-2xl text-left transition-all duration-200 cursor-pointer border bg-emerald-50/80 hover:bg-emerald-100 text-emerald-950 border-emerald-300 font-semibold shadow-2xs mt-1.5"
-                    >
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-emerald-600 text-white shadow-xs">
-                        <FileSpreadsheet className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0 flex-1 leading-tight">
-                        <div className="text-xs font-bold truncate flex items-center gap-1 text-slate-900">
-                          <span>Google Sheets & Script</span>
-                          {isGasConfigured() && <span className="text-[10px] text-emerald-700 font-bold">✓</span>}
-                        </div>
-                        <div className="text-[10px] text-emerald-800 truncate">
-                          ตั้งค่าเชื่อมต่อสเปรดชีต
-                        </div>
-                      </div>
-                    </button>
-                  )}
-                  </>
                 ) : (
                   <button
                     type="button"

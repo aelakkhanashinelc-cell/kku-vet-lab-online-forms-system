@@ -272,31 +272,30 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const rejectedCount = requests.filter((r) => r.status === 'rejected').length;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-5 sm:space-y-6">
       {/* Top Header Card */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-400/25 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-xl border border-indigo-400/25 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
         {/* Ambient Decorative Glows */}
         <div className="absolute -right-20 -top-20 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute right-1/3 -bottom-24 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div className="relative z-10 space-y-2.5 max-w-3xl">
-
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg border border-white/20 flex items-center justify-center shrink-0">
-              <FileCheck2 className="w-6 h-6" />
+        <div className="relative z-10 space-y-2 max-w-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg border border-white/20 flex items-center justify-center shrink-0">
+              <FileCheck2 className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-xs">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight drop-shadow-xs">
                 รายการคำขอ & การอนุมัติ
               </h1>
-              <div className="text-xs sm:text-sm font-medium text-cyan-200/90 font-mono mt-0.5">
+              <div className="text-[11px] sm:text-xs font-medium text-cyan-200/90 font-mono mt-0.5">
                 Request & Approval Portal
               </div>
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed pt-0.5">
+          <p className="text-xs sm:text-[13px] text-blue-100/90 leading-relaxed pt-0.5">
             {isSuperAdminOrHead
               ? 'พิจารณาอนุมัติคำขอ (ส่วนที่ 2-3), มอบหมายผู้รับผิดชอบ, ตรวจสอบความพร้อม และส่งออกเอกสาร PDF'
               : `แสดงและพิจารณาเฉพาะรายการคำขอที่หัวหน้าห้องปฏิบัติการมอบหมายให้ ${roleInfo.userName} ตรวจสอบ (ส่วนที่ 3)`}
@@ -319,21 +318,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-100" /> ส่งออก CSV (Excel)
           </button>
-          {roleInfo.role === 'admin' && (
-            <button
-              onClick={onOpenGasSettings}
-              className={`px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 border backdrop-blur-md shadow-md transition-all cursor-pointer active:scale-95 ${
-                isGasConfigured()
-                  ? 'bg-teal-600/80 hover:bg-teal-600 text-white border-teal-400/40 shadow-teal-500/20'
-                  : 'bg-white/20 hover:bg-white/30 text-white border-white/30'
-              }`}
-              title="ตั้งค่าเชื่อมต่อ Google Sheets & Apps Script (เฉพาะผู้ดูแลระบบ)"
-            >
-              <FileSpreadsheet className="w-4 h-4 text-teal-100" />
-              <span>Google Sheets</span>
-              {isGasConfigured() && <span className="text-teal-200 font-bold">✓</span>}
-            </button>
-          )}
           <button
             onClick={fetchRequests}
             className="p-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-all shadow-xs cursor-pointer active:scale-95"
@@ -568,16 +552,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full text-left text-xs sm:text-[13px]">
             <thead className="bg-gradient-to-r from-slate-100 via-indigo-50/40 to-blue-50/30 text-slate-800 font-bold border-b border-slate-200 text-xs">
               <tr>
-                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">รหัสติดตาม</th>
-                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">แบบฟอร์ม</th>
-                <th className="py-3.5 px-4 font-bold text-slate-800 min-w-[170px]">ผู้ยื่นคำขอ / สังกัด</th>
-                <th className="py-3.5 px-4 font-bold text-slate-800 min-w-[200px]">โครงงาน / เรื่อง</th>
-                <th className="py-3.5 px-4 whitespace-nowrap text-center font-bold text-slate-800">วันที่ยื่น</th>
-                <th className="py-3.5 px-4 whitespace-nowrap text-center font-bold text-slate-800">ขั้นตอน & สถานะ</th>
-                <th className="py-3.5 px-4 sm:px-6 whitespace-nowrap text-right font-bold text-slate-800">การพิจารณา / เอกสาร</th>
+                <th className="py-3 px-3.5 whitespace-nowrap font-bold text-slate-800">รหัสติดตาม</th>
+                <th className="py-3 px-3 whitespace-nowrap font-bold text-slate-800">แบบฟอร์ม</th>
+                <th className="py-3 px-3.5 font-bold text-slate-800 min-w-[150px] max-w-[220px]">ผู้ยื่นคำขอ / สังกัด</th>
+                <th className="py-3 px-3.5 font-bold text-slate-800 min-w-[160px] max-w-xs">โครงงาน / เรื่อง</th>
+                <th className="py-3 px-3 whitespace-nowrap text-center font-bold text-slate-800">วันที่ยื่น</th>
+                <th className="py-3 px-3 whitespace-nowrap text-center font-bold text-slate-800">ขั้นตอน & สถานะ</th>
+                <th className="py-3 px-3.5 sm:px-5 whitespace-nowrap text-right font-bold text-slate-800">การพิจารณา / เอกสาร</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -614,36 +598,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       onClick={() => setSelectedRequestForDetails(req)}
                       className="hover:bg-indigo-50/30 transition-colors cursor-pointer group"
                     >
-                      <td className="py-3.5 px-4 whitespace-nowrap">
-                        <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100/90 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-3 py-1 rounded-lg text-xs tracking-wider border border-slate-200 transition-colors shadow-2xs">
+                      <td className="py-3 px-3.5 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100/90 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-2.5 py-1 rounded-lg text-xs tracking-wider border border-slate-200 transition-colors shadow-2xs">
                           <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"></span>
                           <span>{req.trackingNo}</span>
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap">{getFormBadge(req.formType)}</td>
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-xs sm:text-sm">
+                      <td className="py-3 px-3 whitespace-nowrap">{getFormBadge(req.formType)}</td>
+                      <td className="py-3 px-3.5 max-w-[220px]">
+                        <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-xs sm:text-sm truncate">
                           {req.applicantName}
                         </div>
-                        <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5" title={req.department}>
+                        <div className="text-[11px] text-slate-500 truncate mt-0.5" title={req.department}>
                           {req.department}
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 max-w-xs">
-                        <div className="font-medium text-slate-800 line-clamp-1 text-xs" title={req.projectTitle}>
+                      <td className="py-3 px-3.5 max-w-xs">
+                        <div className="font-medium text-slate-800 line-clamp-1 text-xs sm:text-[13px]" title={req.projectTitle}>
                           {req.projectTitle}
                         </div>
                         <div className="text-[11px] text-slate-400 font-mono mt-0.5">
                           {req.phone || '-'}
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap text-center text-slate-600 text-xs font-mono">
+                      <td className="py-3 px-3 whitespace-nowrap text-center text-slate-600 text-xs font-mono">
                         {req.submissionDateTh}
                       </td>
-                      <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                      <td className="py-3 px-3 text-center whitespace-nowrap">
                         {wf.badge}
                       </td>
-                      <td className="py-3.5 px-4 sm:px-6 text-right whitespace-nowrap">
+                      <td className="py-3 px-3.5 sm:px-5 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2">
                           {/* Dynamic Action Button based on Workflow Stage */}
                           <button
@@ -652,7 +636,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                               e.stopPropagation();
                               onSelectRequestForReview(req);
                             }}
-                            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shadow-2xs hover:scale-[1.02] ${wf.buttonClass}`}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shadow-2xs hover:scale-[1.02] ${wf.buttonClass}`}
                             title="คลิกเพื่อพิจารณา / จัดการคำขอ หรือดูผลการพิจารณา"
                           >
                             {wf.buttonIcon}
