@@ -430,7 +430,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="bg-[#f8fafd] px-5 py-3 border-b border-[#dadce0] flex items-center justify-between text-xs text-[#5f6368]">
           <div className="flex items-center gap-2 text-[#1a73e8] font-medium">
             <Eye className="w-4 h-4 shrink-0" />
-            <span>คลิกที่รายการคำขอหรือกดปุ่ม <strong>"ดูรายละเอียด"</strong> เพื่อเปิดหน้าต่างดูข้อมูลคำขอฉบับเต็มก่อนอนุมัติ</span>
+            <span>คลิกที่รายการคำขอเพื่อเปิดหน้าต่างดูข้อมูลคำขอฉบับเต็ม</span>
           </div>
           <span className="hidden md:inline text-xs text-[#5f6368] font-mono">
             {requests.length} คำขอ
@@ -497,20 +497,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       </td>
                       <td className="py-3.5 px-4 sm:px-6 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
-                          {/* View Details Button */}
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedRequestForDetails(req);
-                            }}
-                            className="px-3 py-1.5 rounded-full text-xs font-medium text-[#3c4043] bg-white hover:bg-[#f1f3f4] hover:text-[#1a73e8] border border-[#dadce0] transition-colors flex items-center gap-1.5 cursor-pointer shadow-none"
-                            title="กดเพื่อดูรายละเอียดคำขอฉบับเต็ม"
-                          >
-                            <Eye className="w-3.5 h-3.5 text-[#5f6368] group-hover:text-[#1a73e8]" />
-                            <span className="hidden sm:inline">ดูรายละเอียด</span>
-                          </button>
-
                           {/* Dynamic Action Button based on Workflow Stage */}
                           <button
                             type="button"
