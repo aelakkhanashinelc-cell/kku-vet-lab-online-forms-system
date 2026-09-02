@@ -28,6 +28,7 @@ import {
   ArrowRight,
   HelpCircle,
   LayoutDashboard,
+  Workflow,
 } from 'lucide-react';
 import { FormType, VetLabRequest } from './types';
 import { FormVetLab02 } from './components/FormVetLab02';
@@ -592,13 +593,26 @@ export function App() {
             </div>
 
             {/* SECTION 2: Service Workflow Steps */}
-            <div className="pt-2">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-900/80 px-2 mb-3 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span>
-                <span>ขั้นตอนการบริการ (WORKFLOW)</span>
+            <div className="pt-3 border-t border-indigo-100/90">
+              {/* Highlighted Workflow Header Banner */}
+              <div className="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-700 text-white px-3 py-2 rounded-2xl shadow-sm mb-3 flex items-center justify-between border border-indigo-400/30 relative overflow-hidden">
+                <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-cyan-400/20 rounded-full blur-md pointer-events-none"></div>
+                <div className="flex items-center gap-2 relative z-10">
+                  <div className="w-6 h-6 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs">
+                    <Workflow className="w-3.5 h-3.5 text-cyan-200" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-white tracking-tight flex items-center gap-1.5">
+                      <span>ขั้นตอนการบริการ</span>
+                    </div>
+                  </div>
+                </div>
+                <span className="text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-white/20 text-cyan-200 border border-cyan-400/30 backdrop-blur-xs relative z-10">
+                  WORKFLOW
+                </span>
               </div>
 
-              <div className="relative pl-3 space-y-3.5 before:absolute before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-indigo-100">
+              <div className="relative pl-3 space-y-3 before:absolute before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-amber-400 before:via-blue-400 before:to-emerald-400">
                 {/* Step 1: ศึกษาระเบียบ (01) */}
                 <button
                   type="button"
@@ -608,21 +622,21 @@ export function App() {
                   }}
                   className={`w-full group flex items-start gap-3 p-2 rounded-xl text-left transition-all cursor-pointer relative z-10 border ${
                     activeTab === 'REGULATIONS'
-                      ? 'bg-amber-50/80 border-amber-300 shadow-xs'
-                      : 'bg-white/60 border-slate-200/60 hover:bg-white hover:border-indigo-200'
+                      ? 'bg-gradient-to-r from-amber-50 to-orange-50/80 border-amber-300 shadow-xs ring-1 ring-amber-400/40'
+                      : 'bg-white/70 border-slate-200/70 hover:bg-amber-50/50 hover:border-amber-200'
                   }`}
                 >
                   <div
                     className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 transition-transform group-hover:scale-110 ${
                       activeTab === 'REGULATIONS'
-                        ? 'bg-amber-500 text-white shadow-xs'
-                        : 'bg-slate-200 text-slate-700'
+                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-xs'
+                        : 'bg-amber-100 text-amber-800 border border-amber-200'
                     }`}
                   >
                     1
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className={`text-xs font-bold ${activeTab === 'REGULATIONS' ? 'text-amber-900' : 'text-slate-800'}`}>
+                    <div className={`text-xs font-bold ${activeTab === 'REGULATIONS' ? 'text-amber-950' : 'text-slate-800'}`}>
                       ศึกษาระเบียบ (01)
                     </div>
                     <div className="text-[10px] text-slate-500">
@@ -642,21 +656,21 @@ export function App() {
                   }}
                   className={`w-full group flex items-start gap-3 p-2 rounded-xl text-left transition-all cursor-pointer relative z-10 border ${
                     activeTab === 'VET_LAB_02' || activeTab === 'VET_LAB_03' || activeTab === 'VET_LAB_04'
-                      ? 'bg-blue-50/80 border-blue-300 shadow-xs'
-                      : 'bg-white/60 border-slate-200/60 hover:bg-white hover:border-indigo-200'
+                      ? 'bg-gradient-to-r from-blue-50 to-indigo-50/80 border-blue-300 shadow-xs ring-1 ring-blue-400/40'
+                      : 'bg-white/70 border-slate-200/70 hover:bg-blue-50/50 hover:border-blue-200'
                   }`}
                 >
                   <div
                     className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 transition-transform group-hover:scale-110 ${
                       activeTab === 'VET_LAB_02' || activeTab === 'VET_LAB_03' || activeTab === 'VET_LAB_04'
-                        ? 'bg-blue-500 text-white shadow-xs'
-                        : 'bg-slate-200 text-slate-700'
+                        ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-xs'
+                        : 'bg-blue-100 text-blue-800 border border-blue-200'
                     }`}
                   >
                     2
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className={`text-xs font-bold ${activeTab === 'VET_LAB_02' || activeTab === 'VET_LAB_03' || activeTab === 'VET_LAB_04' ? 'text-blue-900' : 'text-slate-800'}`}>
+                    <div className={`text-xs font-bold ${activeTab === 'VET_LAB_02' || activeTab === 'VET_LAB_03' || activeTab === 'VET_LAB_04' ? 'text-blue-950' : 'text-slate-800'}`}>
                       ยื่นแบบฟอร์ม (02-04)
                     </div>
                     <div className="text-[10px] text-slate-500">
@@ -674,21 +688,21 @@ export function App() {
                   }}
                   className={`w-full group flex items-start gap-3 p-2 rounded-xl text-left transition-all cursor-pointer relative z-10 border ${
                     activeTab === 'DASHBOARD' || activeTab === 'MY_REQUESTS'
-                      ? 'bg-emerald-50/80 border-emerald-300 shadow-xs'
-                      : 'bg-white/60 border-slate-200/60 hover:bg-white hover:border-indigo-200'
+                      ? 'bg-gradient-to-r from-emerald-50 to-teal-50/80 border-emerald-300 shadow-xs ring-1 ring-emerald-400/40'
+                      : 'bg-white/70 border-slate-200/70 hover:bg-emerald-50/50 hover:border-emerald-200'
                   }`}
                 >
                   <div
                     className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 transition-transform group-hover:scale-110 ${
                       activeTab === 'DASHBOARD' || activeTab === 'MY_REQUESTS'
-                        ? 'bg-emerald-500 text-white shadow-xs'
-                        : 'bg-slate-200 text-slate-700'
+                        ? 'bg-gradient-to-br from-emerald-600 to-teal-600 text-white shadow-xs'
+                        : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                     }`}
                   >
                     3
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className={`text-xs font-bold ${activeTab === 'DASHBOARD' || activeTab === 'MY_REQUESTS' ? 'text-emerald-900' : 'text-slate-800'}`}>
+                    <div className={`text-xs font-bold ${activeTab === 'DASHBOARD' || activeTab === 'MY_REQUESTS' ? 'text-emerald-950' : 'text-slate-800'}`}>
                       {roleInfo.isStaff ? 'พิจารณา & มอบหมาย' : 'ติดตามสถานะคำขอ'}
                     </div>
                     <div className="text-[10px] text-slate-500">
@@ -698,15 +712,15 @@ export function App() {
                 </button>
 
                 {/* Step 4: เข้ารับบริการ */}
-                <div className="w-full flex items-start gap-3 p-2 rounded-xl text-left relative z-10 bg-emerald-50/60 border border-emerald-200">
-                  <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 shadow-xs">
+                <div className="w-full flex items-start gap-3 p-2 rounded-xl text-left relative z-10 bg-gradient-to-r from-purple-50/70 to-indigo-50/70 border border-purple-200/80">
+                  <div className="w-5 h-5 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 shadow-xs">
                     4
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs font-bold text-emerald-950">
+                    <div className="text-xs font-bold text-purple-950">
                       เข้ารับบริการ
                     </div>
-                    <div className="text-[10px] text-emerald-700">
+                    <div className="text-[10px] text-purple-700">
                       เข้าใช้งานตามวันเวลาที่อนุมัติ
                     </div>
                   </div>
