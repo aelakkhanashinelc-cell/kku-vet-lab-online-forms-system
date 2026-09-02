@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { VetLabRequest, FormType, RequestStatus } from '../types';
 import { RequestDetailsModal } from './RequestDetailsModal';
+import { apiGetRequests } from '../utils/apiClient';
 
 interface MyRequestsViewProps {
   onSelectRequestForPrint: (request: VetLabRequest) => void;
@@ -50,8 +51,7 @@ export const MyRequestsView: React.FC<MyRequestsViewProps> = ({
     if (!isSilent) setIsLoading(true);
     try {
       // Fetch all requests
-      const res = await fetch('/api/requests');
-      const json = await res.json();
+      const json = await apiGetRequests();
       if (json.success && Array.isArray(json.data)) {
         let all: VetLabRequest[] = json.data;
 

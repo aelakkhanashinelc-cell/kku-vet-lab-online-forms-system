@@ -18,7 +18,7 @@ import { VetLabRequest, ChemicalItem04, ApplicantRole, WorkType, SignatureData }
 import { KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
-import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
+import { apiSubmitRequest } from '../utils/apiClient';
 import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
 interface FormVetLab04Props {
@@ -248,27 +248,8 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     };
 
     try {
-      const res = await fetch('/api/requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.message || 'เกิดข้อผิดพลาดในการส่งคำขอ');
-      }
-
-      // Sync to Google Apps Script if configured
-      if (isGasConfigured() && isGasSyncEnabled()) {
-        try {
-          await submitToGoogleAppsScript(json.data || payload);
-        } catch (gasErr) {
-          console.warn('Google Apps Script submission warning:', gasErr);
-        }
-      }
-
-      onSubmitSuccess(json.data, json.emailResult);
+      const result = await apiSubmitRequest(payload);
+      onSubmitSuccess(result.data, result.emailResult);
     } catch (err: any) {
       console.error(err);
       setErrorMsg(err.message || 'ส่งคำขอไม่สำเร็จ');

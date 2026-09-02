@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { VetLabRequest, FormType, RequestStatus } from '../types';
 import { isGasConfigured, isGasSyncEnabled, exportRequestsToCSV } from '../utils/gasService';
+import { apiGetRequests } from '../utils/apiClient';
 import { getUserRoleInfo, isStaffUser, isHeadOfLab, isSuperAdmin } from '../utils/staffData';
 import { ManageStaffModal } from './ManageStaffModal';
 import { RequestDetailsModal } from './RequestDetailsModal';
@@ -62,13 +63,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const fetchRequests = async (isSilent = false) => {
     if (!isSilent) setIsLoading(true);
     try {
-      const url = new URL('/api/requests', window.location.origin);
-      if (filterFormType !== 'all') url.searchParams.set('formType', filterFormType);
-      if (filterStatus !== 'all') url.searchParams.set('status', filterStatus);
-      if (searchQuery.trim()) url.searchParams.set('q', searchQuery.trim());
-
-      const res = await fetch(url.toString());
-      const json = await res.json();
+      const json = await apiGetRequests({
+        formType: filterFormType,
+        status: filterStatus,
+        q: searchQuery,
+      });
       if (json.success && Array.isArray(json.data)) {
         let list: VetLabRequest[] = json.data;
 

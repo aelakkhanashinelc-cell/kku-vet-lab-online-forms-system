@@ -45,6 +45,7 @@ import { EmailOutboxModal } from './components/EmailOutboxModal';
 import { GasSettingsModal } from './components/GasSettingsModal';
 import { LoginView } from './components/LoginView';
 import { isGasConfigured } from './utils/gasService';
+import { apiGetRequestById } from './utils/apiClient';
 import {
   getUserRoleInfo,
   getStoredAuthUser,
@@ -88,20 +89,9 @@ export function App() {
 
   const handleOpenPrintByTracking = async (trackingNo: string) => {
     try {
-      // 1. Direct ID/TrackingNo lookup
-      let res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
-      if (res.ok) {
-        let json = await res.json();
-        if (json.success && json.data) {
-          setSelectedPrintRequest(json.data);
-          return;
-        }
-      }
-      // 2. Query lookup fallback
-      res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
-      let json = await res.json();
-      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-        setSelectedPrintRequest(json.data[0]);
+      const res = await apiGetRequestById(trackingNo);
+      if (res.success && res.data) {
+        setSelectedPrintRequest(res.data);
       }
     } catch (e) {
       console.error('Failed to load document for print:', e);
@@ -110,20 +100,9 @@ export function App() {
 
   const handleOpenReviewByTracking = async (trackingNo: string) => {
     try {
-      // 1. Direct ID/TrackingNo lookup
-      let res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
-      if (res.ok) {
-        let json = await res.json();
-        if (json.success && json.data) {
-          setSelectedReviewRequest(json.data);
-          return;
-        }
-      }
-      // 2. Query lookup fallback
-      res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
-      let json = await res.json();
-      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-        setSelectedReviewRequest(json.data[0]);
+      const res = await apiGetRequestById(trackingNo);
+      if (res.success && res.data) {
+        setSelectedReviewRequest(res.data);
       }
     } catch (e) {
       console.error('Failed to load request for review:', e);

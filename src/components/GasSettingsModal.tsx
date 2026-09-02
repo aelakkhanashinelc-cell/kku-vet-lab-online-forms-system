@@ -55,25 +55,34 @@ export const GasSettingsModal: React.FC<GasSettingsModalProps> = ({ onClose }) =
 
     setIsSaving(true);
     try {
-      const res = await fetch('/api/gas-config', {
+      if (cleanUrl) {
+        const test = await testGasConnection(cleanUrl);
+        if (test.connected) {
+          setTestResult({
+            success: true,
+            message: 'บันทึกการตั้งค่า Google Sheets สำเร็จ และเชื่อมต่อเรียบร้อยแล้ว',
+            spreadsheetName: test.spreadsheetName,
+            spreadsheetUrl: test.spreadsheetUrl,
+          });
+        } else {
+          setTestResult({
+            success: true,
+            message: 'บันทึกการตั้งค่า URL เรียบร้อยแล้ว (จะซิงค์ Real-time เมื่อส่งคำขอ)',
+          });
+        }
+      } else {
+        setTestResult({
+          success: true,
+          message: 'บันทึกการตั้งค่าเรียบร้อยแล้ว',
+        });
+      }
+
+      // Notify server if running
+      fetch('/api/gas-config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: cleanUrl }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setTestResult({
-          success: true,
-          message: data.message || 'บันทึกการตั้งค่า Google Sheets สำเร็จ และระบบจะสำรองข้อมูล Real-time อัตโนมัติทุกครั้ง',
-          spreadsheetName: data.data?.spreadsheetName,
-          spreadsheetUrl: data.data?.spreadsheetUrl,
-        });
-      } else {
-        setTestResult({
-          success: false,
-          message: data.message || 'บันทึกลงเครื่องแล้ว แต่เชื่อมต่อไปยัง Google Apps Script ไม่สำเร็จ',
-        });
-      }
+      }).catch(() => {});
     } catch (err: any) {
       setTestResult({
         success: true,
@@ -98,25 +107,10 @@ export const GasSettingsModal: React.FC<GasSettingsModalProps> = ({ onClose }) =
     setIsTesting(true);
     setTestResult(null);
     try {
-      const res = await fetch('/api/gas-config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: webAppUrl.trim() }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setTestResult({
-          success: true,
-          message: data.message,
-          spreadsheetName: data.data?.spreadsheetName,
-          spreadsheetUrl: data.data?.spreadsheetUrl,
-        });
-      } else {
-        setTestResult({ success: false, message: data.message || 'เชื่อมต่อไม่สำเร็จ' });
-      }
+      const result = await testGasConnection(webAppUrl.trim());
+      setTestResult(result);
     } catch (err: any) {
-      const localRes = await testGasConnection(webAppUrl.trim());
-      setTestResult(localRes);
+      setTestResult({ success: false, message: err?.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ' });
     } finally {
       setIsTesting(false);
     }

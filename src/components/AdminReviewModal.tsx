@@ -28,7 +28,7 @@ import {
 import { VetLabRequest, RequestStatus, SignatureData } from '../types';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
-import { isGasConfigured, isGasSyncEnabled, syncUpdateToGoogleAppsScript } from '../utils/gasService';
+import { apiApproveRequest } from '../utils/apiClient';
 import { STAFF_BY_DEPARTMENT, getFlatPresetStaff, isHeadOfLab, isSuperAdmin, isStaffUser, getUserRoleInfo } from '../utils/staffData';
 import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
@@ -237,32 +237,14 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     }
 
     try {
-      const res = await fetch(`/api/requests/${request.id}/approve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: nextStatus,
-          part2: part2Payload,
-          part3: part3Payload,
-          reviewerName: isHeadOfLabStage ? headSignature.name : officerSignature.name,
-        }),
+      const result = await apiApproveRequest(request.id, {
+        status: nextStatus,
+        part2: part2Payload,
+        part3: part3Payload,
+        reviewerName: isHeadOfLabStage ? headSignature.name : officerSignature.name,
       });
 
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json.message || 'เกิดข้อผิดพลาดในการบันทึกผลการพิจารณา');
-      }
-
-      // Sync to Google Apps Script in real-time if configured
-      if (isGasConfigured() && isGasSyncEnabled()) {
-        try {
-          await syncUpdateToGoogleAppsScript(json.data);
-        } catch (gasErr) {
-          console.warn('Google Apps Script real-time sync failed:', gasErr);
-        }
-      }
-
-      onSaved(json.data);
+      onSaved(result.data);
       onClose();
     } catch (err: any) {
       console.error(err);

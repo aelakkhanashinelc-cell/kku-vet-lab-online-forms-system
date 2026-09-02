@@ -18,6 +18,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { VetLabRequest, RequestStatus } from '../types';
+import { apiGetRequests } from '../utils/apiClient';
 
 interface QuickTrackModalProps {
   onClose: () => void;
@@ -42,10 +43,7 @@ export const QuickTrackModal: React.FC<QuickTrackModalProps> = ({
     setErrorMsg(null);
     setSearched(true);
     try {
-      const url = new URL('/api/requests', window.location.origin);
-      url.searchParams.set('q', queryText.trim());
-      const res = await fetch(url.toString());
-      const json = await res.json();
+      const json = await apiGetRequests({ q: queryText.trim() });
       if (json.success) {
         setResults(json.data);
       } else {
