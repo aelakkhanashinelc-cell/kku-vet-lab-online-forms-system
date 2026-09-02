@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { X, FileDown, CheckCircle, ShieldCheck, Info, Loader2 } from 'lucide-react';
+import { X, FileDown, CheckCircle, ShieldCheck, Loader2 } from 'lucide-react';
 import { VetLabRequest, SignatureData } from '../types';
 import { generateTypedSignatureDataUrl, generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 // @ts-ignore
@@ -157,10 +157,6 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
     >
       {/* Top Action Bar (hidden on print) */}
       <div className="fixed top-3 right-3 sm:top-5 sm:right-5 z-50 flex items-center gap-2 print:hidden bg-slate-900/95 text-white p-2 rounded-2xl shadow-2xl border border-indigo-500/40 backdrop-blur-md">
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 text-xs text-slate-300 font-medium border-r border-slate-700/80">
-          <Info className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-          <span>เอกสารขนาดมาตรฐาน A4 (210 × 297 มม.)</span>
-        </div>
 
         <button
           type="button"
