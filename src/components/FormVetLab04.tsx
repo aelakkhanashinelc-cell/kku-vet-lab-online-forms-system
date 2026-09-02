@@ -98,12 +98,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
   // Acknowledgement & Signatures
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>({
-    name: initialApplicantName,
+    name: '',
     date: thaiDate.fullStr,
+    dataUrl: '',
   });
   const [advisorSignature, setAdvisorSignature] = useState<SignatureData>({
     name: '',
     date: thaiDate.fullStr,
+    dataUrl: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -149,12 +151,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     setPickupDate(new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0]);
     setPickupTime('13:30');
     setApplicantSignature({
-      name: 'นางสาวพิชญา สุขุมพันธ์',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     });
     setAdvisorSignature({
-      name: 'ผศ.ดร.ลักขณา ฉัตรทอง',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     });
     setErrorMsg(null);
   };
@@ -194,6 +198,11 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       return;
     }
 
+    if (!applicantSignature.dataUrl) {
+      setErrorMsg('กรุณาลงลายมือชื่อผู้ขอใช้บริการในช่องลงลายมือชื่อ');
+      return;
+    }
+
     setIsSubmitting(true);
 
     const payload = {
@@ -216,18 +225,12 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       applicantSignature: {
         name: applicantSignature.name || applicantName,
         date: applicantSignature.date || thaiDate.fullStr,
-        dataUrl:
-          applicantSignature.dataUrl ||
-          generateTypedSignatureDataUrl(applicantSignature.name || applicantName),
+        dataUrl: applicantSignature.dataUrl || '',
       },
       advisorSignature: {
         name: advisorSignature.name || '-',
         date: advisorSignature.date || thaiDate.fullStr,
-        dataUrl:
-          advisorSignature.dataUrl ||
-          (advisorSignature.name && advisorSignature.name !== '-' && !advisorSignature.name.startsWith('.')
-            ? generateTypedSignatureDataUrl(advisorSignature.name)
-            : undefined),
+        dataUrl: advisorSignature.dataUrl || undefined,
       },
     };
 

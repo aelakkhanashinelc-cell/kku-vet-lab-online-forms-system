@@ -99,16 +99,20 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
   };
 
   const handleApply = () => {
-    let finalDataUrl = value?.dataUrl || '';
+    let finalDataUrl = '';
     if (mode === 'draw') {
       const canvas = canvasRef.current;
       if (canvas && hasDrawn) {
         finalDataUrl = canvas.toDataURL('image/png');
-      } else if (typedName.trim()) {
-        finalDataUrl = generateTypedSignatureDataUrl(typedName);
       }
     } else if (mode === 'type') {
-      finalDataUrl = typedName.trim() ? generateTypedSignatureDataUrl(typedName) : '';
+      finalDataUrl = typedName.trim() ? generateTypedSignatureDataUrl(typedName.trim()) : '';
+    } else if (mode === 'upload') {
+      finalDataUrl = value?.dataUrl || '';
+    }
+
+    if (!finalDataUrl) {
+      return;
     }
 
     onChange({
@@ -194,11 +198,6 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
               <span>ชื่อ: {value.name || '-'}</span>
               <span>วันที่: {value.date || '-'}</span>
             </div>
-          </div>
-        ) : value?.name ? (
-          <div className="text-center py-2">
-            <div className="text-xl font-serif italic text-indigo-950 font-bold tracking-wide">{value.name}</div>
-            <div className="text-xs text-slate-500 mt-1 font-normal">วันที่: {value.date || '-'}</div>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-slate-400 group-hover:text-indigo-600 transition-colors py-2">
@@ -352,9 +351,9 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
                     />
                   </div>
                   <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-center flex flex-col items-center justify-center min-h-[90px]">
-                    <span className="text-[11px] text-slate-400 font-normal block mb-1.5">ตัวอย่างลายเซ็นแบบตัวพิมพ์:</span>
+                    <span className="text-[11px] text-slate-400 font-normal block mb-1.5">แสดงผลลายเซ็นแบบตัวพิมพ์:</span>
                     <div className="text-2xl font-serif italic text-indigo-950 font-bold tracking-wide">
-                      {typedName || 'ตัวอย่างลายมือชื่อ'}
+                      {typedName || <span className="text-xs font-sans not-italic text-slate-400 font-normal">(กรุณาพิมพ์ชื่อ-สกุลในช่องด้านบน)</span>}
                     </div>
                   </div>
                 </div>

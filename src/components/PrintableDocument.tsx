@@ -22,7 +22,7 @@ const RenderSignatureStamp: React.FC<{
   const date = signature?.date || fallbackDate || '';
   const hasDrawnUrl = !!signature?.dataUrl && signature.dataUrl.startsWith('data:image');
 
-  if (!isApproved || !name || name === '-' || name.startsWith('.')) {
+  if (!isApproved || !hasDrawnUrl || !name || name === '-' || name.startsWith('.')) {
     return (
       <div className="h-14 flex items-center justify-center text-slate-400 text-[11px] italic text-center w-full">
         (ลงชื่อ)....................................................
@@ -30,37 +30,13 @@ const RenderSignatureStamp: React.FC<{
     );
   }
 
-  if (hasDrawnUrl) {
-    return (
-      <div className="h-14 flex items-center justify-center w-full overflow-hidden">
-        <img
-          src={signature!.dataUrl}
-          alt={name}
-          className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
-        />
-      </div>
-    );
-  }
-
-  // High-resolution clean handwritten signature from typed name
-  const autoDataUrl = generateTypedSignatureDataUrl(name);
-  if (autoDataUrl) {
-    return (
-      <div className="h-14 flex items-center justify-center w-full overflow-hidden">
-        <img
-          src={autoDataUrl}
-          alt={name}
-          className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className="h-14 flex items-center justify-center text-center w-full">
-      <div className="text-indigo-950 font-bold italic text-[17px] font-serif tracking-wide">
-        {name}
-      </div>
+    <div className="h-14 flex items-center justify-center w-full overflow-hidden">
+      <img
+        src={signature!.dataUrl}
+        alt={name}
+        className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
+      />
     </div>
   );
 };

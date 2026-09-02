@@ -94,12 +94,14 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
   // Acknowledgement & Signatures
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>({
-    name: initialApplicantName,
+    name: '',
     date: thaiDate.fullStr,
+    dataUrl: '',
   });
   const [advisorSignature, setAdvisorSignature] = useState<SignatureData>({
     name: '',
     date: thaiDate.fullStr,
+    dataUrl: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -155,12 +157,14 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
     ]);
     setTimeSlot('official_hours');
     setApplicantSignature({
-      name: 'ผศ.ดร.สมชาย เจริญสุข',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     });
     setAdvisorSignature({
-      name: 'รศ.ดร.ประสิทธิ์ พรหมดี',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     });
     setErrorMsg(null);
   };
@@ -207,6 +211,11 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
       return;
     }
 
+    if (!applicantSignature.dataUrl) {
+      setErrorMsg('กรุณาลงลายมือชื่อผู้ขอใช้บริการในช่องลงลายมือชื่อ');
+      return;
+    }
+
     setIsSubmitting(true);
 
     const payload = {
@@ -231,18 +240,12 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
       applicantSignature: {
         name: applicantSignature.name || applicantName,
         date: applicantSignature.date || thaiDate.fullStr,
-        dataUrl:
-          applicantSignature.dataUrl ||
-          generateTypedSignatureDataUrl(applicantSignature.name || applicantName),
+        dataUrl: applicantSignature.dataUrl || '',
       },
       advisorSignature: {
         name: advisorSignature.name || '-',
         date: advisorSignature.date || thaiDate.fullStr,
-        dataUrl:
-          advisorSignature.dataUrl ||
-          (advisorSignature.name && advisorSignature.name !== '-' && !advisorSignature.name.startsWith('.')
-            ? generateTypedSignatureDataUrl(advisorSignature.name)
-            : undefined),
+        dataUrl: advisorSignature.dataUrl || undefined,
       },
     };
 

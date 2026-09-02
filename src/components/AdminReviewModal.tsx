@@ -96,8 +96,9 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
   const [headRejectionReason, setHeadRejectionReason] = useState(request.part2?.rejectionReason || '');
   const [headSignature, setHeadSignature] = useState<SignatureData>(
     request.part2?.signature || {
-      name: 'นางสุธิดา จันทร์ลุน',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     }
   );
 
@@ -119,8 +120,9 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
   );
   const [officerSignature, setOfficerSignature] = useState<SignatureData>(
     request.part3?.signature || {
-      name: request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ',
+      name: '',
       date: thaiDate.fullStr,
+      dataUrl: '',
     }
   );
 
@@ -149,6 +151,12 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     // Build Part 2 payload
     let part2Payload = request.part2 || null;
     if (isHeadOfLabStage) {
+      if (!headSignature.dataUrl) {
+        setErrorMsg('กรุณาลงลายมือชื่อหัวหน้าห้องปฏิบัติการก่อนบันทึก');
+        setIsSaving(false);
+        return;
+      }
+
       const staffObj = PRESET_STAFF.find(s => s.email === selectedStaffEmail);
       const assignedStaffName = headApproval === 'approved'
         ? (selectedStaffEmail === 'custom' ? customStaffName : (staffObj ? staffObj.name : ''))
@@ -162,7 +170,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
 
       const headName = headSignature.name || 'นางสุธิดา จันทร์ลุน';
       const headDate = headSignature.date || thaiDate.fullStr;
-      const headDataUrl = headSignature.dataUrl || generateTypedSignatureDataUrl(headName);
+      const headDataUrl = headSignature.dataUrl || '';
 
       part2Payload = {
         approvalStatus: headApproval,
@@ -184,9 +192,15 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     // Build Part 3 payload (Only when not in Head of Lab stage)
     let part3Payload: any = request.part3 || null;
     if (!isHeadOfLabStage) {
-      const offName = officerSignature.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์';
+      if (!officerSignature.dataUrl) {
+        setErrorMsg('กรุณาลงลายมือชื่อนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบก่อนบันทึก');
+        setIsSaving(false);
+        return;
+      }
+
+      const offName = officerSignature.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ';
       const offDate = officerSignature.date || thaiDate.fullStr;
-      const offDataUrl = officerSignature.dataUrl || generateTypedSignatureDataUrl(offName);
+      const offDataUrl = officerSignature.dataUrl || '';
 
       part3Payload = {
         approvalStatus: officerApproval,
