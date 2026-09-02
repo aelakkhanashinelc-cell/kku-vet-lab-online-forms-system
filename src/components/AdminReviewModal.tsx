@@ -29,7 +29,7 @@ import { VetLabRequest, RequestStatus, SignatureData } from '../types';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, syncUpdateToGoogleAppsScript } from '../utils/gasService';
-import { STAFF_BY_DEPARTMENT, getFlatPresetStaff, isHeadOfLab, isSuperAdmin, isStaffUser } from '../utils/staffData';
+import { STAFF_BY_DEPARTMENT, getFlatPresetStaff, isHeadOfLab, isSuperAdmin, isStaffUser, getUserRoleInfo } from '../utils/staffData';
 import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
 interface AdminReviewModalProps {
@@ -64,13 +64,20 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
   // Rule 1: Head of Lab (นางสุธิดา จันทร์ลุน: sutvir@kku.ac.th / suthidaj@kku.ac.th) and Admin (lakkch@kku.ac.th) can fill out Part 2
   const isHeadAuthorized = isHeadOfLab(normalizedUserEmail) || isSuperAdmin(normalizedUserEmail);
 
-  // Rule 2: Assigned caretaker, or authorized scientist, or Head/Admin can fill out Part 3
+  // Rule 2: Only Super Admin, Head of Lab, OR specifically assigned scientist can fill out Part 3
+  const userRole = getUserRoleInfo(normalizedUserEmail);
   const assignedCaretakerEmail = (request.part2?.assignedStaffEmail || '').trim().toLowerCase();
+  const assignedCaretakerName = (request.part2?.assignedStaffName || '').trim().toLowerCase();
+  const currentUserName = (userRole.userName || '').trim().toLowerCase();
+
+  const isAssignedScientist =
+    (Boolean(assignedCaretakerEmail) && normalizedUserEmail === assignedCaretakerEmail) ||
+    (Boolean(assignedCaretakerName) && Boolean(currentUserName) && (assignedCaretakerName.includes(currentUserName) || currentUserName.includes(assignedCaretakerName)));
+
   const isCaretakerAuthorized =
     isSuperAdmin(normalizedUserEmail) ||
     isHeadOfLab(normalizedUserEmail) ||
-    normalizedUserEmail === assignedCaretakerEmail ||
-    isStaffUser(normalizedUserEmail);
+    isAssignedScientist;
 
   // Review status
   const [targetStatus, setTargetStatus] = useState<RequestStatus>(request.status || 'pending');

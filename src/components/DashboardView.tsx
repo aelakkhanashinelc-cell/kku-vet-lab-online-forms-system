@@ -20,6 +20,7 @@ import {
   Lock,
   ArrowRight,
   Eye,
+  Inbox,
 } from 'lucide-react';
 import { VetLabRequest, FormType, RequestStatus } from '../types';
 import { isGasConfigured, isGasSyncEnabled, exportRequestsToCSV } from '../utils/gasService';
@@ -54,6 +55,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   const roleInfo = getUserRoleInfo(currentUserEmail);
   const isAuthorized = roleInfo.isStaff;
+  const isSuperAdminOrHead = roleInfo.role === 'admin' || roleInfo.role === 'head';
 
   const fetchRequests = async (isSilent = false) => {
     if (!isSilent) setIsLoading(true);
@@ -65,8 +67,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
       const res = await fetch(url.toString());
       const json = await res.json();
-      if (json.success) {
-        setRequests(json.data);
+      if (json.success && Array.isArray(json.data)) {
+        let list: VetLabRequest[] = json.data;
+
+        // Strict Role-Based Visibility Control:
+        // Super Admin (ผู้ดูแลระบบ) & Head of Lab (หัวหน้างาน) can see and review ALL requests.
+        // Assigned Scientists (นักวิชาการวิทยาศาสตร์) can ONLY see and review requests assigned to them by the Head of Lab.
+        if (!isSuperAdminOrHead) {
+          const userEmail = (currentUserEmail || '').trim().toLowerCase();
+          const userName = (roleInfo.userName || '').trim().toLowerCase();
+          list = list.filter((r) => {
+            const assignedEmail = (r.part2?.assignedStaffEmail || '').trim().toLowerCase();
+            const assignedName = (r.part2?.assignedStaffName || '').trim().toLowerCase();
+            return (
+              (Boolean(assignedEmail) && assignedEmail === userEmail) ||
+              (Boolean(assignedName) && Boolean(userName) && (assignedName.includes(userName) || userName.includes(assignedName)))
+            );
+          });
+        }
+
+        setRequests(list);
       }
     } catch (err) {
       console.error('Failed to fetch requests', err);
@@ -271,7 +291,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             รายการคำขอ & การอนุมัติ (Request & Approval Portal)
           </h1>
           <p className="text-xs sm:text-sm text-[#5f6368] mt-1">
-            พิจารณาอนุมัติคำขอ (ส่วนที่ 2-3), มอบหมายผู้รับผิดชอบ, ตรวจสอบความพร้อม และส่งออกเอกสาร PDF
+            {isSuperAdminOrHead
+              ? 'พิจารณาอนุมัติคำขอ (ส่วนที่ 2-3), มอบหมายผู้รับผิดชอบ, ตรวจสอบความพร้อม และส่งออกเอกสาร PDF'
+              : `แสดงและพิจารณาเฉพาะรายการคำขอที่หัวหน้าห้องปฏิบัติการมอบหมายให้ ${roleInfo.userName} ตรวจสอบ (ส่วนที่ 3)`}
           </p>
         </div>
 
@@ -301,12 +323,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
+      {/* Role-Based Notice Banner for Scientists */}
+      {!isSuperAdminOrHead && (
+        <div className="p-4 bg-gradient-to-r from-indigo-50/90 to-blue-50/90 border border-indigo-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs">
+          <div className="flex items-center gap-3 text-indigo-950">
+            <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-2xs font-bold">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="font-bold text-slate-900">
+                สิทธิ์การเข้าถึงเฉพาะ: {roleInfo.userName} (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)
+              </div>
+              <div className="text-slate-600 text-[11px] mt-0.5">
+                ระบบจำกัดสิทธิ์ให้ท่านมองเห็นและพิจารณาได้เฉพาะรายการคำขอที่ <strong>หัวหน้าห้องปฏิบัติการมอบหมายให้ท่านพิจารณาเท่านั้น</strong>
+              </div>
+            </div>
+          </div>
+          <div className="text-[11px] font-mono px-3 py-1 bg-white/80 rounded-lg border border-indigo-200 text-indigo-800 font-bold self-start sm:self-center shrink-0">
+            {currentUserEmail}
+          </div>
+        </div>
+      )}
+
       {/* Infographic KPI Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Total (Google Blue) */}
+        {/* Card 1: Total / Assigned (Google Blue) */}
         <div className="bg-white rounded-3xl p-5 border border-[#dadce0] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#5f6368]">คำขอทั้งหมดในระบบ</span>
+            <span className="text-xs font-semibold text-[#5f6368]">
+              {isSuperAdminOrHead ? 'คำขอทั้งหมดในระบบ' : 'คำขอที่ได้รับมอบหมาย'}
+            </span>
             <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
               <Building2 className="w-4 h-4" />
             </div>
@@ -317,67 +363,127 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
             <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#5f6368] font-medium">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8]"></span>
-              <span>บันทึกผ่านระบบดิจิทัล</span>
+              <span>{isSuperAdminOrHead ? 'บันทึกผ่านระบบดิจิทัล' : 'มอบหมายให้ท่านดูแล'}</span>
             </div>
           </div>
         </div>
 
-        {/* Card 2: Pending Head Review (Google Yellow) */}
-        <div className="bg-white rounded-3xl p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#b06000]">1. รอหัวหน้าพิจารณา (ส่วน 2)</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3]">
-              <Clock className="w-4 h-4" />
+        {/* Card 2: Pending Head Review (for Head/Admin) OR Pending Action (for Scientist) */}
+        {isSuperAdminOrHead ? (
+          <div className="bg-white rounded-3xl p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#b06000]">1. รอหัวหน้าพิจารณา (ส่วน 2)</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3]">
+                <Clock className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#b06000] tracking-tight">
+                {pendingHeadCount} <span className="text-xs font-normal text-[#b06000]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#b06000] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04] animate-ping"></span>
+                <span>รอการพิจารณาและมอบหมายงาน</span>
+              </div>
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-semibold text-[#b06000] tracking-tight">
-              {pendingHeadCount} <span className="text-xs font-normal text-[#b06000]">รายการ</span>
+        ) : (
+          <div className="bg-white rounded-3xl p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#1a73e8]">รอนักวิทย์พิจารณา (ส่วน 3)</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
+                <UserCheck className="w-4 h-4" />
+              </div>
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#b06000] font-medium">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04] animate-ping"></span>
-              <span>รอการพิจารณาและมอบหมายงาน</span>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-xs font-normal text-[#1a73e8]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#1a73e8] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] animate-pulse"></span>
+                <span>รอท่านตรวจสอบความพร้อม</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Card 3: Pending Scientist Review (Google Blue/Sky) */}
-        <div className="bg-white rounded-3xl p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#1a73e8]">2. รอนักวิทย์พิจารณา (ส่วน 3)</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
-              <UserCheck className="w-4 h-4" />
+        {/* Card 3: Pending Scientist (for Head/Admin) OR Completed (for Scientist) */}
+        {isSuperAdminOrHead ? (
+          <div className="bg-white rounded-3xl p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#1a73e8]">2. รอนักวิทย์พิจารณา (ส่วน 3)</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
+                <UserCheck className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-xs font-normal text-[#1a73e8]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#1a73e8] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8]"></span>
+                <span>รอนักวิชาการวิทยาศาสตร์ตรวจสอบ</span>
+              </div>
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-semibold text-[#1a73e8] tracking-tight">
-              {pendingScientistCount} <span className="text-xs font-normal text-[#1a73e8]">รายการ</span>
+        ) : (
+          <div className="bg-white rounded-3xl p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#137333]">อนุมัติครบถ้วน (พร้อมบริการ)</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6]">
+                <CheckCircle className="w-4 h-4" />
+              </div>
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#1a73e8] font-medium">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8]"></span>
-              <span>รอนักวิชาการวิทยาศาสตร์ตรวจสอบ</span>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-xs font-normal text-[#137333]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#137333] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853]"></span>
+                <span>ผ่านการพิจารณาเรียบร้อย</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Card 4: Completed / Approved (Google Green) */}
-        <div className="bg-white rounded-3xl p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#137333]">อนุมัติครบถ้วน (พร้อมบริการ)</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6]">
-              <CheckCircle className="w-4 h-4" />
+        {/* Card 4: Completed (for Head/Admin) OR Rejected (for Scientist) */}
+        {isSuperAdminOrHead ? (
+          <div className="bg-white rounded-3xl p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#137333]">อนุมัติครบถ้วน (พร้อมบริการ)</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6]">
+                <CheckCircle className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-xs font-normal text-[#137333]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#137333] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853]"></span>
+                <span>เสร็จสิ้นครบทั้ง 2 ฝ่าย</span>
+              </div>
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-semibold text-[#137333] tracking-tight">
-              {completedCount} <span className="text-xs font-normal text-[#137333]">รายการ</span>
+        ) : (
+          <div className="bg-white rounded-3xl p-5 border border-[#fad2cf] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#ea4335] transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-[#c5221f]">ไม่อนุมัติ / ยกเลิก</span>
+              <div className="w-9 h-9 rounded-2xl bg-[#fce8e6] text-[#c5221f] flex items-center justify-center border border-[#fad2cf]">
+                <XCircle className="w-4 h-4" />
+              </div>
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#137333] font-medium">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853]"></span>
-              <span>เสร็จสิ้นครบทั้ง 2 ฝ่าย</span>
+            <div className="mt-3">
+              <div className="text-2xl sm:text-3xl font-semibold text-[#c5221f] tracking-tight">
+                {rejectedCount} <span className="text-xs font-normal text-[#c5221f]">รายการ</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#c5221f] font-medium">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ea4335]"></span>
+                <span>คำขอที่ไม่อนุมัติ</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Filter and Search Bar in Google Style */}
@@ -415,7 +521,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             className="px-3.5 py-2 bg-white border border-[#dadce0] rounded-full text-xs font-medium text-[#3c4043] outline-none cursor-pointer focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8]"
           >
             <option value="all">-- ทุกขั้นตอน/สถานะ --</option>
-            <option value="pending">1. รอหัวหน้าพิจารณา (ส่วนที่ 2)</option>
+            {isSuperAdminOrHead && (
+              <option value="pending">1. รอหัวหน้าพิจารณา (ส่วนที่ 2)</option>
+            )}
             <option value="approved_by_head">2. รอนักวิทย์พิจารณา (ส่วนที่ 3)</option>
             <option value="approved">3. อนุมัติครบถ้วน (พร้อมบริการ)</option>
             <option value="dispensed">4. จ่ายของแล้ว</option>
@@ -459,8 +567,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </tr>
               ) : requests.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-slate-500 font-normal">
-                    ไม่พบรายการคำขอตามเงื่อนไขที่เลือก
+                  <td colSpan={7} className="py-12 px-4 text-center text-slate-500 font-normal">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2.5">
+                      <Inbox className="w-6 h-6" />
+                    </div>
+                    <div className="font-bold text-slate-800 text-sm">
+                      {isSuperAdminOrHead
+                        ? 'ไม่พบรายการคำขอตามเงื่อนไขที่เลือก'
+                        : 'ยังไม่มีรายการคำขอที่ได้รับมอบหมายในขณะนี้'}
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                      {isSuperAdminOrHead
+                        ? 'ลองปรับเปลี่ยนคำค้นหาหรือตัวกรองด้านบนเพื่อค้นหารายการคำขออื่น'
+                        : `เมื่อหัวหน้าห้องปฏิบัติการพิจารณาอนุมัติส่วนที่ 2 และมอบหมายงานให้ ${roleInfo.userName} รายการคำขอจะปรากฏขึ้นที่นี่เพื่อรอท่านตรวจสอบและบันทึกส่วนที่ 3`}
+                    </p>
                   </td>
                 </tr>
               ) : (
@@ -540,23 +660,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Table Footer Stats */}
-        <div className="bg-[#f8fafd] px-5 py-3.5 border-t border-[#dadce0] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#5f6368]">
+        <div className="bg-slate-50/80 px-5 py-3.5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <span>
-            แสดงรายการทั้งหมด <strong>{requests.length}</strong> รายการ
+            {isSuperAdminOrHead
+              ? <>แสดงรายการคำขอทั้งหมด <strong>{requests.length}</strong> รายการ</>
+              : <>แสดงรายการคำขอที่ได้รับมอบหมาย <strong>{requests.length}</strong> รายการ</>}
           </span>
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#fbbc04]"></span>
-              รอหัวหน้าพิจารณา: {pendingHeadCount}
-            </span>
+            {isSuperAdminOrHead && (
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#fbbc04]"></span>
+                รอหัวหน้าพิจารณา: {pendingHeadCount}
+              </span>
+            )}
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#1a73e8]"></span>
-              รอนักวิทย์พิจารณา: {pendingScientistCount}
+              {isSuperAdminOrHead ? 'รอนักวิทย์พิจารณา' : 'รอดำเนินการ (ส่วน 3)'}: {pendingScientistCount}
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#34a853]"></span>
               อนุมัติครบถ้วน: {completedCount}
             </span>
+            {!isSuperAdminOrHead && rejectedCount > 0 && (
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#ea4335]"></span>
+                ไม่อนุมัติ: {rejectedCount}
+              </span>
+            )}
           </div>
         </div>
       </div>
