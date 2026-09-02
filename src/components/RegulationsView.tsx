@@ -15,7 +15,6 @@ import {
   Calendar,
   KeyRound,
   Trash2,
-  ArrowRight,
   XCircle,
   AlertCircle,
   Layers,
@@ -875,27 +874,6 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
             </div>
           </div>
         )}
-      </div>
-
-      {/* 6. Footer Action Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="space-y-1 text-center sm:text-left">
-          <div className="font-bold text-slate-900 text-sm">
-            พร้อมเข้าใช้บริการห้องปฏิบัติการแล้วหรือยัง?
-          </div>
-          <div className="text-xs text-slate-500">
-            เมื่อศึกษาและทำความเข้าใจระเบียบเรียบร้อยแล้ว สามารถเริ่มยื่นคำขอออนไลน์ได้ทันที
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-          <button
-            type="button"
-            onClick={onGoToForm02}
-            className="w-full sm:w-auto px-5 py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
-          >
-            เริ่มยื่นคำขอ VET.LAB 02 <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
       </div>
     </div>
   );
