@@ -204,7 +204,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen cosmic-space-bg text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen cosmic-space-bg text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-clip">
       {/* Cosmic Light Stars Background Layer */}
       <div className="fixed inset-0 cosmic-stars opacity-85 pointer-events-none animate-twinkle z-0" />
 
@@ -364,8 +364,8 @@ export function App() {
 
         {/* Fixed Left Sidebar - Cosmic Light Glass */}
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-72 sm:w-80 bg-white/85 backdrop-blur-xl border-r border-indigo-100/90 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto flex flex-col justify-between shrink-0 shadow-[4px_0_24px_rgba(99,102,241,0.04)] ${
-            mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
+          className={`fixed inset-y-0 left-0 z-30 w-72 sm:w-80 bg-white/85 backdrop-blur-xl border-r border-indigo-100/90 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:sticky lg:top-16 lg:self-start lg:h-[calc(100vh-4rem)] lg:overflow-y-auto flex flex-col justify-between shrink-0 shadow-[4px_0_24px_rgba(99,102,241,0.04)] ${
+            mobileMenuOpen ? 'translate-x-0 shadow-2xl z-50' : '-translate-x-full'
           }`}
         >
           <div className="p-4 sm:p-5 space-y-6">
