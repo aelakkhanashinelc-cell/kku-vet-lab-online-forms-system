@@ -18,6 +18,16 @@ export interface GasConnectionStatus {
   timestamp?: string;
 }
 
+export async function safeJsonFromResponse(response: Response): Promise<any> {
+  try {
+    const text = await response.text();
+    if (!text || !text.trim()) return null;
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Retrieve saved Google Apps Script Web App URL
  */
@@ -123,7 +133,7 @@ export async function testGasConnection(customUrl?: string): Promise<GasConnecti
       throw new Error(`HTTP Status ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await safeJsonFromResponse(response)) || {};
     if (data.success) {
       return {
         connected: true,
@@ -146,7 +156,7 @@ export async function testGasConnection(customUrl?: string): Promise<GasConnecti
       getUrl.searchParams.set('action', 'ping');
       const getRes = await fetch(getUrl.toString(), { method: 'GET' });
       if (getRes.ok) {
-        const getData = await getRes.json();
+        const getData = (await safeJsonFromResponse(getRes)) || {};
         return {
           connected: true,
           message: 'เชื่อมต่อกับ Google Apps Script สำเร็จ (ผ่าน GET Ping)',
@@ -201,7 +211,7 @@ export async function submitToGoogleAppsScript(
       throw new Error(`Google Apps Script responded with HTTP ${response.status}`);
     }
 
-    const result = await response.json();
+    const result = (await safeJsonFromResponse(response)) || {};
     return {
       success: !!result.success,
       trackingNo: result.trackingNo,
@@ -253,7 +263,7 @@ export async function syncUpdateToGoogleAppsScript(
       throw new Error(`Google Apps Script responded with HTTP ${response.status}`);
     }
 
-    const result = await response.json();
+    const result = (await safeJsonFromResponse(response)) || {};
     return {
       success: !!result.success,
       message: result.message,
@@ -308,7 +318,7 @@ export async function logLoginToGoogleAppsScript(
       throw new Error(`Google Apps Script responded with HTTP ${response.status}`);
     }
 
-    const result = await response.json();
+    const result = (await safeJsonFromResponse(response)) || {};
     return {
       success: !!result.success,
       message: result.message,
