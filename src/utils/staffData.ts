@@ -7,8 +7,7 @@ export interface Scientist {
 
 // 1. ผู้ดูแลระบบ (Super Admin)
 export const SUPER_ADMIN_EMAILS = [
-  'lakkch@kku.ac.th', // นางสาวลักขณา ฉันทะกลาง
-  'aelakkhana.shine.lc@gmail.com', // นางสุธิดา จันทร์ลุน (ผู้ดูแลระบบและหัวหน้างาน)
+  'lakkch@kku.ac.th', // นางสาวลักขณา ฉันทะกลาง (ผู้ดูแลระบบคนเดียว)
 ];
 
 // 2. หัวหน้าห้องปฏิบัติการ (Head of Lab)
