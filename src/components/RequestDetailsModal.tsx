@@ -764,7 +764,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                     }`}
                   ></span>
                   <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
-                    ส่วนที่ 3: ผลการพิจารณาและการตรวจสอบของนักวิชาการวิทยาศาสตร์ / เจ้าหน้าที่ผู้ดูแล
+                    ส่วนที่ 3: ผลการพิจารณาและการตรวจสอบของนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ
                   </h3>
                 </div>
                 <span
@@ -812,9 +812,9 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                     {/* Officer Signature */}
                     <div className="p-3 bg-white rounded-lg border border-slate-200 flex items-center justify-between">
                       <div>
-                        <div className="text-slate-500 text-[11px]">นักวิชาการวิทยาศาสตร์ / เจ้าหน้าที่ผู้รับผิดชอบ:</div>
+                        <div className="text-slate-500 text-[11px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ:</div>
                         <div className="font-bold text-slate-900 mt-0.5">
-                          {request.part3.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้ดูแล'}
+                          {request.part3.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
                         </div>
                         <div className="text-[10px] text-slate-400">
                           วันที่พิจารณา: {request.part3.reviewedAt || request.part3.signature?.date || '-'}
@@ -829,7 +829,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                           />
                         ) : (
                           <span className="font-serif italic text-sm font-semibold text-slate-700">
-                            {request.part3.signature?.name || 'เจ้าหน้าที่ผู้ดูแล'}
+                            {request.part3.signature?.name || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
                           </span>
                         )}
                       </div>

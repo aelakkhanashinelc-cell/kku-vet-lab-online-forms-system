@@ -114,7 +114,7 @@ export interface VetLabRequest {
     assignedStaffComment?: string;
   };
 
-  // Part 3: Lab Officer / Caretaker (เจ้าหน้าที่ผู้ดูแล)
+  // Part 3: Scientist in charge (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)
   part3?: {
     // For VET.LAB 02
     approvalStatus?: 'approved' | 'rejected' | 'other' | 'pending';

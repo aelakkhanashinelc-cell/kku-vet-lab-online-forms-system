@@ -318,7 +318,7 @@ export const QuickTrackModal: React.FC<QuickTrackModalProps> = ({
                             >
                               {req.status === 'completed' || req.status === 'dispensed' ? '✓' : '3'}
                             </div>
-                            <span className="font-semibold text-slate-800 block">3. เจ้าหน้าที่ผู้ดูแล</span>
+                            <span className="font-semibold text-slate-800 block">3. นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</span>
                             <span className="text-slate-500">
                               {req.status === 'dispensed'
                                 ? 'จ่ายของแล้ว'

@@ -516,8 +516,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
           <div className="font-bold text-[11.5px] mb-0.5">
             ส่วนที่ 2 : ความเห็นของประธานกรรมการงานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ
           </div>
-          <div className="space-y-0.5 text-[11px]">
-            <div className="flex flex-wrap gap-4 pl-1">
+          <div className="space-y-1 text-[11px]">
+            <div className="flex flex-wrap items-center gap-4 pl-1">
               <strong>คำสั่ง:</strong>
               <span className="flex items-center gap-1">
                 <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part2?.approvalStatus === 'approved' ? 'bg-black text-white font-bold' : ''}`}>
@@ -529,13 +529,32 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                 <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part2?.approvalStatus === 'rejected' ? 'bg-black text-white font-bold' : ''}`}>
                   {request.part2?.approvalStatus === 'rejected' ? '✓' : ''}
                 </span>
-                ไม่อนุมัติ {request.part2?.rejectionReason ? `(เนื่องจาก: ${request.part2.rejectionReason})` : ''}
+                ไม่อนุมัติ
               </span>
             </div>
 
+            {/* ความเห็น / เหตุผล / ข้อสั่งการของหัวหน้าห้องปฏิบัติการ */}
+            <div className="pl-1 text-[10.5px]">
+              {request.part2?.approvalStatus === 'rejected' ? (
+                <div className="text-red-900">
+                  <strong>เหตุผลที่ไม่อนุมัติ:</strong> {request.part2?.rejectionReason || request.part2?.comment || '-'}
+                </div>
+              ) : (
+                <div className="text-slate-900">
+                  <strong>ความเห็น / ข้อสั่งการ:</strong> {request.part2?.comment || (request.part2?.approvalStatus === 'approved' ? 'เห็นควรอนุมัติให้ใช้ห้องปฏิบัติการ/เครื่องมือตามที่ร้องขอ' : '....................................................................................................................................')}
+                </div>
+              )}
+            </div>
+
+            {/* มอบหมายนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ */}
             {request.part2?.assignedStaffName && (
               <div className="pl-1 text-slate-800 text-[10.5px]">
-                <strong>มอบหมายนักวิชาการวิทยาศาสตร์:</strong> {request.part2.assignedStaffName} {request.part2.assignedStaffDepartment ? `(${request.part2.assignedStaffDepartment})` : ''}
+                <strong>มอบหมายนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ:</strong> {request.part2.assignedStaffName} {request.part2.assignedStaffDepartment ? `(${request.part2.assignedStaffDepartment})` : ''}
+                {request.part2.assignedStaffComment && (
+                  <span className="ml-1 text-slate-700">
+                    - คำสั่งการมอบหมาย: {request.part2.assignedStaffComment}
+                  </span>
+                )}
               </div>
             )}
 
@@ -565,10 +584,10 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             {request.formType === 'VET_LAB_02' && (
               <div>
                 <div className="font-bold text-[11.5px] mb-0.5">
-                  ส่วนที่ 3 : สำหรับเจ้าหน้าที่ผู้ดูแลห้องปฏิบัติการ
+                  ส่วนที่ 3 : สำหรับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ
                 </div>
-                <div className="space-y-0.5 text-[11px]">
-                  <div className="flex flex-wrap gap-4 pl-1">
+                <div className="space-y-1 text-[11px]">
+                  <div className="flex flex-wrap items-center gap-4 pl-1">
                     <strong>การตรวจสอบความพร้อม:</strong>
                     <span className="flex items-center gap-1">
                       <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part3?.approvalStatus === 'approved' ? 'bg-black text-white font-bold' : ''}`}>
@@ -580,20 +599,34 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part3?.approvalStatus === 'rejected' ? 'bg-black text-white font-bold' : ''}`}>
                         {request.part3?.approvalStatus === 'rejected' ? '✓' : ''}
                       </span>
-                      ไม่พร้อมใช้งาน {request.part3?.rejectionReason ? `(${request.part3.rejectionReason})` : ''}
+                      ไม่พร้อมใช้งาน
                     </span>
                   </div>
+
+                  {/* ความเห็น / เหตุผลของนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ */}
+                  <div className="pl-1 text-[10.5px]">
+                    {request.part3?.approvalStatus === 'rejected' ? (
+                      <div className="text-red-900">
+                        <strong>เหตุผลที่ไม่พร้อมใช้งาน:</strong> {request.part3?.rejectionReason || request.part3?.comment || '-'}
+                      </div>
+                    ) : (
+                      <div className="text-slate-900">
+                        <strong>ความเห็น / ข้อแนะนำ:</strong> {request.part3?.comment || (request.part3?.approvalStatus === 'approved' ? 'ตรวจสอบความพร้อมของห้องปฏิบัติการและอุปกรณ์เรียบร้อย พร้อมเปิดให้เข้าใช้งาน' : '....................................................................................................................................')}
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex justify-end pt-1">
                     <div className="text-center w-56 space-y-0.5">
                       <RenderSignatureStamp
                         signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์'}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
                         fallbackDate={request.part3?.signature?.date || (request.part3?.reviewedAt ? new Date(request.part3.reviewedAt).toLocaleDateString('th-TH') : undefined)}
-                        roleLabel="เจ้าหน้าที่ผู้ดูแลห้องปฏิบัติการ"
+                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ"
                         isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
                       />
                       <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '....................................................'} )</div>
-                      <div className="font-semibold text-[10px]">เจ้าหน้าที่ผู้ดูแลห้องปฏิบัติการ</div>
+                      <div className="font-semibold text-[10px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</div>
                       <div className="text-[10px]">วันที่ {request.part3?.signature?.date || (request.part3?.reviewedAt ? new Date(request.part3.reviewedAt).toLocaleDateString('th-TH') : '........./........./.........')}</div>
                     </div>
                   </div>
@@ -604,20 +637,34 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             {request.formType === 'VET_LAB_03' && (
               <div>
                 <div className="font-bold text-[11.5px] mb-0.5">
-                  ส่วนที่ 3 : สำหรับเจ้าหน้าที่ผู้ดูแลเครื่องมือ
+                  ส่วนที่ 3 : สำหรับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ
                 </div>
+                {/* แสดงความเห็น/เหตุผล ถ้ามี */}
+                {(request.part3?.comment || request.part3?.rejectionReason) && (
+                  <div className="pl-1 text-[10.5px] mb-1">
+                    {request.part3?.rejectionReason ? (
+                      <div className="text-red-900">
+                        <strong>เหตุผลที่ไม่พร้อมใช้งาน:</strong> {request.part3.rejectionReason}
+                      </div>
+                    ) : (
+                      <div className="text-slate-900">
+                        <strong>ความเห็น / บันทึกเพิ่มเติม:</strong> {request.part3.comment}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-3 text-[10.5px]">
                   <div className="border-r border-black pr-2 space-y-0.5">
-                    <div className="font-semibold">สภาพเครื่องมือก่อนใช้งาน (เจ้าหน้าที่)</div>
+                    <div className="font-semibold">สภาพเครื่องมือก่อนใช้งาน (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)</div>
                     <div className="h-5 border-b border-dotted border-black text-slate-700">
                       {request.part3?.beforeConditionCheck || '................................................................................'}
                     </div>
                     <div className="text-center pt-1 space-y-0.5">
                       <RenderSignatureStamp
                         signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้ส่งมอบ'}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้ส่งมอบ'}
                         fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="ผู้ส่งมอบเครื่องมือ"
+                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้ส่งมอบ"
                         isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
                       />
                       <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้ส่งมอบ</div>
@@ -625,16 +672,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                     </div>
                   </div>
                   <div className="pl-2 space-y-0.5">
-                    <div className="font-semibold">สภาพเครื่องมือหลังใช้งาน (เจ้าหน้าที่)</div>
+                    <div className="font-semibold">สภาพเครื่องมือหลังใช้งาน (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)</div>
                     <div className="h-5 border-b border-dotted border-black text-slate-700">
                       {request.part3?.afterConditionCheck || '................................................................................'}
                     </div>
                     <div className="text-center pt-1 space-y-0.5">
                       <RenderSignatureStamp
                         signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้รับคืน'}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับคืน'}
                         fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="ผู้รับคืนเครื่องมือ"
+                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับคืน"
                         isApproved={request.status === 'completed'}
                       />
                       <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้รับคืน</div>
@@ -648,8 +695,22 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             {request.formType === 'VET_LAB_04' && (
               <div>
                 <div className="font-bold text-[11.5px] mb-0.5">
-                  ส่วนที่ 3 : สำหรับเจ้าหน้าที่ผู้จ่ายของและสรุปค่าใช้จ่าย
+                  ส่วนที่ 3 : สำหรับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบและสรุปค่าใช้จ่าย
                 </div>
+                {/* แสดงความเห็น/เหตุผล ถ้ามี */}
+                {(request.part3?.comment || request.part3?.rejectionReason) && (
+                  <div className="pl-1 text-[10.5px] mb-1">
+                    {request.part3?.rejectionReason ? (
+                      <div className="text-red-900">
+                        <strong>เหตุผลที่ไม่พร้อมจ่าย/ไม่อนุมัติ:</strong> {request.part3.rejectionReason}
+                      </div>
+                    ) : (
+                      <div className="text-slate-900">
+                        <strong>ความเห็น / บันทึกเพิ่มเติม:</strong> {request.part3.comment}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="grid grid-cols-3 gap-2 text-[10.5px]">
                   <div className="border-r border-black pr-2 space-y-1">
                     <div className="font-semibold flex items-center gap-1">
@@ -661,13 +722,13 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                     <div className="text-center space-y-0.5 pt-1">
                       <RenderSignatureStamp
                         signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้จ่ายของ'}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
                         fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="ผู้จ่ายของ"
+                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ"
                         isApproved={request.part3?.isDispensed || request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed'}
                       />
                       <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '......................................'} )</div>
-                      <div className="font-semibold text-[10px]">ผู้จ่ายของ</div>
+                      <div className="font-semibold text-[9.5px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ (ผู้จ่ายของ)</div>
                     </div>
                   </div>
                   <div className="border-r border-black pr-2 space-y-1">

@@ -133,14 +133,14 @@ export function generateCaretakerNotificationEmail(request: VetLabRequest, baseU
   const reviewUrl = appOrigin ? `${appOrigin}?action=review&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
   const printUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
   const itemsDetail = formatItemsSummary(request);
-  const assignedStaffName = request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้ดูแล';
+  const assignedStaffName = request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ';
   const assignedComment = request.part2?.assignedStaffComment || request.part2?.comment || 'มอบหมายให้ดูแลและประสานงานกับผู้ขอใช้บริการ';
 
   const subject = `[มอบหมายงาน] คำขอ ${request.trackingNo} ได้รับการอนุมัติจากหัวหน้าห้องปฏิบัติการแล้ว - โปรดพิจารณาคำขอเพื่อเข้ารับบริการ`;
-  const body = `เรียน ${assignedStaffName} (ผู้ดูแลห้องปฏิบัติการ/อุปกรณ์เครื่องมือ),
+  const body = `เรียน ${assignedStaffName} (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ),
 
 คำขอใช้บริการ ${formName} (รหัสติดตาม: ${request.trackingNo}) ได้รับการพิจารณา "อนุมัติ" จากหัวหน้าห้องปฏิบัติการ (${LAB_OFFICIALS.headOfLab.name}) เรียบร้อยแล้ว
-และได้มอบหมายให้ท่านเป็นผู้ดูแลห้องปฏิบัติการ/อุปกรณ์เครื่องมือสำหรับการขอใช้บริการนี้
+และได้มอบหมายให้ท่านเป็นนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบสำหรับการขอใช้บริการนี้
 
 • รายละเอียดคำสั่งมอบหมาย: ${assignedComment}
 • ผู้ขอใช้บริการ: ${request.applicantName} ${request.studentId ? `(รหัสนักศึกษา: ${request.studentId})` : ''}

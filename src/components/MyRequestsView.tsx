@@ -508,11 +508,11 @@ export const MyRequestsView: React.FC<MyRequestsViewProps> = ({
                           คำแนะนำสำหรับการเข้ารับบริการ:
                         </div>
                         <div className="text-amber-800 mt-0.5">
-                          *** โปรดติดต่อผู้ดูแลห้องปฏิบัติการ/อุปกรณ์เครื่องมือตามรายละเอียดในแบบฟอร์ม หรือติดต่อที่งานห้องปฏิบัติการ ชั้น 5 อาคารพิเชฏฐ์ฯ ***
+                          *** โปรดติดต่อนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบตามรายละเอียดในแบบฟอร์ม ***
                         </div>
                         {assignedStaff && (
                           <div className="mt-1 font-semibold text-indigo-900">
-                            เจ้าหน้าที่ผู้ดูแลรับผิดชอบ: {assignedStaff} ({assignedEmail || '-'})
+                            นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ: {assignedStaff} ({assignedEmail || '-'})
                           </div>
                         )}
                       </div>

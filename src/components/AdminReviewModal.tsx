@@ -134,7 +134,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     }
 
     if (!isHeadOfLabStage && !isCaretakerAuthorized) {
-      setErrorMsg(`เฉพาะเจ้าหน้าที่ผู้ดูแลที่ได้รับมอบหมาย (${request.part2?.assignedStaffEmail || ''}) เท่านั้นที่มีสิทธิ์บันทึกส่วนที่ 3`);
+      setErrorMsg(`เฉพาะนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบที่ได้รับมอบหมาย (${request.part2?.assignedStaffEmail || ''}) เท่านั้นที่มีสิทธิ์บันทึกส่วนที่ 3`);
       setIsSaving(false);
       return;
     }
@@ -669,7 +669,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
                   {/* Officer Signature */}
                   <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between flex-wrap gap-2">
                     <div>
-                      <div className="text-slate-500 text-[11px]">นักวิชาการวิทยาศาสตร์ / เจ้าหน้าที่ผู้รับผิดชอบ:</div>
+                      <div className="text-slate-500 text-[11px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ:</div>
                       <div className="font-bold text-slate-900 mt-0.5">
                         {request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
                       </div>

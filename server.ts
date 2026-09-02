@@ -511,7 +511,7 @@ function createEmailNotificationHtml(
 
         <!-- Official Contact Warning Notice as requested -->
         <div style="margin-top: 14px; background: #fff7ed; border: 1px solid #fdba74; padding: 12px 14px; border-radius: 8px; color: #9a3412; font-weight: bold; font-size: 13px; text-align: center; line-height: 1.5;">
-          ** โปรดติดต่อผู้ดูแลห้องปฏิบัติการ/อุปกรณ์เครื่องมือตามรายละเอียดในแบบฟอร์ม **
+          ** โปรดติดต่อนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบตามรายละเอียดในแบบฟอร์ม **
         </div>
       </div>
     `;
