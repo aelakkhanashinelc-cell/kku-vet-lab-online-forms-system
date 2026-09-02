@@ -12,10 +12,7 @@ export const SUPER_ADMIN_EMAILS = [
 
 // 2. หัวหน้าห้องปฏิบัติการ (Head of Lab)
 export const HEAD_OF_LAB_EMAILS = [
-  'aelakkhana.shine.lc@gmail.com', // นางสุธิดา จันทร์ลุน (อีเมลหลักที่ใช้รับแจ้งเตือนและการอนุมัติ)
-  'sutvir@kku.ac.th', // นางสุธิดา จันทร์ลุน (ตามที่ระบุในคำขอ)
-  'suthidaj@kku.ac.th', // นางสุธิดา จันทร์ลุน (KKU Mail)
-  'lakkch@kku.ac.th', // ผู้ดูแลระบบมีสิทธิ์กำกับดูแล
+  'aelakkhana.shine.lc@gmail.com', // หัวหน้าห้องปฏิบัติการ (Head of Lab)
 ];
 
 // 3. รายชื่อนักวิชาการวิทยาศาสตร์และบุคลากรห้องปฏิบัติการ แยกตามสาขาวิชา (ตามเอกสารทางการ)
