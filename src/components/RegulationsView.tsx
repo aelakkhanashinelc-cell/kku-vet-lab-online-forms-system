@@ -123,7 +123,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                <span>แผนภาพขั้นตอนการขอรับบริการ</span>
+                <span>ขั้นตอนการขอรับบริการ</span>
                 <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">
                   6 ขั้นตอน
                 </span>
