@@ -10,16 +10,16 @@ import {
   Wrench,
   FlaskConical,
   Flame,
-  FileCheck,
   ChevronRight,
   Info,
-  Phone,
-  MapPin,
   Calendar,
   KeyRound,
   Trash2,
-  FileSpreadsheet,
-  HelpCircle,
+  ArrowRight,
+  XCircle,
+  AlertCircle,
+  Layers,
+  FileCheck,
   Award,
 } from 'lucide-react';
 
@@ -37,80 +37,257 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
   const [activeSection, setActiveSection] = useState<'all' | 'contact' | 'lab' | 'equipment' | 'chemicals'>('all');
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-12">
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-orange-500 text-white p-6 sm:p-8 rounded-xl shadow-xs relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-            <span className="px-2.5 py-0.5 bg-white/20 backdrop-blur-xs text-white text-[10px] font-bold uppercase rounded border border-white/30 font-mono tracking-wider">
+    <div className="max-w-5xl mx-auto space-y-6 pb-16">
+      {/* 1. Header Banner */}
+      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-orange-500 text-white p-6 sm:p-8 rounded-2xl shadow-sm relative overflow-hidden">
+        <div className="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+          <Building2 className="w-64 h-64 text-white" />
+        </div>
+        <div className="relative z-10 space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 py-0.5 bg-white/20 backdrop-blur-xs text-white text-[10px] font-bold uppercase rounded-md border border-white/30 font-mono tracking-wider">
               OFFICIAL GUIDELINES • VET.LAB 01
             </span>
+            <span className="px-2.5 py-0.5 bg-amber-900/30 text-amber-100 text-[10px] font-medium rounded-md">
+              ระบบออนไลน์ 2569
+            </span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+          <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight text-white">
             หลักเกณฑ์และข้อปฏิบัติ งานห้องปฏิบัติการ
           </h1>
-          <p className="text-amber-100 text-xs sm:text-sm mt-1.5 max-w-2xl leading-relaxed">
+          <p className="text-amber-100 text-xs sm:text-sm max-w-3xl leading-relaxed">
             งานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น
           </p>
         </div>
       </div>
 
-      {/* Visual Infographic KPI Badges */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold">ยื่นล่วงหน้า</span>
-            <Clock className="w-4 h-4 text-blue-600" />
+      {/* 2. Key Highlights KPI Infographics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div className="bg-white p-4 rounded-2xl border border-blue-100 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between">
+          <div className="flex items-center justify-between text-blue-600 mb-2">
+            <span className="text-[11px] font-bold text-slate-600">ยื่นคำขอล่วงหน้า</span>
+            <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
+              <Clock className="w-4 h-4 text-blue-600" />
+            </div>
           </div>
-          <div className="text-xl sm:text-2xl font-extrabold text-blue-600">อย่างน้อย 3 วัน</div>
-          <div className="text-[10px] text-slate-500 mt-0.5">ล่วงหน้าก่อนวันเข้าใช้บริการ</div>
+          <div className="text-2xl font-black text-blue-700">≥ 3 วัน</div>
+          <div className="text-[11px] text-slate-500 mt-1">ก่อนวันเข้าใช้งานจริง</div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold">ยืมใช้ภาคสนาม</span>
-            <Wrench className="w-4 h-4 text-teal-600" />
+        <div className="bg-white p-4 rounded-2xl border border-teal-100 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between">
+          <div className="flex items-center justify-between text-teal-600 mb-2">
+            <span className="text-[11px] font-bold text-slate-600">ยืมใช้ภาคสนาม</span>
+            <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
+              <Wrench className="w-4 h-4 text-teal-600" />
+            </div>
           </div>
-          <div className="text-xl sm:text-2xl font-extrabold text-teal-600">ไม่เกิน 10 วัน</div>
-          <div className="text-[10px] text-slate-500 mt-0.5">ครั้งละไม่เกิน 10 วัน</div>
+          <div className="text-2xl font-black text-teal-700">≤ 10 วัน</div>
+          <div className="text-[11px] text-slate-500 mt-1">ยืมได้ครั้งละไม่เกิน 10 วัน</div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold">มัดจำกุญแจ</span>
-            <KeyRound className="w-4 h-4 text-amber-600" />
+        <div className="bg-white p-4 rounded-2xl border border-amber-100 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between">
+          <div className="flex items-center justify-between text-amber-600 mb-2">
+            <span className="text-[11px] font-bold text-slate-600">มัดจำกุญแจนอกเวลา</span>
+            <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center">
+              <KeyRound className="w-4 h-4 text-amber-600" />
+            </div>
           </div>
-          <div className="text-xl sm:text-2xl font-extrabold text-amber-600">100 บาท/ห้อง</div>
-          <div className="text-[10px] text-slate-500 mt-0.5">ได้รับคืนเมื่อนำกุญแจมาคืน</div>
+          <div className="text-2xl font-black text-amber-700">100 บาท</div>
+          <div className="text-[11px] text-slate-500 mt-1">ต่อห้อง (คืนเงินเมื่อนำกุญแจมาส่ง)</div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold">เวลาเปิดบริการ</span>
-            <Building2 className="w-4 h-4 text-emerald-600" />
+        <div className="bg-white p-4 rounded-2xl border border-emerald-100 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between">
+          <div className="flex items-center justify-between text-emerald-600 mb-2">
+            <span className="text-[11px] font-bold text-slate-600">เวลาเปิดให้บริการ</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <Building2 className="w-4 h-4 text-emerald-600" />
+            </div>
           </div>
-          <div className="text-lg sm:text-xl font-extrabold text-emerald-600">08.30-16.30 น.</div>
-          <div className="text-[10px] text-slate-500 mt-0.5">จันทร์-ศุกร์ (เวลาราชการ)</div>
+          <div className="text-xl sm:text-2xl font-black text-emerald-700">08.30-16.30 น.</div>
+          <div className="text-[11px] text-slate-500 mt-1">จันทร์ - ศุกร์ (วันเวลาราชการ)</div>
         </div>
       </div>
 
-      {/* Preamble Intro Box */}
-      <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-5 text-xs text-amber-950 leading-relaxed shadow-2xs">
-        <div className="font-bold flex items-center gap-1.5 text-amber-900 text-sm mb-1.5">
-          <Info className="w-4 h-4 text-amber-700" /> คำชี้แจงและวัตถุประสงค์
+      {/* 3. MASTER SERVICE WORKFLOW TIMELINE (แผนภาพไทม์ไลน์ขั้นตอนการขอรับบริการ 6 ขั้นตอน) */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+              <Layers className="w-4 h-4 text-indigo-600" />
+            </div>
+            <div>
+              <h2 className="text-sm sm:text-base font-bold text-slate-900">
+                แผนภาพและไทม์ไลน์ขั้นตอนการขอรับบริการ (Service Workflow Timeline)
+              </h2>
+              <p className="text-xs text-slate-500">
+                สรุป 6 ขั้นตอนหลักตั้งแต่เริ่มต้นยื่นคำขอ จนถึงเสร็จสิ้นการใช้งาน
+              </p>
+            </div>
+          </div>
+          <span className="self-start sm:self-auto text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
+            ระบบออนไลน์ Full-Digital
+          </span>
         </div>
-        <p className="text-slate-700 leading-relaxed">
-          หลักเกณฑ์และข้อปฏิบัติของงานห้องปฏิบัติการนี้ เป็นหลักเกณฑ์และข้อควรปฏิบัติในภาพรวมที่ผู้ขอใช้บริการ ได้แก่ <strong>อาจารย์ เจ้าหน้าที่ นักวิจัย นักศึกษา บุคลากรภายในและภายนอกคณะฯ</strong> ที่เข้ามาใช้บริการในส่วนของงานห้องปฏิบัติการ เพื่อการเรียนการสอน การวิจัย งานวิชาปัญหาพิเศษ หรืองานโครงการต่างๆ จะต้องทราบและลงนามยอมรับข้อตกลง เพื่อให้ทุกคนปฏิบัติเป็นไปตามหลักเกณฑ์เดียวกัน ช่วยให้ทำงานได้สะดวกเป็นขั้นตอน มีความเป็นระเบียบเรียบร้อย และง่ายต่อการติดตามและตรวจสอบ โดยมีรายละเอียดดังต่อไปนี้
-        </p>
+
+        {/* Visual Step Pipeline Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 pt-2">
+          {/* Step 1 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                1
+              </span>
+              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                ขั้นตอนที่ 1
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                ศึกษาข้อปฏิบัติ & เลือกแบบฟอร์ม
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                ทำความเข้าใจระเบียบ (VET.LAB 01) และเลือกฟอร์มที่ต้องการ:
+              </p>
+              <div className="mt-2 space-y-1 text-[11px]">
+                <div className="text-blue-900 font-medium flex items-center gap-1">
+                  • <strong>02:</strong> ขอใช้ห้องปฏิบัติการ (6 สาขา)
+                </div>
+                <div className="text-teal-900 font-medium flex items-center gap-1">
+                  • <strong>03:</strong> ขอใช้เครื่องมือ/ครุภัณฑ์
+                </div>
+                <div className="text-purple-900 font-medium flex items-center gap-1">
+                  • <strong>04:</strong> ขอเบิกสารเคมี/วัสดุสิ้นเปลือง
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                2
+              </span>
+              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                ขั้นตอนที่ 2
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                กรอกข้อมูล & ลายเซ็นดิจิทัล
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                กรอกรายละเอียดการขอใช้อย่างครบถ้วน:
+              </p>
+              <ul className="mt-2 space-y-1 text-[11px] text-slate-600">
+                <li>• ผู้ขอรับบริการลงนามอิเล็กทรอนิกส์</li>
+                <li>• <strong>กรณีเป็นนักศึกษา:</strong> ต้องให้อาจารย์ที่ปรึกษา / หน.โครงการ พิจารณาลงนามให้ความเห็นชอบ</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                3
+              </span>
+              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                ขั้นตอนที่ 3
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                ยื่นคำขอล่วงหน้า ≥ 3 วัน
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                ส่งแบบฟอร์มผ่านระบบออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้งานจริง
+              </p>
+              <div className="mt-2 p-2 rounded bg-amber-50 border border-amber-200/70 text-[10px] text-amber-900">
+                ระบบจะออกรหัส <strong>Tracking No.</strong> เพื่อใช้ติดตามสถานะได้แบบ Real-time
+              </div>
+            </div>
+          </div>
+
+          {/* Step 4 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-amber-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                4
+              </span>
+              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
+                ส่วนที่ 2
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                หัวหน้าห้องแล็บพิจารณา & มอบหมาย
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)</strong> พิจารณาอนุมัติคำขอ:
+              </p>
+              <ul className="mt-2 space-y-1 text-[11px] text-slate-600">
+                <li>• <strong>กรณีอนุมัติ:</strong> มอบหมายงานไปยังนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</li>
+                <li>• <strong>กรณีไม่อนุมัติ:</strong> แจ้งผลพร้อมเหตุผลให้ผู้ขอทราบ</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Step 5 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-emerald-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                5
+              </span>
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                ส่วนที่ 3
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                ตรวจสอบความพร้อม & นัดหมายเข้าใช้
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                <strong>นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</strong> ตรวจสอบความพร้อมของห้อง/เครื่องมือ และลงนามส่วนที่ 3
+              </p>
+              <div className="mt-2 p-2 rounded bg-emerald-50 border border-emerald-200/70 text-[10px] text-emerald-900">
+                ผู้ขอรับบริการเข้าใช้งานตามวัน-เวลาที่กำหนด และลงบันทึกในสมุด <strong>Log Book</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 6 */}
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-purple-300 transition-colors">
+            <div className="flex items-start justify-between mb-2">
+              <span className="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                6
+              </span>
+              <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
+                สิ้นสุดการใช้งาน
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
+                เคลียร์พื้นที่, คืนของ & สรุปค่าใช้จ่าย
+              </h3>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                ทำความสะอาดพื้นที่ เคลียร์ตัวอย่างออกจากตู้เย็น/แช่แข็ง คืนกุญแจและเครื่องมือ
+              </p>
+              <div className="mt-2 text-[10px] text-purple-900 font-medium">
+                (กรณีสารเคมี ฟอร์ม 04: สรุปค่าใช้จ่ายเพื่อตัดงบหรือชำระที่งานการเงิน)
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Navigation Filter Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs">
+      {/* 4. Section Navigation Filter Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
         <button
           onClick={() => setActiveSection('all')}
-          className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer ${
             activeSection === 'all'
-              ? 'bg-slate-900 text-white shadow-xs'
+              ? 'bg-slate-900 text-white shadow-xs scale-[1.02]'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
@@ -118,186 +295,236 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
         </button>
         <button
           onClick={() => setActiveSection('contact')}
-          className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
             activeSection === 'contact'
-              ? 'bg-blue-600 text-white shadow-xs'
+              ? 'bg-blue-600 text-white shadow-xs scale-[1.02]'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          1. การติดต่อขอใช้บริการ
+          <Building2 className="w-3.5 h-3.5" /> 1. การติดต่อ & แบบฟอร์ม
         </button>
         <button
           onClick={() => setActiveSection('lab')}
-          className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
             activeSection === 'lab'
-              ? 'bg-blue-600 text-white shadow-xs'
+              ? 'bg-amber-600 text-white shadow-xs scale-[1.02]'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          2. ข้อปฏิบัติการใช้ห้อง
+          <ShieldAlert className="w-3.5 h-3.5" /> 2. ข้อปฏิบัติการใช้ห้อง
         </button>
         <button
           onClick={() => setActiveSection('equipment')}
-          className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
             activeSection === 'equipment'
-              ? 'bg-teal-600 text-white shadow-xs'
+              ? 'bg-teal-600 text-white shadow-xs scale-[1.02]'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          3. การใช้เครื่องมือ/ครุภัณฑ์
+          <Wrench className="w-3.5 h-3.5" /> 3. การใช้เครื่องมือ/ครุภัณฑ์
         </button>
         <button
           onClick={() => setActiveSection('chemicals')}
-          className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
             activeSection === 'chemicals'
-              ? 'bg-purple-600 text-white shadow-xs'
+              ? 'bg-purple-600 text-white shadow-xs scale-[1.02]'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          4. การเบิกสารเคมี/วัสดุ
+          <FlaskConical className="w-3.5 h-3.5" /> 4. การเบิกสารเคมี/วัสดุ
         </button>
       </div>
 
-      {/* Content Container */}
-      <div className="bg-white rounded-xl shadow-xs border border-slate-200 p-6 sm:p-8 space-y-8 text-slate-700 leading-relaxed text-xs sm:text-sm">
-        
+      {/* 5. Detailed Sections with Visual Cards */}
+      <div className="space-y-6">
+
         {/* ========================================================================= */}
-        {/* 1. การติดต่อเพื่อขอใช้บริการ */}
+        {/* หมวดที่ 1: การติดต่อเพื่อขอใช้บริการ */}
         {/* ========================================================================= */}
         {(activeSection === 'all' || activeSection === 'contact') && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <span className="w-7 h-7 rounded-lg bg-blue-600 text-white text-xs flex items-center justify-center font-bold shrink-0">
+          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 sm:p-7 space-y-5">
+            <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
                 1
-              </span>
-              <h2 className="text-base font-bold text-slate-900">
-                การติดต่อเพื่อขอใช้บริการ
-              </h2>
+              </div>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                  หมวดที่ 1: การติดต่อเพื่อขอใช้บริการ
+                </h2>
+                <p className="text-xs text-slate-500">
+                  หลักเกณฑ์การยื่นแบบฟอร์มและการพิจารณาของคณะสัตวแพทยศาสตร์ มข.
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-3 pl-1">
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.1</span>
-                <div>
-                  อ่านระเบียบและข้อปฏิบัติ (VET.LAB 01) พร้อมทั้งลงนามยินยอมปฏิบัติตามข้อตกลงต่างๆ ของห้องปฏิบัติการ
-                </div>
+            {/* Quick Action Interactive Cards for Forms 02, 03, 04 */}
+            <div>
+              <div className="text-xs font-bold text-slate-700 mb-2.5 flex items-center gap-1.5">
+                <span>เลือกแบบฟอร์มตามลักษณะการขอรับบริการ:</span>
               </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.2</span>
-                <div className="space-y-2">
-                  <span>
-                    เลือกใช้ <strong>“แบบฟอร์ม”</strong> ให้ถูกต้อง และกรอกรายละเอียดให้ครบถ้วนและชัดเจน โดยขอแบบฟอร์มได้ที่เจ้าหน้าที่ ห้องประสานงาน* ซึ่งมีแบบฟอร์มต่างๆ ดังต่อไปนี้:
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-                    <div className="p-3 rounded-lg bg-blue-50/70 border border-blue-200 flex flex-col justify-between">
-                      <div>
-                        <div className="font-bold text-blue-900 flex items-center gap-1.5 text-xs">
-                          <Building2 className="w-3.5 h-3.5 text-blue-600" /> ก. VET.LAB 02
-                        </div>
-                        <div className="text-[11px] text-slate-600 mt-1">
-                          แบบฟอร์มการขอใช้ห้องปฏิบัติการ
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={onGoToForm02}
-                        className="mt-2.5 text-[11px] font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
-                      >
-                        กรอกแบบฟอร์มนี้ <ChevronRight className="w-3 h-3" />
-                      </button>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                {/* Card Form 02 */}
+                <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50/70 to-indigo-50/40 border border-blue-200 flex flex-col justify-between hover:shadow-xs transition-all">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+                        <Building2 className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="text-[10px] font-bold text-blue-700 bg-white px-2 py-0.5 rounded-full border border-blue-100">
+                        VET.LAB 02
+                      </span>
                     </div>
-
-                    <div className="p-3 rounded-lg bg-teal-50/70 border border-teal-200 flex flex-col justify-between">
-                      <div>
-                        <div className="font-bold text-teal-900 flex items-center gap-1.5 text-xs">
-                          <Wrench className="w-3.5 h-3.5 text-teal-600" /> ข. VET.LAB 03
-                        </div>
-                        <div className="text-[11px] text-slate-600 mt-1">
-                          แบบฟอร์มการขอใช้วัสดุ/อุปกรณ์วิทยาศาสตร์และครุภัณฑ์
-                        </div>
-                      </div>
-                      {onGoToForm03 && (
-                        <button
-                          type="button"
-                          onClick={onGoToForm03}
-                          className="mt-2.5 text-[11px] font-semibold text-teal-600 hover:text-teal-800 flex items-center gap-1 cursor-pointer"
-                        >
-                          กรอกแบบฟอร์มนี้ <ChevronRight className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-purple-50/70 border border-purple-200 flex flex-col justify-between">
-                      <div>
-                        <div className="font-bold text-purple-900 flex items-center gap-1.5 text-xs">
-                          <FlaskConical className="w-3.5 h-3.5 text-purple-600" /> ค. VET.LAB 04
-                        </div>
-                        <div className="text-[11px] text-slate-600 mt-1">
-                          แบบฟอร์มการเบิกสารเคมีและวัสดุสิ้นเปลือง
-                        </div>
-                      </div>
-                      {onGoToForm04 && (
-                        <button
-                          type="button"
-                          onClick={onGoToForm04}
-                          className="mt-2.5 text-[11px] font-semibold text-purple-600 hover:text-purple-800 flex items-center gap-1 cursor-pointer"
-                        >
-                          กรอกแบบฟอร์มนี้ <ChevronRight className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
+                    <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
+                      ขอใช้ห้องปฏิบัติการ
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      จองเข้าใช้พื้นที่ห้องแล็บ 6 สาขาวิชา สำหรับการเรียนการสอนและวิจัย
+                    </p>
                   </div>
+                  <button
+                    type="button"
+                    onClick={onGoToForm02}
+                    className="mt-3.5 w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    เปิดกรอกแบบฟอร์ม 02 <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Card Form 03 */}
+                <div className="p-4 rounded-xl bg-gradient-to-br from-teal-50/70 to-emerald-50/40 border border-teal-200 flex flex-col justify-between hover:shadow-xs transition-all">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="w-7 h-7 rounded-lg bg-teal-600 text-white flex items-center justify-center">
+                        <Wrench className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="text-[10px] font-bold text-teal-700 bg-white px-2 py-0.5 rounded-full border border-teal-100">
+                        VET.LAB 03
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
+                      ขอใช้เครื่องมือวิทยาศาสตร์
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      ขอใช้งานเครื่องมือวิทยาศาสตร์และครุภัณฑ์ ทั้งในห้องแล็บและยืมภาคสนาม
+                    </p>
+                  </div>
+                  {onGoToForm03 && (
+                    <button
+                      type="button"
+                      onClick={onGoToForm03}
+                      className="mt-3.5 w-full py-2 px-3 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    >
+                      เปิดกรอกแบบฟอร์ม 03 <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Card Form 04 */}
+                <div className="p-4 rounded-xl bg-gradient-to-br from-purple-50/70 to-fuchsia-50/40 border border-purple-200 flex flex-col justify-between hover:shadow-xs transition-all">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center">
+                        <FlaskConical className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="text-[10px] font-bold text-purple-700 bg-white px-2 py-0.5 rounded-full border border-purple-100">
+                        VET.LAB 04
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
+                      ขอเบิกสารเคมีและวัสดุ
+                    </h3>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      ขอเบิกสารเคมีและวัสดุสิ้นเปลือง พร้อมระบบคำนวณและสรุปค่าใช้จ่าย
+                    </p>
+                  </div>
+                  {onGoToForm04 && (
+                    <button
+                      type="button"
+                      onClick={onGoToForm04}
+                      className="mt-3.5 w-full py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    >
+                      เปิดกรอกแบบฟอร์ม 04 <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </div>
+            </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.3</span>
-                <div>
+            {/* Steps & Key Rules Breakdown */}
+            <div className="space-y-3 pt-2 text-xs text-slate-700">
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.1
+                </span>
+                <p>
+                  ผู้ขอใช้บริการต้องศึกษาข้อปฏิบัติ (VET.LAB 01) และลงนามยินยอมปฏิบัติตามข้อตกลงต่างๆ ในแบบฟอร์ม
+                </p>
+              </div>
+
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.2
+                </span>
+                <p>
+                  เลือกใช้แบบฟอร์มให้ถูกต้องตามประเภทการขอใช้บริการ (VET.LAB 02, 03 หรือ 04) และกรอกข้อมูลให้ครบถ้วนชัดเจน
+                </p>
+              </div>
+
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.3
+                </span>
+                <p>
                   <strong>กรณีผู้ขอใช้บริการเป็นนักศึกษา:</strong> จะต้องมีลายมือชื่อของ <strong>อาจารย์ที่ปรึกษา / หัวหน้าโครงการ</strong> เพื่อพิจารณาลงนามให้ความเห็นชอบในแบบฟอร์ม
-                </div>
+                </p>
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.4</span>
-                <div>
-                  ส่ง <strong>“แบบฟอร์มการขอใช้บริการ (VET.LAB 02-04)”</strong> ผ่านระบบอีเมลหรือยื่นเอกสาร โดยต้องส่งล่วงหน้าอย่างน้อย <strong>3 วัน</strong> ก่อนวันเข้าใช้บริการจริง
-                </div>
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.4
+                </span>
+                <p>
+                  ส่งแบบฟอร์มการขอใช้บริการ (VET.LAB 02-04) ผ่านระบบออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้บริการจริง
+                </p>
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.5</span>
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.5
+                </span>
                 <div>
                   <strong>ผู้ประสานงานห้องปฏิบัติการ</strong> เสนอ <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</strong> พิจารณา:
-                  <ul className="list-disc pl-5 mt-1 text-slate-600 space-y-0.5">
+                  <ul className="list-disc pl-5 mt-1 space-y-0.5 text-slate-600">
                     <li><strong>กรณีไม่อนุญาต:</strong> แจ้งผู้ขอใช้บริการเพื่อนำกลับไปแก้ไข</li>
-                    <li><strong>กรณีอนุญาต:</strong> ผู้ประสานงานนำส่งแบบฟอร์มไปยังนักวิทยาศาสตร์ผู้ดูแลห้องปฏิบัติการ</li>
+                    <li><strong>กรณีอนุญาต:</strong> ผู้ประสานงานนำส่งแบบฟอร์มไปยังนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบดูแลห้องปฏิบัติการ</li>
                   </ul>
                 </div>
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-blue-600 shrink-0 mt-0.5">1.6</span>
-                <div>
-                  ผู้ขอใช้บริการ <strong>นัดหมายการเข้าใช้บริการกับนักวิทยาศาสตร์ประจำห้องปฏิบัติการ</strong> และเข้าใช้บริการตามวันและเวลาที่กำหนด
-                </div>
+              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  1.6
+                </span>
+                <p>
+                  ผู้ขอใช้บริการ <strong>นัดหมายการเข้าใช้บริการกับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบประจำห้องปฏิบัติการ</strong> และเข้าใช้บริการตามวันและเวลาที่ได้รับอนุมัติ
+                </p>
               </div>
             </div>
 
-            {/* Note box */}
-            <div className="mt-3 p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1.5 text-slate-700">
-              <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-slate-600" /> หมายเหตุ:
+            {/* Official Personnel Contact Note */}
+            <div className="p-4 bg-amber-50/70 border border-amber-200 rounded-xl text-xs space-y-1.5 text-amber-950">
+              <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                <Info className="w-4 h-4 text-amber-700" /> ข้อมูลผู้ประสานงานและผู้มีอำนาจพิจารณา:
               </div>
-              <ul className="space-y-1 pl-4 list-decimal text-[11px] text-slate-600">
+              <ul className="space-y-1 pl-4 list-disc text-[11px] text-slate-700">
                 <li>
-                  <strong>ผู้ประสานงานห้องปฏิบัติการ*</strong> หมายถึง <strong>คุณรัตนา หลายวิวัฒน์</strong>
+                  <strong>ผู้ประสานงานห้องปฏิบัติการ:</strong> คุณรัตนา หลายวิวัฒน์
                 </li>
                 <li>
-                  <strong>หัวหน้าห้องปฏิบัติการ**</strong> หมายถึง <strong>นางสุธิดา จันทร์ลุน (ตำแหน่งนักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</strong>
+                  <strong>หัวหน้าห้องปฏิบัติการ:</strong> นางสุธิดา จันทร์ลุน (ตำแหน่งนักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)
                 </li>
                 <li>
-                  ในกรณีที่ผู้ขอใช้บริการเป็นบุคลากร นักศึกษา หรือหน่วยงานภายนอกคณะฯ ให้ทำบันทึกข้อความขอใช้บริการถึง <strong>คณบดีคณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น</strong> โดยตรง
+                  <strong>กรณีหน่วยงานภายนอกคณะฯ:</strong> บุคลากร นักศึกษา หรือหน่วยงานภายนอกคณะสัตวแพทยศาสตร์ ให้ทำบันทึกข้อความขอใช้บริการถึง <strong>คณบดีคณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น</strong> โดยตรง
                 </li>
               </ul>
             </div>
@@ -305,104 +532,148 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
         )}
 
         {/* ========================================================================= */}
-        {/* 2. ข้อปฏิบัติในการขอใช้ห้องปฏิบัติการ */}
+        {/* หมวดที่ 2: ข้อปฏิบัติในการขอใช้ห้องปฏิบัติการ */}
         {/* ========================================================================= */}
         {(activeSection === 'all' || activeSection === 'lab') && (
-          <div className="space-y-4 pt-2 border-t border-slate-100">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <span className="w-7 h-7 rounded-lg bg-amber-500 text-white text-xs flex items-center justify-center font-bold shrink-0">
+          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
                 2
-              </span>
-              <h2 className="text-base font-bold text-slate-900">
-                ข้อปฏิบัติในการขอใช้ห้องปฏิบัติการ
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
-                <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-amber-600" /> 2.1 เวลาทำการราชการ
-                </div>
-                <p className="text-slate-600 text-[11px]">
-                  ห้องปฏิบัติการจะเปิดให้ใช้บริการในเวลาราชการ (จันทร์-ศุกร์ เวลา 08.30-16.30 น.) โดยต้องแจ้งเจ้าหน้าที่ก่อนทุกครั้งที่ใช้ เพื่อทำการเปิดห้องปฏิบัติการให้
-                </p>
               </div>
-
-              <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
-                <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-amber-600" /> 2.2 การใช้นอกเวลาราชการ
-                </div>
-                <p className="text-slate-600 text-[11px]">
-                  กรณีขอใช้นอกเวลาราชการ (16.30 น. เป็นต้นไป, เสาร์-อาทิตย์, วันหยุดนักขัตฤกษ์) ต้องขออนุมัติพิเศษเป็นรายๆ ไป และต้องอยู่ในความดูแลของอาจารย์ที่ปรึกษา (กรณีนักศึกษา)
-                </p>
-              </div>
-
-              <div className="p-3.5 bg-amber-50/60 rounded-lg border border-amber-200 space-y-1">
-                <div className="font-bold text-amber-950 flex items-center gap-1.5">
-                  <KeyRound className="w-3.5 h-3.5 text-amber-600" /> 2.3 การเบิกกุญแจและมัดจำ
-                </div>
-                <p className="text-slate-700 text-[11px]">
-                  เบิกกุญแจได้เฉพาะกรณีนอกเวลาราชการเท่านั้น โดยต้องจ่ายเงินมัดจำค่ากุญแจกับเจ้าหน้าที่ดอกละ <strong>100 บาท/ห้อง</strong> และจะได้รับเงินคืนเมื่อนำกุญแจมาคืน
-                </p>
-              </div>
-
-              <div className="p-3.5 bg-red-50/60 rounded-lg border border-red-200 space-y-1">
-                <div className="font-bold text-red-950 flex items-center gap-1.5">
-                  <ShieldAlert className="w-3.5 h-3.5 text-red-600" /> 2.4 ข้อห้ามเรื่องกุญแจ
-                </div>
-                <p className="text-slate-700 text-[11px]">
-                  <strong>ห้ามนำกุญแจไปปั๊มเอง หรือให้ผู้อื่นยืมต่อโดยเด็ดขาด</strong> หากฝ่าฝืน คณะฯ จะพิจารณาตัดสิทธิ์การขอใช้ห้องปฏิบัติการเป็นระยะเวลา 1 ภาคการศึกษา
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                  หมวดที่ 2: ข้อปฏิบัติในการขอใช้ห้องปฏิบัติการ
+                </h2>
+                <p className="text-xs text-slate-500">
+                  มาตรการด้านความปลอดภัย การจัดการกุญแจ และระเบียบวินัยในห้องปฏิบัติการ
                 </p>
               </div>
             </div>
 
-            <div className="space-y-2.5 pl-1 text-xs">
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.5</span>
-                <div>
-                  <strong>การแต่งกาย:</strong> แต่งกายสุภาพเรียบร้อย ไม่ใส่กางเกงขาสั้นและรองเท้าแตะ และสวมเสื้อกาวน์ (Lab Coat) ทุกครั้งที่ปฏิบัติงานในห้องปฏิบัติการ
+            {/* Diagram 1: Operating Hours & Key Deposit Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div className="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-emerald-600" /> 2.1 ในเวลาราชการ (จันทร์ - ศุกร์)
                 </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  เปิดให้บริการเวลา <strong>08.30 - 16.30 น.</strong> โดยต้องแจ้งนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบก่อนทุกครั้ง เพื่อทำการเปิดห้องปฏิบัติการให้
+                </p>
               </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.6</span>
-                <div>
-                  <strong>ข้อห้ามบริโภค:</strong> ห้ามสูบบุหรี่ นำอาหาร ขนม หรือน้ำดื่ม เข้าไปรับประทานในห้องปฏิบัติการโดยเด็ดขาด
+
+              <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-1.5">
+                <div className="font-bold text-amber-950 text-xs sm:text-sm flex items-center gap-1.5">
+                  <Flame className="w-4 h-4 text-amber-600" /> 2.2 นอกเวลาราชการและวันหยุด
                 </div>
+                <p className="text-[11px] text-slate-700 leading-relaxed">
+                  (16.30 น. เป็นต้นไป, เสาร์-อาทิตย์, วันหยุดนักขัตฤกษ์) ต้องได้รับอนุมัติเป็นกรณีพิเศษ และต้องอยู่ในความดูแลของอาจารย์ที่ปรึกษาอย่างเคร่งครัด
+                </p>
               </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.7</span>
-                <div>
-                  <strong>การทิ้งของเสีย:</strong> ห้ามทิ้งของเหลว หรือสารเคมีที่เป็นอันตราย รวมทั้งเศษขยะต่างๆ ลงในอ่างน้ำโดยเด็ดขาด ให้ทิ้งในที่ที่จัดเตรียมไว้ให้เท่านั้น
+
+              <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-1.5">
+                <div className="font-bold text-blue-950 text-xs sm:text-sm flex items-center gap-1.5">
+                  <KeyRound className="w-4 h-4 text-blue-600" /> 2.3 การเบิกกุญแจและมัดจำ
                 </div>
+                <p className="text-[11px] text-slate-700 leading-relaxed">
+                  เบิกกุญแจได้เฉพาะกรณีนอกเวลาเท่านั้น มัดจำดอกละ <strong>100 บาท/ห้อง</strong> และจะได้รับเงินคืนเต็มจำนวนเมื่อนำกุญแจมาส่งคืนครบถ้วน
+                </p>
               </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.8</span>
-                <div>
-                  <strong>กรณีอุบัติเหตุ:</strong> เมื่อเกิดอุบัติเหตุไม่ว่าจะมากหรือน้อย ต้องแจ้งเจ้าหน้าที่หรืออาจารย์ที่ปรึกษา ให้ทราบทันที
+
+              <div className="p-4 rounded-xl bg-red-50/60 border border-red-200 space-y-1.5">
+                <div className="font-bold text-red-950 text-xs sm:text-sm flex items-center gap-1.5">
+                  <ShieldAlert className="w-4 h-4 text-red-600" /> 2.4 ข้อห้ามเด็ดขาดเรื่องกุญแจ
                 </div>
+                <p className="text-[11px] text-red-900 leading-relaxed">
+                  <strong>ห้ามนำกุญแจไปปั๊มเอง หรือให้ผู้อื่นยืมต่อโดยเด็ดขาด</strong> หากฝ่าฝืน คณะฯ จะพิจารณาตัดสิทธิ์การขอใช้ห้องปฏิบัติการ 1 ภาคการศึกษา
+                </p>
               </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.9</span>
-                <div>
-                  <strong>สมุดบันทึก (Log Book):</strong> ลงบันทึกการเข้า-ออกห้องปฏิบัติการ ในสมุดการใช้ห้องปฏิบัติการ (Log Book) ทุกครั้ง
+            </div>
+
+            {/* Infographic: 8 Golden Rules of Lab Safety */}
+            <div>
+              <div className="text-xs font-bold text-slate-900 mb-3 flex items-center gap-1.5">
+                <Award className="w-4 h-4 text-amber-600" />
+                <span>ข้อปฏิบัติความปลอดภัยและระเบียบวินัย (ข้อ 2.5 - 2.12):</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.5 การแต่งกาย:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      แต่งกายสุภาพ สวมเสื้อกาวน์ (Lab Coat) และรองเท้าหุ้มส้นทุกครั้ง ห้ามใส่กางเกงขาสั้นและรองเท้าแตะ
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.10</span>
-                <div>
-                  <strong>ความรับผิดชอบสถานที่:</strong> ต้องรับผิดชอบดูแลความเรียบร้อยในการเปิด-ปิด ประตู หน้าต่าง ก๊อกน้ำ ไฟฟ้า รวมทั้งทำความสะอาดบริเวณโต๊ะปฏิบัติการ พื้นห้อง เครื่องมือ และวัสดุอุปกรณ์ทุกครั้งที่ใช้บริการ
+
+                <div className="p-3 bg-red-50/50 rounded-xl border border-red-200 flex items-start gap-2.5">
+                  <XCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-red-950">2.6 ข้อห้ามการบริโภค:</strong>
+                    <div className="text-[11px] text-red-900 mt-0.5">
+                      ห้ามสูบบุหรี่ นำอาหาร ขนม หรือเครื่องดื่มเข้ามารับประทานในห้องปฏิบัติการโดยเด็ดขาด
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.11</span>
-                <div>
-                  <strong>ความเสียหาย:</strong> หากเกิดความเสียหายต่อเครื่องมือ อุปกรณ์ และห้องปฏิบัติการ โดยพิจารณาแล้วว่าเป็นเหตุเนื่องมาจากความประมาทเลินเล่อ ผู้ขอใช้บริการต้องรับผิดชอบค่าเสียหายตามที่เกิดขึ้นจริง
+
+                <div className="p-3 bg-amber-50/50 rounded-xl border border-amber-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-amber-950">2.7 การทิ้งของเสียอันตราย:</strong>
+                    <div className="text-[11px] text-slate-700 mt-0.5">
+                      ห้ามทิ้งของเหลว สารเคมีอันตราย หรือเศษขยะลงในอ่างน้ำ ให้ทิ้งในภาชนะจัดเก็บเฉพาะที่เตรียมไว้เท่านั้น
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-amber-600 shrink-0">2.12</span>
-                <div>
-                  <strong>สิทธิ์การยกเลิก:</strong> หากพบว่าผู้ใช้บริการไม่ปฏิบัติตามระเบียบและข้อปฏิบัติ หัวหน้าห้องปฏิบัติการขอใช้สิทธิ์ยกเลิกการให้ใช้ห้องปฏิบัติการนั้นๆ ได้
+
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.8 เมื่อเกิดอุบัติเหตุ:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      ไม่ว่าจะเล็กน้อยหรือรุนแรง ต้องแจ้งนักวิชาการวิทยาศาสตร์หรืออาจารย์ที่ปรึกษาให้ทราบทันที
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <FileText className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.9 บันทึก Log Book:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      ลงบันทึกเวลาเข้า-ออก และรายละเอียดการปฏิบัติงานในสมุด Log Book ประจำห้องทุกครั้ง
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <Sparkles className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.10 ความรับผิดชอบสถานที่:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      ทำความสะอาดโต๊ะปฏิบัติการ ปิดประตู หน้าต่าง ก๊อกน้ำ และระบบไฟฟ้าทุกจุดก่อนออกจากห้อง
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <ShieldAlert className="w-4 h-4 text-orange-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.11 การชดใช้ความเสียหาย:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      หากเกิดความเสียหายจากความประมาทเลินเล่อ ผู้ขอใช้บริการต้องรับผิดชอบค่าเสียหายตามที่เกิดขึ้นจริง
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-slate-700 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-slate-900">2.12 สิทธิ์การยกเลิก:</strong>
+                    <div className="text-[11px] text-slate-600 mt-0.5">
+                      หากผู้ใช้บริการไม่ปฏิบัติตามระเบียบ หัวหน้าห้องปฏิบัติการมีสิทธิ์ยกเลิกการอนุญาตทันที
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -410,101 +681,110 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
         )}
 
         {/* ========================================================================= */}
-        {/* 3. ข้อปฏิบัติในการขอใช้เครื่องมือ/อุปกรณ์วิทยาศาสตร์ และครุภัณฑ์ */}
+        {/* หมวดที่ 3: การใช้เครื่องมือ/อุปกรณ์วิทยาศาสตร์ และครุภัณฑ์ */}
         {/* ========================================================================= */}
         {(activeSection === 'all' || activeSection === 'equipment') && (
-          <div className="space-y-4 pt-2 border-t border-slate-100">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <span className="w-7 h-7 rounded-lg bg-teal-600 text-white text-xs flex items-center justify-center font-bold shrink-0">
+          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
                 3
-              </span>
-              <h2 className="text-base font-bold text-slate-900">
-                ข้อปฏิบัติในการขอใช้เครื่องมือ/อุปกรณ์วิทยาศาสตร์ และครุภัณฑ์
-              </h2>
+              </div>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                  หมวดที่ 3: ข้อปฏิบัติในการขอใช้เครื่องมือ/อุปกรณ์วิทยาศาสตร์ และครุภัณฑ์
+                </h2>
+                <p className="text-xs text-slate-500">
+                  เกณฑ์ระยะเวลาการยืม การจองล่วงหน้า การดูแล และเงื่อนไขการส่งคืน
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-2.5 pl-1 text-xs">
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.1</span>
-                <div>
-                  <strong>ระยะเวลาการยื่นแบบฟอร์ม:</strong> สามารถยื่นแบบฟอร์มขอใช้เครื่องมือได้ครั้งละไม่เกิน <strong>1 เดือน</strong> (กรณีเครื่องมือที่ประจำอยู่แต่ละห้องปฏิบัติการ) ยกเว้นกรณีที่เครื่องมือ/อุปกรณ์บางอย่างมีจำนวนจำกัดหรือมีผู้ขอใช้เป็นจำนวนมาก อาจจะให้ใช้ได้ครั้งละไม่เกิน 1 สัปดาห์ และให้ใช้ได้ในจำนวนที่จำกัด โดยพิจารณาตามความเหมาะสม หรือตามเหตุผลและความจำเป็นของผู้ขอใช้
-                </div>
+            {/* Visual Timeline Cards of Borrowing Time Limits */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              <div className="p-4 rounded-xl bg-teal-50/60 border border-teal-200 space-y-1 text-center">
+                <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider">เครื่องมือประจำห้องแล็บ</span>
+                <div className="text-xl font-black text-teal-800 mt-1">ไม่เกิน 1 เดือน</div>
+                <p className="text-[10px] text-slate-600">
+                  ยื่นแบบฟอร์มได้ครั้งละไม่เกิน 1 เดือน (เครื่องมือจำกัดอาจลดเหลือ 1 สัปดาห์)
+                </p>
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.2</span>
-                <div>
-                  <strong>การนำออกนอกสถานที่:</strong> สามารถยื่นแบบฟอร์มขอใช้เครื่องมือได้ครั้งละไม่เกิน <strong>10 วัน</strong> (กรณีเครื่องมือนำไปใช้นอกสถานที่)
-                </div>
+              <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-1 text-center">
+                <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">ยืมนำออกนอกสถานที่ / ภาคสนาม</span>
+                <div className="text-xl font-black text-blue-800 mt-1">ไม่เกิน 10 วัน</div>
+                <p className="text-[10px] text-slate-600">
+                  ยื่นขอใช้นำออกนอกสถานที่ได้ครั้งละไม่เกิน 10 วันทำการ
+                </p>
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.3</span>
-                <div>
-                  <strong>การอบรมการใช้งาน:</strong> กรณีที่ผู้ขอใช้เป็นนักศึกษา หรือบุคลากรภายนอก ต้องผ่านการทดสอบหรือการอบรมการใช้เครื่องมือวิทยาศาสตร์หรือครุภัณฑ์จากเจ้าหน้าที่ อาจารย์ที่ปรึกษา หรือหัวหน้าห้องปฏิบัติการก่อน จึงจะได้รับอนุญาตให้ใช้เครื่องมือนั้นๆ ได้
-                </div>
+              <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-1 text-center">
+                <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">การจองตารางล่วงหน้า</span>
+                <div className="text-xl font-black text-amber-800 mt-1">ล่วงหน้า ≤ 2 วัน</div>
+                <p className="text-[10px] text-slate-600">
+                  จองต่อเนื่องได้ไม่เกิน 3 วัน (หากไม่มาตามนัดถือว่าสละสิทธิ์)
+                </p>
+              </div>
+            </div>
+
+            {/* 4-Step Checklist for Equipment Usage */}
+            <div className="space-y-3 pt-1">
+              <div className="text-xs font-bold text-slate-900 mb-2">
+                ขั้นตอนและระเบียบปฏิบัติสำคัญ (ข้อ 3.3 - 3.12):
               </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.4</span>
-                <div>
-                  <strong>การจองเครื่องมือล่วงหน้า:</strong> ลงบันทึกตารางการจองขอใช้เครื่องมือล่วงหน้าได้ไม่เกิน <strong>2 วัน</strong> และต่อเนื่องได้ครั้งละไม่เกิน <strong>3 วัน</strong> หากไม่มาติดต่อขอใช้บริการตามวัน เวลาที่จองไว้ ถือว่าท่านสละสิทธิ์ และให้ผู้ที่จองขอใช้เครื่องมือต่อจากท่านเป็นผู้ใช้รายต่อไป
+              <div className="space-y-2.5 text-xs text-slate-700">
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-teal-600" /> 3.3 การอบรมก่อนใช้งาน
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    นักศึกษาและบุคลากรภายนอก <strong>ต้องผ่านการทดสอบหรืออบรมการใช้งาน</strong> จากนักวิชาการวิทยาศาสตร์ อาจารย์ที่ปรึกษา หรือหัวหน้าห้องปฏิบัติการก่อน จึงจะได้รับอนุญาต
+                  </p>
                 </div>
-              </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.5</span>
-                <div>
-                  <strong>กรณีเร่งด่วน:</strong> ในกรณีจำเป็นต้องใช้เครื่องมือ/อุปกรณ์อย่างเร่งด่วน ให้ผู้ขอใช้ชี้แจงเหตุผลและความจำเป็นต่อหัวหน้าห้องปฏิบัติการเพื่อพิจารณาอนุมัติเป็นรายๆ ไป และหากผู้ขอใช้เป็นนักศึกษาให้อาจารย์ที่ปรึกษาเป็นผู้ชี้แจงเหตุผล
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Flame className="w-3.5 h-3.5 text-amber-600" /> 3.5 กรณีเร่งด่วน
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    กรณีจำเป็นเร่งด่วน ให้ชี้แจงเหตุผลและความจำเป็นต่อหัวหน้าห้องปฏิบัติการ (กรณีนักศึกษาให้อาจารย์ที่ปรึกษาเป็นผู้ชี้แจง) เพื่อพิจารณาอนุมัติเป็นรายกรณี
+                  </p>
                 </div>
-              </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.6</span>
-                <div>
-                  <strong>การตรวจสอบก่อนรับของ:</strong> ตรวจสอบความถูกต้องของรายการ จำนวน และสภาพของเครื่องมือ/อุปกรณ์ที่ขอยืมก่อนนำไปใช้ หากพบว่าชำรุดเสียหาย หรือมีจำนวนไม่ครบให้รีบแจ้งเจ้าหน้าที่ทันที เพราะเป็นความรับผิดชอบของผู้ใช้บริการภายหลังจากการเบิกของไปแล้ว
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 3.6 การตรวจรับเครื่องมือ
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    ตรวจสอบรายการ จำนวน และสภาพของเครื่องมือก่อนนำไปใช้ หากพบชำรุดหรือไม่ครบให้แจ้งเจ้าหน้าที่ทันที เพราะเป็นความรับผิดชอบของผู้ใช้หลังจากรับของไปแล้ว
+                  </p>
                 </div>
-              </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.7</span>
-                <div>
-                  <strong>ข้อควรระวัง:</strong> ต้องปฏิบัติตามข้อควรระวังของเครื่องมือแต่ละเครื่องอย่างเคร่งครัด หากเกิดเหตุขัดข้องหรือชำรุดเสียหายต้องแจ้งเจ้าหน้าที่ทันที
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-blue-600" /> 3.7 - 3.8 ข้อควรระวังและบันทึก Log Book
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    ปฏิบัติตามข้อควรระวังของแต่ละเครื่องอย่างเคร่งครัด เมื่อใช้เสร็จแล้วต้องลงบันทึกในสมุด Log Book ทุกครั้ง และทำความสะอาดให้อยู่ในสภาพพร้อมใช้งาน
+                  </p>
                 </div>
-              </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.8</span>
-                <div>
-                  <strong>บันทึก Log Book & ทำความสะอาด:</strong> เมื่อใช้เครื่องมือเสร็จแล้ว ให้ลงบันทึกการใช้งานในสมุด Log Book ทุกครั้ง และทำความสะอาด จัดเครื่องมือให้อยู่ในสภาพเรียบร้อยพร้อมใช้งานได้ต่อไป
+                <div className="p-3.5 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+                  <div className="font-bold text-amber-950 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" /> 3.9 เงื่อนไขการส่งคืน (ทำความสะอาด & ลอกสติกเกอร์)
+                  </div>
+                  <p className="text-[11px] text-slate-700 leading-relaxed">
+                    เครื่องมือที่นำมาส่งคืนต้องทำความสะอาด เช็ดล้างรอยปากกาที่เขียนติด และลอกสติกเกอร์ออกให้หมด <em>จะไม่รับคืนอุปกรณ์ที่ไม่สะอาดหรือชำรุดเสียหาย</em> หากชำรุดผู้ขอยืมต้องชดใช้ค่าเสียหาย
+                  </p>
                 </div>
-              </div>
 
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.9</span>
-                <div>
-                  <strong>เงื่อนไขการส่งคืน:</strong> เครื่องมือ/อุปกรณ์ที่นำมาส่งคืน ต้องทำความสะอาดให้เรียบร้อย เช็ดล้างปากกาที่เขียนติดบนอุปกรณ์ และลอกสติกเกอร์ออกให้หมด <em>จะไม่รับคืนอุปกรณ์ที่ไม่สะอาด และชำรุดเสียหาย</em> ในกรณีที่อุปกรณ์ชำรุดเสียหายผู้ขอยืมต้องชดใช้ค่าเสียหายเป็นเงินตามราคาของอุปกรณ์นั้นๆ หรือตามราคาที่คณะฯ กำหนด
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.10</span>
-                <div>
-                  <strong>กรณีไม่คืนตามกำหนด:</strong> กรณีไม่ส่งเครื่องมือ/อุปกรณ์คืนตามระยะเวลาที่กำหนด ผู้ขอยืมจะถูกดำเนินการตามระเบียบของทางราชการ
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.11</span>
-                <div>
-                  <strong>ความเสียหายจากการใช้งานผิดวิธี:</strong> หากเครื่องมือหรืออุปกรณ์ประกอบ เกิดความเสียหายหรือชำรุด อันเนื่องมาจากการใช้งานอย่างไม่ระมัดระวัง ไม่ถูกวิธี หรือจากความประมาทเลินเล่อของผู้ใช้บริการ ผู้ใช้บริการจะต้องรับผิดชอบต่อค่าเสียหายที่เกิดขึ้น
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-teal-600 shrink-0">3.12</span>
-                <div>
-                  <strong>การเพิกถอนสิทธิ์:</strong> หากพบว่าผู้ใช้บริการไม่ปฏิบัติตามระเบียบและข้อปฏิบัติ หัวหน้าห้องปฏิบัติการขอใช้สิทธิ์ยกเลิกการให้ใช้เครื่องมือ/อุปกรณ์ และครุภัณฑ์ งานวิจัย วิชาปัญหาพิเศษ และงานบริการวิชาการ นั้นๆ
+                <div className="p-3.5 bg-red-50/60 rounded-xl border border-red-200 space-y-1">
+                  <div className="font-bold text-red-950 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-600" /> 3.10 - 3.12 กรณีไม่คืนตามกำหนด / การใช้งานผิดวิธี
+                  </div>
+                  <p className="text-[11px] text-red-900 leading-relaxed">
+                    หากไม่ส่งคืนตามกำหนดจะถูกดำเนินการตามระเบียบราชการ ความเสียหายจากการใช้งานผิดวิธีผู้ใช้ต้องรับผิดชอบค่าใช้จ่าย และหัวหน้าห้องปฏิบัติการมีสิทธิ์เพิกถอนการอนุญาตได้
+                  </p>
                 </div>
               </div>
             </div>
@@ -512,84 +792,112 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
         )}
 
         {/* ========================================================================= */}
-        {/* 4. ข้อปฏิบัติในการเบิกสารเคมี และวัสดุสิ้นเปลือง */}
+        {/* หมวดที่ 4: ข้อปฏิบัติในการเบิกสารเคมี และวัสดุสิ้นเปลือง */}
         {/* ========================================================================= */}
         {(activeSection === 'all' || activeSection === 'chemicals') && (
-          <div className="space-y-4 pt-2 border-t border-slate-100">
-            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-              <span className="w-7 h-7 rounded-lg bg-purple-600 text-white text-xs flex items-center justify-center font-bold shrink-0">
+          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
                 4
-              </span>
-              <h2 className="text-base font-bold text-slate-900">
-                ข้อปฏิบัติในการเบิกสารเคมี และวัสดุสิ้นเปลือง
-              </h2>
-            </div>
-
-            <div className="space-y-2.5 pl-1 text-xs">
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-purple-600 shrink-0">4.1</span>
-                <div>
-                  <strong>ปริมาณที่ขอเบิก:</strong> จำนวนที่ขอเบิกต้องไม่มากจนเกินไป เพราะสารเคมีที่ใช้ไม่หมดไม่สามารถเทคืนใส่ขวดบรรจุเดิมได้ หรือมีการเสื่อมสภาพนำกลับมาใช้อีกไม่ได้
-                </div>
               </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-purple-600 shrink-0">4.2</span>
-                <div>
-                  <strong>กรณีไม่มารับของ:</strong> หากผู้ขอเบิกไม่มาติดต่อขอรับของที่ยื่นเรื่องเบิกไว้ ขอสงวนสิทธิ์ว่าท่านได้มียอดใช้จ่ายตามรายการที่เบิกไว้
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-purple-600 shrink-0">4.3</span>
-                <div>
-                  <strong>การตรวจนับของ:</strong> ตรวจสอบความถูกต้องของรายการ และจำนวนที่ขอเบิกให้เรียบร้อยก่อนรับของ
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-purple-600 shrink-0">4.4</span>
-                <div>
-                  <strong>การชำระเงินค่าสารเคมี/วัสดุ:</strong> เมื่อสิ้นสุดการทดลอง เจ้าหน้าที่จะคำนวณค่าสารเคมี/วัสดุสิ้นเปลือง เพื่อให้ผู้ใช้บริการไปติดต่อชำระเงินที่งานการเงินคณะฯ
-                </div>
-              </div>
-
-              <div className="flex gap-2.5 items-start">
-                <span className="font-bold text-purple-600 shrink-0">4.5</span>
-                <div>
-                  <strong>กรณีนักศึกษาวิชาปัญหาพิเศษ:</strong> ในกรณีนักศึกษาวิชาปัญหาพิเศษ เจ้าหน้าที่จะสรุปยอดค่าใช้จ่ายส่งไปที่งานการเงินคณะฯ เพื่อตัดออกจากงบที่ได้รับ หากมีค่าใช้จ่ายเกินจากงบ นักศึกษาจะต้องชำระเพิ่มเติม
-                </div>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                  หมวดที่ 4: ข้อปฏิบัติในการเบิกสารเคมี และวัสดุสิ้นเปลือง
+                </h2>
+                <p className="text-xs text-slate-500">
+                  เกณฑ์ปริมาณที่ขอเบิก การตรวจรับของ และระบบการชำระเงิน/ตัดงบประมาณ
+                </p>
               </div>
             </div>
 
-            {/* Post-experiment Cleanup Section */}
-            <div className="p-4 bg-amber-50/70 border border-amber-200 rounded-lg text-xs space-y-1.5 text-slate-700 mt-3">
-              <div className="font-bold text-amber-950 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-600" /> ข้อกำหนดเมื่อสิ้นสุดจากการทำงานทดลอง:
+            {/* Chemical Dispensing Flow Infographic */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs text-slate-700">
+              <div className="p-4 rounded-xl bg-purple-50/50 border border-purple-200 space-y-1.5">
+                <div className="font-bold text-purple-950 flex items-center gap-1.5">
+                  <FlaskConical className="w-4 h-4 text-purple-600" /> 4.1 ปริมาณที่ขอเบิก (พอดีใช้)
+                </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  จำนวนที่ขอเบิกต้องไม่มากจนเกินไป เพราะสารเคมีที่ใช้ไม่หมด <strong>ห้ามเทคืนใส่ขวดบรรจุเดิม</strong> เนื่องจากอาจเกิดการปนเปื้อนหรือเสื่อมสภาพ
+                </p>
               </div>
-              <p className="text-[11px] leading-relaxed text-slate-700">
-                เมื่อสิ้นสุดจากการทำงานทดลองแล้ว ผู้ขอใช้บริการจะต้อง <strong>คืนกุญแจห้องปฏิบัติการ อุปกรณ์ต่างๆ ที่ขอยืมมา และต้องจัดเก็บหรือกำจัดตัวอย่างการทดลอง อุปกรณ์ต่างๆ ออกจากตู้เย็น ตู้แช่แข็ง และห้องปฏิบัติการให้หมด</strong> พร้อมทั้งทำความสะอาดบริเวณโต๊ะปฏิบัติการ พื้นห้อง เครื่องมือและอุปกรณ์วิทยาศาสตร์ให้เรียบร้อย หากพบว่าผู้ใช้บริการไม่ปฏิบัติตามระเบียบและข้อปฏิบัติ หัวหน้าห้องปฏิบัติการขอใช้สิทธิ์งดการให้บริการแก่ท่านในครั้งต่อไป
+
+              <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-1.5">
+                <div className="font-bold text-amber-950 flex items-center gap-1.5">
+                  <AlertCircle className="w-4 h-4 text-amber-600" /> 4.2 - 4.3 กรณีไม่มารับของ / ตรวจนับ
+                </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  หากไม่มาติดต่อรับของที่ยื่นเบิกไว้ ขอสงวนสิทธิ์ว่าท่านมียอดใช้จ่ายตามรายการนั้น และโปรดตรวจนับความถูกต้องก่อนลงนามรับของ
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-200 space-y-1.5">
+                <div className="font-bold text-blue-950 flex items-center gap-1.5">
+                  <FileCheck className="w-4 h-4 text-blue-600" /> 4.4 การชำระเงินค่าสารเคมี
+                </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  เมื่อสิ้นสุดการทดลอง นักวิชาการวิทยาศาสตร์จะคำนวณสรุปยอด เพื่อให้ผู้ใช้บริการนำไปติดต่อชำระเงินที่งานการเงินของคณะฯ
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-teal-50/50 border border-teal-200 space-y-1.5">
+                <div className="font-bold text-teal-950 flex items-center gap-1.5">
+                  <Award className="w-4 h-4 text-teal-600" /> 4.5 กรณีนักศึกษาวิชาปัญหาพิเศษ
+                </div>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  เจ้าหน้าที่จะสรุปยอดส่งงานการเงินเพื่อตัดออกจากงบวิชาปัญหาพิเศษที่ได้รับ หากยอดเกินงบ นักศึกษาต้องชำระส่วนต่างเพิ่มเติม
+                </p>
+              </div>
+            </div>
+
+            {/* Post-experiment Cleanup Golden Notice Box */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-xs space-y-2">
+              <div className="font-bold text-amber-950 flex items-center gap-2 text-sm">
+                <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>ข้อกำหนดสำคัญเมื่อสิ้นสุดการทดลอง (Post-Experiment Protocol):</span>
+              </div>
+              <p className="text-[11px] text-slate-700 leading-relaxed">
+                เมื่อสิ้นสุดจากการทำงานทดลองแล้ว ผู้ขอใช้บริการจะต้อง:
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-[11px]">
+                <div className="p-3 bg-white/90 rounded-xl border border-amber-200/80 font-medium text-amber-950 shadow-2xs">
+                  🔑 <strong>1. คืนกุญแจห้องแล็บ</strong> และอุปกรณ์เครื่องมือที่ยืมมาให้ครบถ้วน
+                </div>
+                <div className="p-3 bg-white/90 rounded-xl border border-amber-200/80 font-medium text-amber-950 shadow-2xs">
+                  ❄️ <strong>2. เคลียร์ตัวอย่าง</strong> จัดเก็บหรือกำจัดออกจากตู้เย็นและตู้แช่แข็งให้หมด
+                </div>
+                <div className="p-3 bg-white/90 rounded-xl border border-amber-200/80 font-medium text-amber-950 shadow-2xs">
+                  🧹 <strong>3. ทำความสะอาด</strong> บริเวณโต๊ะ พื้นห้อง และเครื่องมือให้เรียบร้อย
+                </div>
+              </div>
+              <div className="text-[10px] text-amber-800 font-bold mt-2">
+                * หากพบว่าผู้ใช้บริการไม่ปฏิบัติตามข้อกำหนด หัวหน้าห้องปฏิบัติการขอใช้สิทธิ์งดให้บริการในครั้งต่อไป
+              </div>
             </div>
           </div>
         )}
+      </div>
 
-        {/* Action Footer Buttons */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* 6. Footer Action Bar */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="space-y-1 text-center sm:text-left">
+          <div className="font-bold text-slate-900 text-sm">
+            พร้อมเข้าใช้บริการห้องปฏิบัติการแล้วหรือยัง?
+          </div>
           <div className="text-xs text-slate-500">
             เมื่อศึกษาและทำความเข้าใจระเบียบเรียบร้อยแล้ว สามารถเริ่มยื่นคำขอออนไลน์ได้ทันที
           </div>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <button
-              type="button"
-              onClick={onGoToForm02}
-              className="w-full sm:w-auto px-5 py-2.5 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-            >
-              เริ่มยื่นคำขอ VET.LAB 02 <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={onGoToForm02}
+            className="w-full sm:w-auto px-5 py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
+          >
+            เริ่มยื่นคำขอ VET.LAB 02 <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
