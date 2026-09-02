@@ -467,7 +467,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
                   1.1
                 </span>
                 <p>
-                  ผู้ขอใช้บริการต้องศึกษาข้อปฏิบัติ (VET.LAB 01) และลงนามยินยอมปฏิบัติตามข้อตกลงต่างๆ ในแบบฟอร์ม
+                  เลือกใช้แบบฟอร์มให้ถูกต้องตามประเภทการขอใช้บริการ (VET.LAB 02, 03 หรือ 04) และกรอกข้อมูลให้ครบถ้วนชัดเจน
                 </p>
               </div>
 
@@ -476,7 +476,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
                   1.2
                 </span>
                 <p>
-                  เลือกใช้แบบฟอร์มให้ถูกต้องตามประเภทการขอใช้บริการ (VET.LAB 02, 03 หรือ 04) และกรอกข้อมูลให้ครบถ้วนชัดเจน
+                  <strong>กรณีผู้ขอใช้บริการเป็นนักศึกษา:</strong> จะต้องมีลายมือชื่อของ <strong>อาจารย์ที่ปรึกษา / หัวหน้าโครงการ</strong> เพื่อพิจารณาลงนามให้ความเห็นชอบในแบบฟอร์ม
                 </p>
               </div>
 
@@ -485,7 +485,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
                   1.3
                 </span>
                 <p>
-                  <strong>กรณีผู้ขอใช้บริการเป็นนักศึกษา:</strong> จะต้องมีลายมือชื่อของ <strong>อาจารย์ที่ปรึกษา / หัวหน้าโครงการ</strong> เพื่อพิจารณาลงนามให้ความเห็นชอบในแบบฟอร์ม
+                  ส่งแบบฟอร์มการขอใช้บริการ (VET.LAB 02-04) ผ่านระบบออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้บริการจริง
                 </p>
               </div>
 
@@ -493,17 +493,8 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
                 <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
                   1.4
                 </span>
-                <p>
-                  ส่งแบบฟอร์มการขอใช้บริการ (VET.LAB 02-04) ผ่านระบบออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้บริการจริง
-                </p>
-              </div>
-
-              <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
-                <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
-                  1.5
-                </span>
                 <div>
-                  <strong>ผู้ประสานงานห้องปฏิบัติการ</strong> เสนอ <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</strong> พิจารณา:
+                  <strong>ผู้ประสานงานห้องปฏิบัติการ</strong> เสนอ <strong>หัวหน้างานห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</strong> พิจารณา:
                   <ul className="list-disc pl-5 mt-1 space-y-0.5 text-slate-600">
                     <li><strong>กรณีไม่อนุญาต:</strong> แจ้งผู้ขอใช้บริการเพื่อนำกลับไปแก้ไข</li>
                     <li><strong>กรณีอนุญาต:</strong> ผู้ประสานงานนำส่งแบบฟอร์มไปยังนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบดูแลห้องปฏิบัติการ</li>
@@ -513,7 +504,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
 
               <div className="flex gap-3 items-start p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
-                  1.6
+                  1.5
                 </span>
                 <p>
                   ผู้ขอใช้บริการ <strong>นัดหมายการเข้าใช้บริการกับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบประจำห้องปฏิบัติการ</strong> และเข้าใช้บริการตามวันและเวลาที่ได้รับอนุมัติ
