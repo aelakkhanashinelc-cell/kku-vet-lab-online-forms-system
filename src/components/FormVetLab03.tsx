@@ -15,7 +15,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { VetLabRequest, EquipmentItem03, ApplicantRole, WorkType, TimeSlot, SignatureData } from '../types';
-import { PRESET_EQUIPMENT_03, KKU_DEPARTMENTS } from '../data/presets';
+import { KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts, calculateDaysBetween } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
@@ -86,9 +86,9 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
     {
       id: '1',
       no: 1,
-      itemName: PRESET_EQUIPMENT_03[0].name,
+      itemName: '',
       quantity: '1 เครื่อง',
-      remarksLab: PRESET_EQUIPMENT_03[0].defaultLab,
+      remarksLab: '',
     },
   ]);
 
@@ -149,21 +149,6 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
     });
   };
 
-  const handleSelectPreset = (index: number, selectedName: string) => {
-    const found = PRESET_EQUIPMENT_03.find((e) => e.name === selectedName);
-    setEquipmentItems((prev) => {
-      const copy = [...prev];
-      copy[index] = {
-        ...copy[index],
-        itemName: selectedName,
-        remarksLab: found ? found.defaultLab : copy[index].remarksLab,
-      };
-      return copy;
-    });
-    if (found?.isField) {
-      setEquipmentType('field_based');
-    }
-  };
 
   const handleFillDemo = () => {
     setApplicantName('นายณัฐพล ชัยชนะ');
@@ -666,18 +651,9 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                             required
                             value={item.itemName}
                             onChange={(e) => updateEquipmentRow(idx, 'itemName', e.target.value)}
-                            onBlur={(e) => handleSelectPreset(idx, e.target.value)}
-                            placeholder="เลือกหรือพิมพ์ชื่อเครื่องมือ"
-                            list={`preset-eq-${idx}`}
+                            placeholder="พิมพ์ระบุชื่อเครื่องมือวิทยาศาสตร์"
                             className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
                           />
-                          <datalist id={`preset-eq-${idx}`}>
-                            {PRESET_EQUIPMENT_03.map((p) => (
-                              <option key={p.name} value={p.name}>
-                                {p.isField ? '[ภาคสนาม]' : '[ในแล็บ]'} - {p.defaultLab}
-                              </option>
-                            ))}
-                          </datalist>
                         </td>
                         <td className="py-2.5 px-3">
                           <input

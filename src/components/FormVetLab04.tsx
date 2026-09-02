@@ -15,7 +15,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { VetLabRequest, ChemicalItem04, ApplicantRole, WorkType, SignatureData } from '../types';
-import { PRESET_CHEMICALS_04, KKU_DEPARTMENTS } from '../data/presets';
+import { KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
@@ -83,16 +83,9 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     {
       id: '1',
       no: 1,
-      itemName: PRESET_CHEMICALS_04[0].name,
-      quantity: PRESET_CHEMICALS_04[0].defaultQty,
-      remarks: PRESET_CHEMICALS_04[0].defaultRemarks,
-    },
-    {
-      id: '2',
-      no: 2,
-      itemName: PRESET_CHEMICALS_04[7].name,
-      quantity: PRESET_CHEMICALS_04[7].defaultQty,
-      remarks: PRESET_CHEMICALS_04[7].defaultRemarks,
+      itemName: '',
+      quantity: '',
+      remarks: '',
     },
   ]);
 
@@ -137,21 +130,6 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     });
   };
 
-  const handleSelectPreset = (index: number, selectedName: string) => {
-    const found = PRESET_CHEMICALS_04.find((c) => c.name === selectedName);
-    if (found) {
-      setChemicalItems((prev) => {
-        const copy = [...prev];
-        copy[index] = {
-          ...copy[index],
-          itemName: selectedName,
-          quantity: found.defaultQty,
-          remarks: found.defaultRemarks,
-        };
-        return copy;
-      });
-    }
-  };
 
   const handleFillDemo = () => {
     setApplicantName('นางสาวพิชญา สุขุมพันธ์');
@@ -623,18 +601,9 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                             required
                             value={item.itemName}
                             onChange={(e) => updateChemicalRow(idx, 'itemName', e.target.value)}
-                            onBlur={(e) => handleSelectPreset(idx, e.target.value)}
-                            placeholder="พิมพ์หรือเลือกรายการสารเคมี"
-                            list={`preset-chem-${idx}`}
+                            placeholder="พิมพ์ระบุชื่อสารเคมี / วัสดุวิทยาศาสตร์"
                             className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
                           />
-                          <datalist id={`preset-chem-${idx}`}>
-                            {PRESET_CHEMICALS_04.map((c) => (
-                              <option key={c.name} value={c.name}>
-                                {c.defaultQty} - {c.defaultRemarks}
-                              </option>
-                            ))}
-                          </datalist>
                         </td>
                         <td className="py-2.5 px-3">
                           <input
