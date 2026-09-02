@@ -1,12 +1,53 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import { createServer as createViteServer } from 'vite';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+function getNetworkIpAddress(): string {
+  try {
+    const ifaces = os.networkInterfaces();
+    for (const dev in ifaces) {
+      const list = ifaces[dev];
+      if (!list) continue;
+      for (const details of list) {
+        if (details.family === 'IPv4' && !details.internal && details.address !== '127.0.0.1') {
+          return details.address;
+        }
+      }
+    }
+  } catch (e) {}
+  return 'localhost';
+}
+
+function resolveAppBaseUrl(req?: express.Request): string {
+  const envUrl = process.env.APP_URL?.trim();
+  if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+    return envUrl.replace(/\/+$/, '');
+  }
+
+  const port = process.env.PORT || 3000;
+  const protocol = req ? (req.headers['x-forwarded-proto'] || req.protocol || 'http') : 'http';
+  const host = req ? req.get('host') : '';
+
+  // If host is a real public domain or already has a reachable IP
+  if (host && !host.includes('localhost') && !host.includes('127.0.0.1')) {
+    return `${protocol}://${host}`;
+  }
+
+  // Fallback to local network IP so mobile devices and computers on KKU Wi-Fi can open email links
+  const lanIp = getNetworkIpAddress();
+  if (lanIp && lanIp !== 'localhost') {
+    return `http://${lanIp}:${port}`;
+  }
+
+  return `http://localhost:${port}`;
+}
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -241,15 +282,19 @@ function formatItemsListText(request: any) {
 }
 
 // Generate HTML email template with interactive buttons & clear workflow instructions
+// Generate HTML email template with interactive buttons & clear workflow instructions
 function createEmailNotificationHtml(
   request: any,
   stage: 'new_request_to_head' | 'submission_receipt_to_applicant' | 'head_rejected_to_applicant' | 'head_approved_to_caretaker' | 'final_review_to_applicant',
   baseUrl = ''
 ) {
-  const origin = baseUrl || 'http://localhost:3000';
-  const reviewUrl = `${origin}?action=review&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}`;
-  const printUrl = `${origin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}`;
-  const trackUrl = `${origin}?action=track&trackingNo=${encodeURIComponent(request.trackingNo)}`;
+  const origin = baseUrl || resolveAppBaseUrl();
+  const cleanTrackingNo = encodeURIComponent(request.trackingNo || '');
+  const cleanId = encodeURIComponent(request.id || '');
+
+  const reviewUrl = `${origin}/?action=review&trackingNo=${cleanTrackingNo}&id=${cleanId}`;
+  const printUrl = `${origin}/?action=print&trackingNo=${cleanTrackingNo}&id=${cleanId}`;
+  const trackUrl = `${origin}/?action=track&trackingNo=${cleanTrackingNo}`;
 
   const itemsHtml = formatItemsListText(request);
   const isCaretakerApproved = request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed';
@@ -272,20 +317,28 @@ function createEmailNotificationHtml(
       </div>
     `;
     actionSection = `
-      <div style="margin-top: 24px; text-align: center; background: #fafaf9; border: 1px dashed #d6d3d1; padding: 20px; border-radius: 12px;">
-        <p style="margin: 0 0 14px 0; font-size: 13px; color: #44403c; font-weight: bold;">
+      <div style="margin-top: 24px; text-align: center; background: #fafaf9; border: 1px dashed #d6d3d1; padding: 22px; border-radius: 12px;">
+        <p style="margin: 0 0 14px 0; font-size: 14px; color: #1e293b; font-weight: bold;">
           กดปุ่มด้านล่างเพื่อเข้าสู่ระบบพิจารณาคำขอในส่วนที่ 2:
         </p>
-        <div style="display: inline-block;">
-          <a href="${reviewUrl}" target="_blank" style="background: #ea580c; color: #ffffff; padding: 12px 24px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            🔘 เข้าพิจารณาคำขอส่วนที่ 2 (คลิกที่นี่)
-          </a>
-        </div>
-        <div style="margin-top: 12px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 12px; color: #0284c7; text-decoration: underline;">
+        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+          <tr>
+            <td align="center" style="background-color: #ea580c; border-radius: 8px;">
+              <a href="${reviewUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าพิจารณาคำขอส่วนที่ 2 (คลิกที่นี่)</span>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div style="margin-top: 14px;">
+          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #0284c7; text-decoration: underline; font-weight: 500;">
             📄 ดูแบบฟอร์มเอกสารทางการ (PDF)
           </a>
         </div>
+        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
+          หากปุ่มไม่ทำงาน สามารถคัดลอกลิงก์นี้เปิดในเบราว์เซอร์:<br/>
+          <a href="${reviewUrl}" target="_blank" style="color: #0284c7;">${reviewUrl}</a>
+        </p>
       </div>
     `;
   } else if (stage === 'submission_receipt_to_applicant') {
@@ -305,18 +358,27 @@ function createEmailNotificationHtml(
       </div>
     `;
     actionSection = `
-      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px;">
-        <p style="margin: 0 0 14px 0; font-size: 13px; color: #334155;">
+      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
+        <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
           ท่านสามารถติดตามสถานะคำขอหรือดูเอกสารฉบับร่างได้:
         </p>
-        <a href="${trackUrl}" target="_blank" style="background: #0284c7; color: #ffffff; padding: 10px 20px; font-size: 13px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block;">
-          🔍 ติดตามสถานะคำขอออนไลน์
-        </a>
-        <div style="margin-top: 10px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 12px; color: #475569; text-decoration: underline;">
+        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+          <tr>
+            <td align="center" style="background-color: #0284c7; border-radius: 8px;">
+              <a href="${trackUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">🔍 ติดตามสถานะคำขอออนไลน์</span>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div style="margin-top: 14px;">
+          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #475569; text-decoration: underline;">
             📄 ดูแบบฟอร์มเอกสารที่ยื่น (PDF)
           </a>
         </div>
+        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
+          ลิงก์ติดตามสถานะ: <a href="${trackUrl}" target="_blank" style="color: #0284c7;">${trackUrl}</a>
+        </p>
       </div>
     `;
   } else if (stage === 'head_rejected_to_applicant') {
@@ -336,13 +398,22 @@ function createEmailNotificationHtml(
       </div>
     `;
     actionSection = `
-      <div style="margin-top: 24px; text-align: center; background: #fafaf9; border: 1px solid #e7e5e4; padding: 20px; border-radius: 12px;">
-        <p style="margin: 0 0 14px 0; font-size: 13px; color: #44403c;">
+      <div style="margin-top: 24px; text-align: center; background: #fafaf9; border: 1px solid #e7e5e4; padding: 22px; border-radius: 12px;">
+        <p style="margin: 0 0 14px 0; font-size: 14px; color: #44403c; font-weight: bold;">
           ท่านสามารถเปิดดูเอกสารแบบฟอร์ม PDF ที่มีรายละเอียดการปฏิเสธได้:
         </p>
-        <a href="${printUrl}" target="_blank" style="background: #475569; color: #ffffff; padding: 10px 20px; font-size: 13px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block;">
-          📄 ดูแบบฟอร์มเอกสาร (PDF) ที่มีรายละเอียดการปฏิเสธ
-        </a>
+        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+          <tr>
+            <td align="center" style="background-color: #475569; border-radius: 8px;">
+              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">📄 ดูแบบฟอร์มเอกสาร (PDF) ที่มีรายละเอียดการปฏิเสธ</span>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
+          ลิงก์เปิดเอกสาร: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
+        </p>
       </div>
     `;
   } else if (stage === 'head_approved_to_caretaker') {
@@ -364,18 +435,28 @@ function createEmailNotificationHtml(
       </div>
     `;
     actionSection = `
-      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 12px;">
-        <p style="margin: 0 0 14px 0; font-size: 13px; color: #334155; font-weight: bold;">
+      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 22px; border-radius: 12px;">
+        <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
           กดปุ่มด้านล่างเพื่อเข้าจัดการคำขอและตรวจสอบความพร้อมในส่วนที่ 3:
         </p>
-        <a href="${reviewUrl}" target="_blank" style="background: #0284c7; color: #ffffff; padding: 12px 24px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          🔘 เข้าตรวจสอบความพร้อมและพิจารณาส่วนที่ 3 (คลิกที่นี่)
-        </a>
-        <div style="margin-top: 12px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 12px; color: #475569; text-decoration: underline;">
+        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+          <tr>
+            <td align="center" style="background-color: #0284c7; border-radius: 8px;">
+              <a href="${reviewUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าตรวจสอบความพร้อมและพิจารณาส่วนที่ 3 (คลิกที่นี่)</span>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div style="margin-top: 14px;">
+          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #475569; text-decoration: underline; font-weight: 500;">
             📄 ดูแบบฟอร์มเอกสาร (PDF)
           </a>
         </div>
+        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
+          หากปุ่มไม่ทำงาน สามารถคัดลอกลิงก์นี้เปิดในเบราว์เซอร์:<br/>
+          <a href="${reviewUrl}" target="_blank" style="color: #0284c7;">${reviewUrl}</a>
+        </p>
       </div>
     `;
   } else if (stage === 'final_review_to_applicant') {
@@ -435,18 +516,27 @@ function createEmailNotificationHtml(
       </div>
     `;
     actionSection = `
-      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px;">
-        <p style="margin: 0 0 14px 0; font-size: 13px; color: #334155; font-weight: 500;">
+      <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
+        <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
           ท่านสามารถดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทุกส่วน (ส่วนที่ 1, 2, 3) เป็นไฟล์ PDF ได้ที่ปุ่มด้านล่าง:
         </p>
-        <a href="${printUrl}" target="_blank" style="background: #16a34a; color: #ffffff; padding: 12px 24px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          📄 ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)
-        </a>
-        <div style="margin-top: 12px;">
-          <a href="${trackUrl}" target="_blank" style="font-size: 12px; color: #0284c7; text-decoration: underline;">
+        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+          <tr>
+            <td align="center" style="background-color: #16a34a; border-radius: 8px;">
+              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">📄 ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)</span>
+              </a>
+            </td>
+          </tr>
+        </table>
+        <div style="margin-top: 14px;">
+          <a href="${trackUrl}" target="_blank" style="font-size: 13px; color: #0284c7; text-decoration: underline; font-weight: 500;">
             🔍 ตรวจสอบสถานะคำขอออนไลน์
           </a>
         </div>
+        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
+          ลิงก์เปิดเอกสาร PDF: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
+        </p>
       </div>
     `;
   }
@@ -541,6 +631,7 @@ app.get('/api/requests', (req, res) => {
     const term = q.trim().toLowerCase();
     list = list.filter(
       (r) =>
+        (r.id && r.id.toLowerCase().includes(term)) ||
         (r.trackingNo && r.trackingNo.toLowerCase().includes(term)) ||
         (r.applicantName && r.applicantName.toLowerCase().includes(term)) ||
         (r.studentId && r.studentId.toLowerCase().includes(term)) ||
@@ -620,9 +711,7 @@ app.post('/api/requests', async (req, res) => {
     syncToGoogleSheets('submit_form', newRequest).catch(() => {});
 
     // Step 1: Send email notification to Head of Lab (sutvir@kku.ac.th) to review Part 2
-    const protocol = req.protocol || 'http';
-    const host = req.get('host') || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = resolveAppBaseUrl(req);
 
     const headLabEmail = process.env.HEAD_LAB_EMAIL || 'sutvir@kku.ac.th';
     const headEmailHtml = createEmailNotificationHtml(newRequest, 'new_request_to_head', baseUrl);
@@ -681,10 +770,7 @@ app.post('/api/requests/:id/approve', async (req, res) => {
   };
 
   requests[index] = updated;
-
-  const protocol = req.protocol || 'http';
-  const host = req.get('host') || 'localhost:3000';
-  const baseUrl = `${protocol}://${host}`;
+  const baseUrl = resolveAppBaseUrl(req);
 
   // WORKFLOW STEP 2: Head of Lab Review (นางสุธิดา จันทร์ลุน)
   if (isHeadAction || (part2 && part2.approvalStatus)) {
@@ -729,6 +815,17 @@ app.delete('/api/requests/:id', (req, res) => {
   }
   const deleted = requests.splice(index, 1);
   res.json({ success: true, message: 'ลบรายการสำเร็จ', data: deleted[0] });
+});
+
+// Direct Action Routes (Convenience redirects for email links)
+app.get('/review/:trackingNo', (req, res) => {
+  res.redirect(302, `/?action=review&trackingNo=${encodeURIComponent(req.params.trackingNo)}`);
+});
+app.get('/print/:trackingNo', (req, res) => {
+  res.redirect(302, `/?action=print&trackingNo=${encodeURIComponent(req.params.trackingNo)}`);
+});
+app.get('/track/:trackingNo', (req, res) => {
+  res.redirect(302, `/?action=track&trackingNo=${encodeURIComponent(req.params.trackingNo)}`);
 });
 
 // 7. Get outbox emails

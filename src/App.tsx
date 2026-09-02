@@ -67,6 +67,7 @@ export function App() {
   const [quickTrackNo, setQuickTrackNo] = useState<string | undefined>(undefined);
   const [showOutbox, setShowOutbox] = useState(false);
   const [showGasSettings, setShowGasSettings] = useState(false);
+  const [pendingReviewTarget, setPendingReviewTarget] = useState<string | null>(null);
 
   const currentUserEmail = authUser?.email || '';
   const currentUserName = authUser?.name || '';
@@ -82,6 +83,50 @@ export function App() {
     }
   }, [roleInfo.isStaff, authUser]);
 
+  const handleOpenPrintByTracking = async (trackingNo: string) => {
+    try {
+      // 1. Direct ID/TrackingNo lookup
+      let res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
+      if (res.ok) {
+        let json = await res.json();
+        if (json.success && json.data) {
+          setSelectedPrintRequest(json.data);
+          return;
+        }
+      }
+      // 2. Query lookup fallback
+      res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
+      let json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        setSelectedPrintRequest(json.data[0]);
+      }
+    } catch (e) {
+      console.error('Failed to load document for print:', e);
+    }
+  };
+
+  const handleOpenReviewByTracking = async (trackingNo: string) => {
+    try {
+      // 1. Direct ID/TrackingNo lookup
+      let res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
+      if (res.ok) {
+        let json = await res.json();
+        if (json.success && json.data) {
+          setSelectedReviewRequest(json.data);
+          return;
+        }
+      }
+      // 2. Query lookup fallback
+      res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
+      let json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        setSelectedReviewRequest(json.data[0]);
+      }
+    } catch (e) {
+      console.error('Failed to load request for review:', e);
+    }
+  };
+
   // Check URL query for direct tracking, reviewing, or printing from email links
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -92,7 +137,10 @@ export function App() {
 
     if (target) {
       if (action === 'review') {
-        handleOpenReviewByTracking(target);
+        setPendingReviewTarget(target);
+        if (authUser) {
+          handleOpenReviewByTracking(target);
+        }
       } else if (action === 'print') {
         handleOpenPrintByTracking(target);
       } else {
@@ -100,11 +148,14 @@ export function App() {
         setShowQuickTrack(true);
       }
     }
-  }, []);
+  }, [authUser]);
 
   const handleLoginSuccess = (user: AuthUser) => {
     setAuthUser(user);
-    if (user.isStaff) {
+    if (pendingReviewTarget) {
+      handleOpenReviewByTracking(pendingReviewTarget);
+      setPendingReviewTarget(null);
+    } else if (user.isStaff) {
       setActiveTab('DASHBOARD');
     } else {
       setActiveTab('VET_LAB_02');
@@ -120,45 +171,36 @@ export function App() {
     setSubmittedRequest(request);
   };
 
-  const handleOpenPrintByTracking = async (trackingNo: string) => {
-    try {
-      let res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
-      let json = await res.json();
-      if (json.success && json.data.length > 0) {
-        setSelectedPrintRequest(json.data[0]);
-        return;
-      }
-      res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
-      json = await res.json();
-      if (json.success && json.data) {
-        setSelectedPrintRequest(json.data);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // 1. Direct PDF Document View from Email (Available even before login)
+  if (selectedPrintRequest) {
+    return (
+      <PrintableDocument
+        request={selectedPrintRequest}
+        onClose={() => {
+          setSelectedPrintRequest(null);
+          const url = new URL(window.location.href);
+          url.searchParams.delete('action');
+          url.searchParams.delete('id');
+          url.searchParams.delete('trackingNo');
+          url.searchParams.delete('track');
+          window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+        }}
+      />
+    );
+  }
 
-  const handleOpenReviewByTracking = async (trackingNo: string) => {
-    try {
-      let res = await fetch(`/api/requests?q=${encodeURIComponent(trackingNo)}`);
-      let json = await res.json();
-      if (json.success && json.data.length > 0) {
-        setSelectedReviewRequest(json.data[0]);
-        return;
-      }
-      res = await fetch(`/api/requests/${encodeURIComponent(trackingNo)}`);
-      json = await res.json();
-      if (json.success && json.data) {
-        setSelectedReviewRequest(json.data);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  // If user is not logged in, render the Login Gate
+  // 2. If user is not logged in, render the Login Gate
   if (!authUser) {
-    return <LoginView onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <LoginView
+        onLoginSuccess={handleLoginSuccess}
+        initialMessage={
+          pendingReviewTarget
+            ? `โปรดเข้าสู่ระบบเพื่อเข้าพิจารณาคำขอรหัส: ${pendingReviewTarget}`
+            : undefined
+        }
+      />
+    );
   }
 
   return (

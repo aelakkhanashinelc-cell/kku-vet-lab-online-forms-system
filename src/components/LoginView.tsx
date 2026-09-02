@@ -13,9 +13,10 @@ import { logLoginToGoogleAppsScript } from '../utils/gasService';
 
 interface LoginViewProps {
   onLoginSuccess: (user: AuthUser) => void;
+  initialMessage?: string;
 }
 
-export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
+export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, initialMessage }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -117,6 +118,16 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
               เข้าสู่ระบบบริการห้องปฏิบัติการและเครื่องมือวิทยาศาสตร์ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น
             </p>
           </div>
+
+          {initialMessage && (
+            <div className="mb-4 p-3 rounded-2xl bg-orange-50 border border-orange-200 text-orange-800 text-xs flex items-start gap-2.5 shadow-2xs">
+              <Info className="w-4 h-4 shrink-0 text-orange-600 mt-0.5" />
+              <div>
+                <strong className="block font-semibold">การเข้าสู่ระบบเพื่อดำเนินการ:</strong>
+                <span>{initialMessage}</span>
+              </div>
+            </div>
+          )}
 
           {errorMessage && (
             <div className="mb-5 p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2.5">
