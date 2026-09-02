@@ -19,7 +19,7 @@ import { PRESET_EQUIPMENT_03, KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts, calculateDaysBetween } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
-import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
+import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
 interface FormVetLab03Props {
   onSubmitSuccess: (request: VetLabRequest, emailResult: any) => void;
@@ -275,11 +275,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
         date: applicantSignature.date || thaiDate.fullStr,
         dataUrl:
           applicantSignature.dataUrl ||
-          generateElectronicSignatureDataUrl(
-            applicantSignature.name || applicantName,
-            'ผู้ขอใช้บริการ',
-            applicantSignature.date || thaiDate.fullStr
-          ),
+          generateTypedSignatureDataUrl(applicantSignature.name || applicantName),
       },
       advisorSignature: {
         name: advisorSignature.name || '-',
@@ -287,11 +283,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
         dataUrl:
           advisorSignature.dataUrl ||
           (advisorSignature.name && advisorSignature.name !== '-' && !advisorSignature.name.startsWith('.')
-            ? generateElectronicSignatureDataUrl(
-                advisorSignature.name,
-                'อาจารย์ที่ปรึกษา',
-                advisorSignature.date || thaiDate.fullStr
-              )
+            ? generateTypedSignatureDataUrl(advisorSignature.name)
             : undefined),
       },
     };

@@ -30,7 +30,7 @@ import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, syncUpdateToGoogleAppsScript } from '../utils/gasService';
 import { STAFF_BY_DEPARTMENT, getFlatPresetStaff, isHeadOfLab, isSuperAdmin, isStaffUser } from '../utils/staffData';
-import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
+import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
 interface AdminReviewModalProps {
   request: VetLabRequest;
@@ -155,7 +155,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
 
       const headName = headSignature.name || 'นางสุธิดา จันทร์ลุน';
       const headDate = headSignature.date || thaiDate.fullStr;
-      const headDataUrl = headSignature.dataUrl || generateElectronicSignatureDataUrl(headName, 'หัวหน้าห้องปฏิบัติการ', headDate);
+      const headDataUrl = headSignature.dataUrl || generateTypedSignatureDataUrl(headName);
 
       part2Payload = {
         approvalStatus: headApproval,
@@ -179,7 +179,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     if (!isHeadOfLabStage) {
       const offName = officerSignature.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์';
       const offDate = officerSignature.date || thaiDate.fullStr;
-      const offDataUrl = officerSignature.dataUrl || generateElectronicSignatureDataUrl(offName, 'นักวิชาการวิทยาศาสตร์', offDate);
+      const offDataUrl = officerSignature.dataUrl || generateTypedSignatureDataUrl(offName);
 
       part3Payload = {
         approvalStatus: officerApproval,

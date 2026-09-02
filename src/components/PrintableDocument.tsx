@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { X, FileDown, CheckCircle, ShieldCheck, Info, Loader2 } from 'lucide-react';
 import { VetLabRequest, SignatureData } from '../types';
-import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
+import { generateTypedSignatureDataUrl, generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 // @ts-ignore
 import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
@@ -38,8 +38,8 @@ const RenderSignatureStamp: React.FC<{
     );
   }
 
-  // Automatic high-resolution Electronic Signature dataUrl
-  const autoDataUrl = generateElectronicSignatureDataUrl(name, roleLabel, date);
+  // High-resolution clean handwritten signature from typed name
+  const autoDataUrl = generateTypedSignatureDataUrl(name);
   if (autoDataUrl) {
     return (
       <div className="h-10 flex items-center justify-center">
@@ -49,12 +49,9 @@ const RenderSignatureStamp: React.FC<{
   }
 
   return (
-    <div className="h-10 flex flex-col items-center justify-center text-center">
-      <div className="text-indigo-900 font-bold italic text-[13px] font-serif">
+    <div className="h-10 flex items-center justify-center text-center">
+      <div className="text-indigo-950 font-bold italic text-[14px] font-serif">
         {name}
-      </div>
-      <div className="text-[8.5px] px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
-        ✓ ลงนามดิจิทัล • KKU e-Signature
       </div>
     </div>
   );

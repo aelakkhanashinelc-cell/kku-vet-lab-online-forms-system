@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { PenTool, RotateCcw, Check, Type, Upload, Trash2 } from 'lucide-react';
 import { SignatureData } from '../types';
-import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
+import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
 
 interface DigitalSignaturePadProps {
   label: string;
@@ -121,10 +121,10 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
       if (canvas && hasDrawn) {
         finalDataUrl = canvas.toDataURL('image/png');
       } else if (typedName.trim()) {
-        finalDataUrl = generateElectronicSignatureDataUrl(typedName, label, dateStr);
+        finalDataUrl = generateTypedSignatureDataUrl(typedName);
       }
     } else if (mode === 'type') {
-      finalDataUrl = generateElectronicSignatureDataUrl(typedName, label, dateStr) || generateTypedSignatureDataUrl(typedName);
+      finalDataUrl = typedName.trim() ? generateTypedSignatureDataUrl(typedName) : '';
     }
 
     onChange({
