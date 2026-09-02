@@ -591,12 +591,6 @@ function createEmailNotificationHtml(
         </div>
 
         ${actionSection}
-
-        <!-- Official Contact Footer Info -->
-        <div style="background: #fff7ed; border-left: 3px solid #ea580c; padding: 12px 14px; border-radius: 6px; margin-top: 22px; font-size: 12px; color: #7c2d12;">
-          <div><strong>หัวหน้าห้องปฏิบัติการ:</strong> นางสุธิดา จันทร์ลุน (suthidaj@kku.ac.th)</div>
-          <div style="margin-top: 2px;"><strong>ผู้ประสานงานห้องปฏิบัติการ:</strong> คุณปรียาภรณ์ สุระชน (ห้องงานปฏิบัติการ ชั้น 5 อาคารพิเชฏฐ์ฯ โทร 043-009700 ต่อ 46101)</div>
-        </div>
       </div>
 
       <!-- Footer -->

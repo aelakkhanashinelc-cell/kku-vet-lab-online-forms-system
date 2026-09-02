@@ -65,7 +65,6 @@ export function generateHeadNotificationEmail(request: VetLabRequest, baseUrl?: 
 
   const subject = `[คำขอใหม่] ${formName} - ${request.applicantName} (รหัส: ${request.trackingNo})`;
   const body = `เรียน หัวหน้าห้องปฏิบัติการ (${LAB_OFFICIALS.headOfLab.name}, ${LAB_OFFICIALS.headOfLab.position})
-และผู้ประสานงานห้องปฏิบัติการ (${LAB_OFFICIALS.coordinator.name})
 
 มีผู้ขอรับบริการได้กรอกและยื่นคำขอ ${formName} เข้าสู่ระบบ โดยมีรายละเอียดดังนี้:
 
