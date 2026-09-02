@@ -12,29 +12,20 @@ export function generateTypedSignatureDataUrl(name: string): string {
 
   try {
     const canvas = document.createElement('canvas');
-    canvas.width = 480;
-    canvas.height = 130;
+    canvas.width = 460;
+    canvas.height = 100;
     const ctx = canvas.getContext('2d');
     if (!ctx) return '';
 
     // Clear transparent background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. Draw stylish cursive Thai / English handwritten signature - large, clear, bold
+    // Draw stylish cursive Thai / English handwritten signature - clean, large, bold, centered, without underline
     ctx.fillStyle = '#172554'; // Deep Navy Blue
     ctx.font = 'italic bold 38px "Brush Script MT", "Segoe Script", "TH Sarabun New", "Sarabun", cursive, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(cleanName, canvas.width / 2, 58);
-
-    // 2. Natural organic signature pen stroke underline nicely balanced
-    ctx.beginPath();
-    ctx.strokeStyle = 'rgba(23, 37, 84, 0.55)';
-    ctx.lineWidth = 2.2;
-    ctx.lineCap = 'round';
-    ctx.moveTo(50, 84);
-    ctx.quadraticCurveTo(canvas.width / 2, 98, canvas.width - 50, 82);
-    ctx.stroke();
+    ctx.fillText(cleanName, canvas.width / 2, canvas.height / 2);
 
     return canvas.toDataURL('image/png');
   } catch (err) {
