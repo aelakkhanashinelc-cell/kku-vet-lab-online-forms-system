@@ -28,14 +28,20 @@ export async function safeJsonFromResponse(response: Response): Promise<any> {
   }
 }
 
-export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbzI_t4oiogCWZRE1kNhdn4v2ojaJIzDEDJP-hIHxZxGs_lRNPTKHwad5XUDydK5xWuG/exec';
+export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbw1IIlIi3gPCrZ4GogYirDGIrY4LO3g5lmicnnXNaYwNyzFd_ZtAXM29hGOXLqnL1ERdQ/exec';
 
 /**
  * Retrieve saved Google Apps Script Web App URL
  */
 export function getGasUrl(): string {
   try {
-    return localStorage.getItem(GAS_URL_STORAGE_KEY) || DEFAULT_GAS_URL;
+    const saved = localStorage.getItem(GAS_URL_STORAGE_KEY);
+    // If the saved URL is empty or matches the old inactive URL, migrate to new default
+    if (!saved || saved.includes('AKfycbzI_t4oiogCWZRE1kNhdn4v2ojaJIzDEDJP-hIHxZxGs_lRNPTKHwad5XUDydK5xWuG')) {
+      localStorage.setItem(GAS_URL_STORAGE_KEY, DEFAULT_GAS_URL);
+      return DEFAULT_GAS_URL;
+    }
+    return saved;
   } catch {
     return DEFAULT_GAS_URL;
   }
