@@ -15,7 +15,6 @@ import {
   ShieldCheck,
   Calendar,
   AlertCircle,
-  Mail,
   UserCheck,
   UserPlus,
   Lock,
@@ -286,15 +285,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <UserPlus className="w-3.5 h-3.5 text-[#1a73e8]" /> จัดการนักวิทยาศาสตร์
             </button>
           )}
-
-          {currentUserEmail?.trim().toLowerCase() === 'lakkch@kku.ac.th' && (
-            <button
-              onClick={onOpenOutbox}
-              className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Mail className="w-3.5 h-3.5 text-[#ea4335]" /> ประวัติอีเมล
-            </button>
-          )}
           <button
             onClick={handleExportCsv}
             className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
@@ -451,7 +441,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-[#f8fafd] text-[#5f6368] font-semibold border-b border-[#dadce0] text-xs">
               <tr>
-                <th className="py-3.5 px-4">รหัสติดตาม</th>
+                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-700">รหัสติดตาม</th>
                 <th className="py-3.5 px-4">แบบฟอร์ม</th>
                 <th className="py-3.5 px-4">ผู้ยื่นคำขอ / สังกัด</th>
                 <th className="py-3.5 px-4">โครงงาน / เรื่อง</th>
@@ -482,9 +472,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       onClick={() => setSelectedRequestForDetails(req)}
                       className="hover:bg-[#f8fafd] transition-colors cursor-pointer group"
                     >
-                      <td className="py-3.5 px-4">
-                        <span className="font-mono font-medium text-[#202124] bg-[#f1f3f4] group-hover:bg-white group-hover:text-[#1a73e8] group-hover:border-[#d2e3fc] px-2.5 py-1 rounded-full text-xs border border-[#dadce0] transition-colors">
-                          {req.trackingNo}
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100/90 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-3 py-1 rounded-lg text-xs tracking-wider border border-slate-200 transition-colors shadow-2xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"></span>
+                          <span>{req.trackingNo}</span>
                         </span>
                       </td>
                       <td className="py-3.5 px-4">{getFormBadge(req.formType)}</td>
