@@ -246,8 +246,8 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
 
       {/* Signature Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-3 sm:p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-sm flex items-center gap-2 tracking-tight">

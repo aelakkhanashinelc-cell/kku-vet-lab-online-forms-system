@@ -245,14 +245,14 @@ export function App() {
                   <FlaskConical className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                     <span className="text-sm sm:text-base font-extrabold tracking-tight bg-gradient-to-r from-indigo-950 via-purple-900 to-indigo-900 bg-clip-text text-transparent">
                       KKU Vet Lab
                     </span>
-                    <span className="text-xs sm:text-sm font-bold text-indigo-600 tracking-tight">
-                      Online Forms System
+                    <span className="text-xs sm:text-sm font-bold text-indigo-600 tracking-tight hidden min-[420px]:inline">
+                      Online Forms
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hidden sm:inline-flex shadow-2xs">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hidden md:inline-flex shadow-2xs">
                       FVM KKU
                     </span>
                   </div>
@@ -264,16 +264,17 @@ export function App() {
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               {/* Quick Track Button */}
               <button
                 type="button"
                 onClick={() => setShowQuickTrack(true)}
-                className="px-3 sm:px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-indigo-50 text-slate-700 hover:text-indigo-900 border border-indigo-200/80 hover:border-indigo-400 text-xs font-medium flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer shadow-xs"
+                className="px-2.5 sm:px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-indigo-50 text-slate-700 hover:text-indigo-900 border border-indigo-200/80 hover:border-indigo-400 text-xs font-medium flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer shadow-xs shrink-0"
                 title="ค้นหาหรือติดตามคำขอด้วยรหัส Tracking"
               >
                 <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 shrink-0" />
-                <span className="hidden sm:inline">ค้นหา / ติดตามคำขอ</span>
+                <span className="hidden md:inline">ค้นหา / ติดตามคำขอ</span>
+                <span className="hidden sm:inline md:hidden">ติดตามคำขอ</span>
               </button>
 
               {/* Email Outbox & Google Sheets (Visible ONLY to Super Admin: lakkch@kku.ac.th) */}
@@ -282,17 +283,17 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => setShowOutbox(true)}
-                    className="flex px-3 py-1.5 rounded-full bg-white/90 hover:bg-orange-50 text-slate-700 hover:text-orange-900 border border-orange-200/80 hover:border-orange-300 text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    className="flex px-2.5 sm:px-3 py-1.5 rounded-full bg-white/90 hover:bg-orange-50 text-slate-700 hover:text-orange-900 border border-orange-200/80 hover:border-orange-300 text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0"
                     title="ตั้งค่าและดูประวัติการส่งอีเมลแจ้งเตือน (เฉพาะผู้ดูแลระบบ)"
                   >
                     <Mail className="w-3.5 h-3.5 text-orange-600 shrink-0" />
-                    <span className="hidden sm:inline">ระบบอีเมลแจ้งเตือน</span>
+                    <span className="hidden lg:inline">ระบบอีเมล</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setShowGasSettings(true)}
-                    className={`hidden lg:flex px-3 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs ${
+                    className={`hidden xl:flex px-3 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 ${
                       isGasConfigured()
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100/80 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                         : 'bg-white/90 text-slate-700 border-indigo-200/80 hover:bg-indigo-50'
@@ -308,11 +309,11 @@ export function App() {
 
               {/* Account Profile Chip */}
               <div
-                className="flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-white/90 border border-indigo-200/80 select-none shadow-xs text-slate-800"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1 rounded-full bg-white/90 border border-indigo-200/80 select-none shadow-xs text-slate-800 shrink-0"
                 title={`${authUser.name} (${authUser.email})`}
               >
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-2xs ${
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-2xs ${
                     roleInfo.role === 'admin'
                       ? 'bg-purple-600'
                       : roleInfo.role === 'head'
@@ -322,13 +323,13 @@ export function App() {
                       : 'bg-emerald-600'
                   }`}
                 >
-                  {roleInfo.role === 'admin' && <ShieldCheck className="w-4 h-4" />}
-                  {roleInfo.role === 'head' && <Crown className="w-4 h-4" />}
-                  {roleInfo.role === 'scientist' && <Microscope className="w-4 h-4" />}
-                  {roleInfo.role === 'applicant' && <User className="w-4 h-4" />}
+                  {roleInfo.role === 'admin' && <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                  {roleInfo.role === 'head' && <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                  {roleInfo.role === 'scientist' && <Microscope className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                  {roleInfo.role === 'applicant' && <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                 </div>
-                <div className="text-left hidden md:block">
-                  <div className="text-xs font-semibold text-slate-900 max-w-[130px] truncate leading-tight">
+                <div className="text-left hidden lg:block">
+                  <div className="text-xs font-semibold text-slate-900 max-w-[120px] truncate leading-tight">
                     {authUser.name}
                   </div>
                   <div className="text-[10px] text-indigo-600/90 leading-none font-medium">
@@ -341,7 +342,7 @@ export function App() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-semibold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer active:scale-95 shadow-xs"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-semibold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer active:scale-95 shadow-xs shrink-0"
                 title="ออกจากระบบ (Sign Out)"
               >
                 <LogOut className="w-3.5 h-3.5 text-rose-600 shrink-0" />
@@ -728,7 +729,7 @@ export function App() {
 
         {/* Right Main Content Area */}
         <div className="flex-1 min-w-0 flex flex-col justify-between">
-          <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <main className="flex-1 p-3 sm:p-5 md:p-6 lg:p-8">
             {activeTab === 'REGULATIONS' && (
               <RegulationsView
                 onGoToForm02={() => setActiveTab('VET_LAB_02')}

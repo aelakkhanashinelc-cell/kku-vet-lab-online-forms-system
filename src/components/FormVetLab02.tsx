@@ -328,8 +328,8 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white p-6 sm:p-7 rounded-2xl shadow-md relative overflow-hidden mb-6">
+      {/* Form Header Banner */}
+      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-md relative overflow-hidden mb-5 sm:mb-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider mb-2 border border-white/30">
@@ -380,7 +380,7 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
             <span className="text-xs text-blue-600 font-medium bg-blue-100/60 px-2.5 py-0.5 rounded-full">* จำเป็นต้องระบุ</span>
           </div>
 
-          <div className="p-6 space-y-6">
+          <div className="p-4 sm:p-6 lg:p-7 space-y-5 sm:space-y-6">
             {/* Applicant Name & Role */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
               <div className="md:col-span-7 space-y-1.5">

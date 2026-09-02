@@ -366,62 +366,62 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       )}
 
       {/* Infographic KPI Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {/* Card 1: Total / Assigned (Google Blue) */}
-        <div className="bg-white rounded-3xl p-5 border border-[#dadce0] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#dadce0] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#5f6368]">
-              {isSuperAdminOrHead ? 'คำขอทั้งหมดในระบบ' : 'คำขอที่ได้รับมอบหมาย'}
+            <span className="text-[11px] sm:text-xs font-semibold text-[#5f6368] truncate mr-1">
+              {isSuperAdminOrHead ? 'คำขอทั้งหมด' : 'คำขอที่มอบหมาย'}
             </span>
-            <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
-              <Building2 className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-semibold text-[#202124] tracking-tight">
-              {totalCount} <span className="text-xs font-normal text-[#5f6368]">รายการ</span>
+          <div className="mt-2 sm:mt-3">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#202124] tracking-tight">
+              {totalCount} <span className="text-[10px] sm:text-xs font-normal text-[#5f6368]">รายการ</span>
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#5f6368] font-medium">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8]"></span>
-              <span>{isSuperAdminOrHead ? 'บันทึกผ่านระบบดิจิทัล' : 'มอบหมายให้ท่านดูแล'}</span>
+            <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#5f6368] font-medium truncate">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] shrink-0"></span>
+              <span className="truncate">{isSuperAdminOrHead ? 'บันทึกผ่านดิจิทัล' : 'มอบหมายให้ท่าน'}</span>
             </div>
           </div>
         </div>
 
         {/* Card 2: Pending Head Review (for Head/Admin) OR Pending Action (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-3xl p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#b06000]">1. รอหัวหน้าพิจารณา (ส่วน 2)</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3]">
-                <Clock className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#b06000] truncate mr-1">1. รอหัวหน้าพิจารณา</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3] shrink-0">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#b06000] tracking-tight">
-                {pendingHeadCount} <span className="text-xs font-normal text-[#b06000]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#b06000] tracking-tight">
+                {pendingHeadCount} <span className="text-[10px] sm:text-xs font-normal text-[#b06000]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#b06000] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04] animate-ping"></span>
-                <span>รอการพิจารณาและมอบหมายงาน</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#b06000] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04] animate-ping shrink-0"></span>
+                <span className="truncate">รอพิจารณา & มอบหมาย</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#1a73e8]">รอนักวิทย์พิจารณา (ส่วน 3)</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
-                <UserCheck className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#1a73e8] truncate mr-1">รอนักวิทย์พิจารณา</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#1a73e8] tracking-tight">
-                {pendingScientistCount} <span className="text-xs font-normal text-[#1a73e8]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-[10px] sm:text-xs font-normal text-[#1a73e8]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#1a73e8] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] animate-pulse"></span>
-                <span>รอท่านตรวจสอบความพร้อม</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#1a73e8] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] animate-pulse shrink-0"></span>
+                <span className="truncate">รอตรวจสอบความพร้อม</span>
               </div>
             </div>
           </div>
@@ -429,38 +429,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Card 3: Pending Scientist (for Head/Admin) OR Completed (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-3xl p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#1a73e8]">2. รอนักวิทย์พิจารณา (ส่วน 3)</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
-                <UserCheck className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#1a73e8] truncate mr-1">2. รอนักวิทย์พิจารณา</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#1a73e8] tracking-tight">
-                {pendingScientistCount} <span className="text-xs font-normal text-[#1a73e8]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-[10px] sm:text-xs font-normal text-[#1a73e8]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#1a73e8] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8]"></span>
-                <span>รอนักวิชาการวิทยาศาสตร์ตรวจสอบ</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#1a73e8] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] shrink-0"></span>
+                <span className="truncate">รอนักวิชาการตรวจสอบ</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#137333]">อนุมัติครบถ้วน (พร้อมบริการ)</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6]">
-                <CheckCircle className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
+                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#137333] tracking-tight">
-                {completedCount} <span className="text-xs font-normal text-[#137333]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-[10px] sm:text-xs font-normal text-[#137333]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#137333] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853]"></span>
-                <span>ผ่านการพิจารณาเรียบร้อย</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#137333] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853] shrink-0"></span>
+                <span className="truncate">ผ่านการพิจารณาแล้ว</span>
               </div>
             </div>
           </div>
@@ -468,38 +468,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Card 4: Completed (for Head/Admin) OR Rejected (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-3xl p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#137333]">อนุมัติครบถ้วน (พร้อมบริการ)</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6]">
-                <CheckCircle className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
+                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#137333] tracking-tight">
-                {completedCount} <span className="text-xs font-normal text-[#137333]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-[10px] sm:text-xs font-normal text-[#137333]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#137333] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853]"></span>
-                <span>เสร็จสิ้นครบทั้ง 2 ฝ่าย</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#137333] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853] shrink-0"></span>
+                <span className="truncate">เสร็จสิ้นครบทั้ง 2 ฝ่าย</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl p-5 border border-[#fad2cf] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#ea4335] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#fad2cf] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#ea4335] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#c5221f]">ไม่อนุมัติ / ยกเลิก</span>
-              <div className="w-9 h-9 rounded-2xl bg-[#fce8e6] text-[#c5221f] flex items-center justify-center border border-[#fad2cf]">
-                <XCircle className="w-4 h-4" />
+              <span className="text-[11px] sm:text-xs font-semibold text-[#c5221f] truncate mr-1">ไม่อนุมัติ / ยกเลิก</span>
+              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#fce8e6] text-[#c5221f] flex items-center justify-center border border-[#fad2cf] shrink-0">
+                <XCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-semibold text-[#c5221f] tracking-tight">
-                {rejectedCount} <span className="text-xs font-normal text-[#c5221f]">รายการ</span>
+            <div className="mt-2 sm:mt-3">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#c5221f] tracking-tight">
+                {rejectedCount} <span className="text-[10px] sm:text-xs font-normal text-[#c5221f]">รายการ</span>
               </div>
-              <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#c5221f] font-medium">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ea4335]"></span>
-                <span>คำขอที่ไม่อนุมัติ</span>
+              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#c5221f] font-medium truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ea4335] shrink-0"></span>
+                <span className="truncate">คำขอที่ไม่อนุมัติ</span>
               </div>
             </div>
           </div>

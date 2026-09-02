@@ -152,13 +152,13 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   const workflow = getWorkflowStep();
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#202124]/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-150">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-[#dadce0]">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#202124]/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 md:p-6 animate-in fade-in duration-150">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-[#dadce0]">
         {/* Modal Top Header */}
-        <div className="px-6 py-4 bg-white text-[#202124] flex items-center justify-between border-b border-[#dadce0] shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc]">
-              <FileText className="w-5 h-5" />
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-white text-[#202124] flex items-center justify-between border-b border-[#dadce0] shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
@@ -856,8 +856,8 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         </div>
 
         {/* Modal Bottom Actions - Google Style */}
-        <div className="px-6 py-4 bg-[#f8fafd] border-t border-[#dadce0] flex flex-wrap items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-[#f8fafd] border-t border-[#dadce0] flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             {onSelectForPrint && (
               <button
                 type="button"
@@ -865,7 +865,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                   onSelectForPrint(request);
                   onClose();
                 }}
-                className="px-4 py-2 rounded-full bg-white hover:bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full sm:w-auto px-3.5 sm:px-4 py-2 rounded-full bg-white hover:bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 title="ดูเอกสารฉบับพิมพ์ทางการ / ดาวน์โหลด PDF"
               >
                 <FileDown className="w-4 h-4 text-[#1a73e8]" />
@@ -874,11 +874,11 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 rounded-full bg-white hover:bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] text-xs font-semibold transition-colors cursor-pointer"
+              className="flex-1 sm:flex-initial px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] text-xs font-semibold transition-colors cursor-pointer text-center"
             >
               ปิดหน้าต่าง
             </button>
@@ -890,10 +890,10 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                   onSelectForReview(request);
                   onClose();
                 }}
-                className="px-6 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
+                className="flex-1 sm:flex-initial px-4 sm:px-6 py-2 rounded-full bg-[#1a73e8] hover:bg-[#1557b0] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
               >
                 <Edit3 className="w-4 h-4" />
-                <span>ดำเนินการพิจารณา / อนุมัติ (Review)</span>
+                <span>พิจารณาคำขอ (Review)</span>
               </button>
             )}
           </div>
