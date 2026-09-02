@@ -30,6 +30,7 @@ import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, syncUpdateToGoogleAppsScript } from '../utils/gasService';
 import { STAFF_BY_DEPARTMENT, getFlatPresetStaff, isHeadOfLab, isSuperAdmin, isStaffUser } from '../utils/staffData';
+import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 
 interface AdminReviewModalProps {
   request: VetLabRequest;
@@ -152,11 +153,19 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
         ? (selectedStaffEmail === 'custom' ? 'ระบุเอง' : (staffObj ? staffObj.dept : ''))
         : undefined;
 
+      const headName = headSignature.name || 'นางสุธิดา จันทร์ลุน';
+      const headDate = headSignature.date || thaiDate.fullStr;
+      const headDataUrl = headSignature.dataUrl || generateElectronicSignatureDataUrl(headName, 'หัวหน้าห้องปฏิบัติการ', headDate);
+
       part2Payload = {
         approvalStatus: headApproval,
         comment: headComment,
         rejectionReason: headApproval === 'rejected' ? headRejectionReason : undefined,
-        signature: headSignature,
+        signature: {
+          name: headName,
+          date: headDate,
+          dataUrl: headDataUrl,
+        },
         reviewedAt: new Date().toISOString(),
         assignedStaffName,
         assignedStaffEmail,
@@ -168,11 +177,19 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     // Build Part 3 payload (Only when not in Head of Lab stage)
     let part3Payload: any = request.part3 || null;
     if (!isHeadOfLabStage) {
+      const offName = officerSignature.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์';
+      const offDate = officerSignature.date || thaiDate.fullStr;
+      const offDataUrl = officerSignature.dataUrl || generateElectronicSignatureDataUrl(offName, 'นักวิชาการวิทยาศาสตร์', offDate);
+
       part3Payload = {
         approvalStatus: officerApproval,
         comment: officerComment,
         rejectionReason: officerApproval === 'rejected' ? officerComment : undefined,
-        signature: officerSignature,
+        signature: {
+          name: offName,
+          date: offDate,
+          dataUrl: offDataUrl,
+        },
         reviewedAt: new Date().toISOString(),
       };
     }

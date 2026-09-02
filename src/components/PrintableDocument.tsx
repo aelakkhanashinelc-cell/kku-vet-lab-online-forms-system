@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { X, FileDown, CheckCircle, ShieldCheck, Info, Loader2 } from 'lucide-react';
-import { VetLabRequest } from '../types';
+import { VetLabRequest, SignatureData } from '../types';
+import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 // @ts-ignore
 import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
@@ -9,6 +10,55 @@ interface PrintableDocumentProps {
   request: VetLabRequest;
   onClose: () => void;
 }
+
+const RenderSignatureStamp: React.FC<{
+  signature?: SignatureData;
+  fallbackName?: string;
+  fallbackDate?: string;
+  roleLabel?: string;
+  isApproved?: boolean;
+}> = ({ signature, fallbackName, fallbackDate, roleLabel = 'ผู้ลงนาม', isApproved = true }) => {
+  const name = (signature?.name || fallbackName || '').trim();
+  const date = signature?.date || fallbackDate || '';
+  const hasDrawnUrl = !!signature?.dataUrl && signature.dataUrl.startsWith('data:image');
+
+  if (!isApproved || !name || name === '-' || name.startsWith('.')) {
+    return (
+      <div className="h-10 flex items-center justify-center text-slate-400 text-[11px] italic">
+        (ลงชื่อ)....................................................
+      </div>
+    );
+  }
+
+  if (hasDrawnUrl) {
+    return (
+      <div className="h-10 flex items-center justify-center">
+        <img src={signature!.dataUrl} alt={name} className="max-h-9 object-contain" />
+      </div>
+    );
+  }
+
+  // Automatic high-resolution Electronic Signature dataUrl
+  const autoDataUrl = generateElectronicSignatureDataUrl(name, roleLabel, date);
+  if (autoDataUrl) {
+    return (
+      <div className="h-10 flex items-center justify-center">
+        <img src={autoDataUrl} alt={name} className="max-h-9 object-contain" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-10 flex flex-col items-center justify-center text-center">
+      <div className="text-indigo-900 font-bold italic text-[13px] font-serif">
+        {name}
+      </div>
+      <div className="text-[8.5px] px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+        ✓ ลงนามดิจิทัล • KKU e-Signature
+      </div>
+    </div>
+  );
+};
 
 export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, onClose }) => {
   const printContentRef = useRef<HTMLDivElement | null>(null);
@@ -429,26 +479,26 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
           {/* Signatures Part 1 */}
           <div className="grid grid-cols-2 gap-4 pt-1 border-t border-slate-200">
             <div className="text-center space-y-0.5">
-              <div className="h-10 flex items-center justify-center">
-                {request.applicantSignature?.dataUrl ? (
-                  <img src={request.applicantSignature.dataUrl} alt="Applicant Signature" className="max-h-9 object-contain" />
-                ) : (
-                  <div className="text-slate-400 text-[11px] italic">(ลงชื่อ)....................................................</div>
-                )}
-              </div>
+              <RenderSignatureStamp
+                signature={request.applicantSignature}
+                fallbackName={request.applicantSignature?.name || request.applicantName}
+                fallbackDate={request.applicantSignature?.date || request.submissionDateTh}
+                roleLabel="ผู้ขอใช้บริการ"
+                isApproved={true}
+              />
               <div className="text-[11px]">( {request.applicantSignature?.name || request.applicantName || '....................................................'} )</div>
               <div className="text-[10.5px]">วันที่ {request.applicantSignature?.date || request.submissionDateTh || '........./........./.........'}</div>
               <div className="font-bold text-[11px]">ผู้ขอใช้บริการ</div>
             </div>
 
             <div className="text-center space-y-0.5">
-              <div className="h-10 flex items-center justify-center">
-                {request.advisorSignature?.dataUrl ? (
-                  <img src={request.advisorSignature.dataUrl} alt="Advisor Signature" className="max-h-9 object-contain" />
-                ) : (
-                  <div className="text-slate-400 text-[11px] italic">(ลงชื่อ)....................................................</div>
-                )}
-              </div>
+              <RenderSignatureStamp
+                signature={request.advisorSignature}
+                fallbackName={request.advisorSignature?.name}
+                fallbackDate={request.advisorSignature?.date || request.submissionDateTh}
+                roleLabel="อาจารย์ที่ปรึกษา / ผู้รับผิดชอบ"
+                isApproved={Boolean(request.advisorSignature?.name && request.advisorSignature.name !== '-' && !request.advisorSignature.name.startsWith('.'))}
+              />
               <div className="text-[11px]">( {request.advisorSignature?.name || '....................................................'} )</div>
               <div className="text-[10.5px]">วันที่ {request.advisorSignature?.date || request.submissionDateTh || '........./........./.........'}</div>
               <div className="font-bold text-[11px]">อาจารย์ที่ปรึกษา / ผู้รับผิดชอบ</div>
@@ -486,16 +536,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
 
             <div className="flex justify-end pt-1">
               <div className="text-center w-56 space-y-0.5">
-                <div className="h-8 flex items-center justify-center">
-                  {request.part2?.signature?.dataUrl ? (
-                    <img src={request.part2.signature.dataUrl} alt="Head Signature" className="max-h-7 object-contain" />
-                  ) : (
-                    <span className="text-slate-400 text-[10.5px]">(ลงชื่อ)......................................................</span>
-                  )}
-                </div>
+                <RenderSignatureStamp
+                  signature={request.part2?.signature}
+                  fallbackName={request.part2?.signature?.name || 'นางสุธิดา จันทร์ลุน'}
+                  fallbackDate={request.part2?.signature?.date || (request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : undefined)}
+                  roleLabel="หัวหน้าห้องปฏิบัติการ"
+                  isApproved={request.part2?.approvalStatus === 'approved' || request.status === 'approved_by_head' || request.status === 'completed'}
+                />
                 <div className="text-[10.5px]">( {request.part2?.signature?.name || 'นางสุธิดา จันทร์ลุน'} )</div>
                 <div className="text-[10px] font-semibold">หัวหน้าห้องปฏิบัติการ (นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</div>
-                <div className="text-[10px]">วันที่ {request.part2?.signature?.date || '........./........./.........'}</div>
+                <div className="text-[10px]">วันที่ {request.part2?.signature?.date || (request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : '........./........./.........')}</div>
               </div>
             </div>
           </div>
@@ -527,16 +577,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                   </div>
                   <div className="flex justify-end pt-1">
                     <div className="text-center w-56 space-y-0.5">
-                      <div className="h-8 flex items-center justify-center">
-                        {request.part3?.signature?.dataUrl ? (
-                          <img src={request.part3.signature.dataUrl} alt="Officer Signature" className="max-h-7 object-contain" />
-                        ) : (
-                          <span className="text-slate-400 text-[10.5px]">(ลงชื่อ)......................................................</span>
-                        )}
-                      </div>
-                      <div className="text-[10.5px]">( {request.part3?.signature?.name || '....................................................'} )</div>
+                      <RenderSignatureStamp
+                        signature={request.part3?.signature}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์'}
+                        fallbackDate={request.part3?.signature?.date || (request.part3?.reviewedAt ? new Date(request.part3.reviewedAt).toLocaleDateString('th-TH') : undefined)}
+                        roleLabel="เจ้าหน้าที่ผู้ดูแลห้องปฏิบัติการ"
+                        isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
+                      />
+                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '....................................................'} )</div>
                       <div className="font-semibold text-[10px]">เจ้าหน้าที่ผู้ดูแลห้องปฏิบัติการ</div>
-                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
+                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || (request.part3?.reviewedAt ? new Date(request.part3.reviewedAt).toLocaleDateString('th-TH') : '........./........./.........')}</div>
                     </div>
                   </div>
                 </div>
@@ -555,8 +605,15 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       {request.part3?.beforeConditionCheck || '................................................................................'}
                     </div>
                     <div className="text-center pt-1 space-y-0.5">
-                      <div>(ลงชื่อ).......................................... ผู้ส่งมอบ</div>
-                      <div>วันที่ ........./........./.........</div>
+                      <RenderSignatureStamp
+                        signature={request.part3?.signature}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้ส่งมอบ'}
+                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
+                        roleLabel="ผู้ส่งมอบเครื่องมือ"
+                        isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
+                      />
+                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้ส่งมอบ</div>
+                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
                     </div>
                   </div>
                   <div className="pl-2 space-y-0.5">
@@ -565,8 +622,15 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       {request.part3?.afterConditionCheck || '................................................................................'}
                     </div>
                     <div className="text-center pt-1 space-y-0.5">
-                      <div>(ลงชื่อ).......................................... ผู้รับคืน</div>
-                      <div>วันที่ ........./........./.........</div>
+                      <RenderSignatureStamp
+                        signature={request.part3?.signature}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้รับคืน'}
+                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
+                        roleLabel="ผู้รับคืนเครื่องมือ"
+                        isApproved={request.status === 'completed'}
+                      />
+                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้รับคืน</div>
+                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
                     </div>
                   </div>
                 </div>
@@ -586,8 +650,15 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       </span>
                       จ่ายสารเคมี/วัสดุเรียบร้อย
                     </div>
-                    <div className="text-center space-y-0.5 pt-2">
-                      <div>(ลงชื่อ)......................................</div>
+                    <div className="text-center space-y-0.5 pt-1">
+                      <RenderSignatureStamp
+                        signature={request.part3?.signature}
+                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ผู้จ่ายของ'}
+                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
+                        roleLabel="ผู้จ่ายของ"
+                        isApproved={request.part3?.isDispensed || request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed'}
+                      />
+                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '......................................'} )</div>
                       <div className="font-semibold text-[10px]">ผู้จ่ายของ</div>
                     </div>
                   </div>
@@ -598,8 +669,15 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       </span>
                       ได้รับของครบถ้วนแล้ว
                     </div>
-                    <div className="text-center space-y-0.5 pt-2">
-                      <div>(ลงชื่อ)......................................</div>
+                    <div className="text-center space-y-0.5 pt-1">
+                      <RenderSignatureStamp
+                        signature={request.applicantSignature}
+                        fallbackName={request.applicantSignature?.name || request.applicantName}
+                        fallbackDate={request.applicantSignature?.date || request.submissionDateTh}
+                        roleLabel="ผู้รับของ"
+                        isApproved={request.part3?.isReceived || request.status === 'completed' || request.status === 'dispensed'}
+                      />
+                      <div className="text-[10.5px]">( {request.applicantSignature?.name || request.applicantName || '......................................'} )</div>
                       <div className="font-semibold text-[10px]">ผู้รับของ</div>
                     </div>
                   </div>

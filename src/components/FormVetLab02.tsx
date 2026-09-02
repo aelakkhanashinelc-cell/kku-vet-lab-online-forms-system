@@ -19,6 +19,7 @@ import { PRESET_LABS_02, KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts, calculateDaysBetween } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
+import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 
 interface FormVetLab02Props {
   onSubmitSuccess: (request: VetLabRequest, emailResult: any) => void;
@@ -228,14 +229,28 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
       endDate,
       termsAccepted,
       applicantSignature: {
-        ...applicantSignature,
         name: applicantSignature.name || applicantName,
         date: applicantSignature.date || thaiDate.fullStr,
+        dataUrl:
+          applicantSignature.dataUrl ||
+          generateElectronicSignatureDataUrl(
+            applicantSignature.name || applicantName,
+            'ผู้ขอใช้บริการ',
+            applicantSignature.date || thaiDate.fullStr
+          ),
       },
       advisorSignature: {
-        ...advisorSignature,
         name: advisorSignature.name || '-',
         date: advisorSignature.date || thaiDate.fullStr,
+        dataUrl:
+          advisorSignature.dataUrl ||
+          (advisorSignature.name && advisorSignature.name !== '-' && !advisorSignature.name.startsWith('.')
+            ? generateElectronicSignatureDataUrl(
+                advisorSignature.name,
+                'อาจารย์ที่ปรึกษา',
+                advisorSignature.date || thaiDate.fullStr
+              )
+            : undefined),
       },
     };
 

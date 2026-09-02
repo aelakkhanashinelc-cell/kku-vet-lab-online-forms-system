@@ -19,6 +19,7 @@ import { PRESET_CHEMICALS_04, KKU_DEPARTMENTS } from '../data/presets';
 import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts } from '../utils/thaiDate';
 import { isGasConfigured, isGasSyncEnabled, submitToGoogleAppsScript } from '../utils/gasService';
+import { generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 
 interface FormVetLab04Props {
   onSubmitSuccess: (request: VetLabRequest, emailResult: any) => void;
@@ -235,14 +236,28 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       pickupTime,
       termsAccepted,
       applicantSignature: {
-        ...applicantSignature,
         name: applicantSignature.name || applicantName,
         date: applicantSignature.date || thaiDate.fullStr,
+        dataUrl:
+          applicantSignature.dataUrl ||
+          generateElectronicSignatureDataUrl(
+            applicantSignature.name || applicantName,
+            'ผู้ขอใช้บริการ',
+            applicantSignature.date || thaiDate.fullStr
+          ),
       },
       advisorSignature: {
-        ...advisorSignature,
         name: advisorSignature.name || '-',
         date: advisorSignature.date || thaiDate.fullStr,
+        dataUrl:
+          advisorSignature.dataUrl ||
+          (advisorSignature.name && advisorSignature.name !== '-' && !advisorSignature.name.startsWith('.')
+            ? generateElectronicSignatureDataUrl(
+                advisorSignature.name,
+                'อาจารย์ที่ปรึกษา',
+                advisorSignature.date || thaiDate.fullStr
+              )
+            : undefined),
       },
     };
 
