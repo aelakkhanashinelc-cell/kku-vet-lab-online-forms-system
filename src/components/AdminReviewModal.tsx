@@ -141,7 +141,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
 
     // Strict Authorization Checks
     if (isHeadOfLabStage && !isHeadAuthorized) {
-      setErrorMsg('เฉพาะหัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน: suthidaj@kku.ac.th) เท่านั้นที่มีสิทธิ์พิจารณาส่วนที่ 2');
+      setErrorMsg('เฉพาะหัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน: aelakkhana.shine.lc@gmail.com) เท่านั้นที่มีสิทธิ์พิจารณาส่วนที่ 2');
       setIsSaving(false);
       return;
     }
@@ -994,7 +994,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
                 <div className="p-3 bg-red-50 border border-red-200 text-red-900 rounded-lg text-xs font-medium flex items-center gap-2">
                   <ShieldAlert className="w-4 h-4 text-red-600 shrink-0" />
                   <span>
-                    ระบบจำกัดสิทธิ์: บัญชีของท่านไม่ใช่หัวหน้าห้องปฏิบัติการ (<strong>suthidaj@kku.ac.th</strong>)
+                    ระบบจำกัดสิทธิ์: บัญชีของท่านไม่ใช่หัวหน้าห้องปฏิบัติการ (<strong>aelakkhana.shine.lc@gmail.com</strong>)
                   </span>
                 </div>
               )}

@@ -22,7 +22,7 @@ export const GOOGLE_APPS_SCRIPT_CODE = `/**
  * ==============================================================================
  */
 
-const ADMIN_EMAILS = ["suthidaj@kku.ac.th", "lakkch@kku.ac.th"];
+const ADMIN_EMAILS = ["aelakkhana.shine.lc@gmail.com", "lakkch@kku.ac.th"];
 const SENDER_NAME = "งานห้องปฏิบัติการฯ คณะสัตวแพทยศาสตร์ มข.";
 
 /**

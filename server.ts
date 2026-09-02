@@ -309,7 +309,7 @@ function createEmailNotificationHtml(
     stageHeadline = `
       <div style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px;">
         <p style="margin: 0; font-size: 15px; font-weight: bold; color: #9a3412;">
-          เรียน หัวหน้าห้องปฏิบัติการ (sutvir@kku.ac.th)
+          เรียน หัวหน้าห้องปฏิบัติการ (aelakkhana.shine.lc@gmail.com)
         </p>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #7c2d12;">
           มีผู้ขอรับบริการได้ยื่นแบบฟอร์มคำขอ <strong>${request.formType}</strong> เข้าสู่ระบบ โปรดเข้าพิจารณาคำขอในส่วนที่ 2 (อนุมัติ/ไม่อนุมัติ หรือมอบหมายนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบดูแล)
@@ -704,10 +704,10 @@ app.post('/api/requests', async (req, res) => {
     // Real-time Backup submission to Google Sheets
     syncToGoogleSheets('submit_form', newRequest).catch(() => {});
 
-    // Step 1: Send email notification to Head of Lab (sutvir@kku.ac.th) to review Part 2
+    // Step 1: Send email notification to Head of Lab (aelakkhana.shine.lc@gmail.com) to review Part 2
     const baseUrl = resolveAppBaseUrl(req);
 
-    const headLabEmail = process.env.HEAD_LAB_EMAIL || 'sutvir@kku.ac.th';
+    const headLabEmail = process.env.HEAD_LAB_EMAIL || 'aelakkhana.shine.lc@gmail.com';
     const headEmailHtml = createEmailNotificationHtml(newRequest, 'new_request_to_head', baseUrl);
     const headEmailSubject = `[คำขอใหม่] ${newRequest.formType} - ${newRequest.applicantName} (${newRequest.trackingNo}) เพื่อเข้าพิจารณาคำขอในส่วนที่ 2`;
     const emailResult = await dispatchEmailNotification(headLabEmail, headEmailSubject, headEmailHtml, trackingNo);
