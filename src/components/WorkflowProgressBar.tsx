@@ -139,22 +139,22 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
   // 1. Compact Variant (for Table rows in Dashboard)
   if (variant === 'compact') {
     return (
-      <div className={`space-y-1.5 min-w-[160px] max-w-[220px] mx-auto ${className}`}>
+      <div className={`space-y-1.5 min-w-[170px] max-w-[230px] mx-auto ${className}`}>
         {/* Top Info row */}
-        <div className="flex items-center justify-between text-[11px]">
+        <div className="flex items-center justify-between text-xs">
           <span
-            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-semibold border text-[10px] ${state.statusBadgeColor}`}
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-semibold border text-xs ${state.statusBadgeColor}`}
           >
             {state.isRejected ? (
-              <XCircle className="w-3 h-3 text-red-500" />
+              <XCircle className="w-3.5 h-3.5 text-red-500" />
             ) : state.progressPercent === 100 ? (
-              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             ) : (
-              <Clock className="w-3 h-3 text-amber-500" />
+              <Clock className="w-3.5 h-3.5 text-amber-500" />
             )}
             <span className="truncate max-w-[130px]">{state.statusText}</span>
           </span>
-          <span className="font-mono font-bold text-[10px] text-slate-500">
+          <span className="font-mono font-bold text-xs text-slate-500">
             {state.progressPercent}%
           </span>
         </div>
@@ -183,7 +183,7 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
                 }`}
                 title={`ขั้นตอนที่ ${s.number}: ${s.title} (${s.description})`}
               />
-              <span className="text-[8.5px] font-mono text-slate-400 font-semibold">{s.number}</span>
+              <span className="text-[10px] font-mono text-slate-400 font-semibold">{s.number}</span>
             </div>
           ))}
         </div>
@@ -198,15 +198,15 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
     >
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
             4
           </div>
           <div>
-            <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+            <h4 className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
               <span>ความคืบหน้าตามขั้นตอนบริการ 4 ลำดับ (Workflow Progress)</span>
             </h4>
-            <div className="text-[11px] text-slate-500">
+            <div className="text-xs text-slate-500 mt-0.5">
               สถานะ: <span className="font-semibold text-slate-700">{state.statusText}</span>
             </div>
           </div>
@@ -232,7 +232,7 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
             </span>
           </span>
 
-          <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-mono font-bold text-indigo-700 shadow-2xs">
+          <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs sm:text-sm font-mono font-bold text-indigo-700 shadow-2xs">
             {state.progressPercent}%
           </div>
         </div>
@@ -258,7 +258,7 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
           return (
             <div
               key={step.number}
-              className={`p-2.5 sm:p-3 rounded-xl border transition-all flex items-start gap-2.5 ${
+              className={`p-3 rounded-xl border transition-all flex items-start gap-2.5 ${
                 isCompleted
                   ? 'bg-white border-emerald-200 shadow-2xs'
                   : isRejected
@@ -269,7 +269,7 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
               }`}
             >
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 transition-transform ${
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 transition-transform ${
                   isCompleted
                     ? 'bg-emerald-500 text-white shadow-xs'
                     : isRejected
@@ -279,13 +279,13 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
                     : 'bg-slate-300 text-slate-600'
                 }`}
               >
-                {isCompleted ? <Check className="w-3.5 h-3.5" /> : isRejected ? <XCircle className="w-3.5 h-3.5" /> : step.number}
+                {isCompleted ? <Check className="w-4 h-4" /> : isRejected ? <XCircle className="w-4 h-4" /> : step.number}
               </div>
 
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-1">
                   <div
-                    className={`text-xs font-bold truncate ${
+                    className={`text-xs sm:text-sm font-bold truncate ${
                       isCompleted
                         ? 'text-emerald-900'
                         : isRejected
@@ -302,7 +302,7 @@ export const WorkflowProgressBar: React.FC<WorkflowProgressBarProps> = ({
                   )}
                 </div>
                 <div
-                  className={`text-[10.5px] line-clamp-1 mt-0.5 ${
+                  className={`text-xs line-clamp-1 mt-0.5 ${
                     isCompleted
                       ? 'text-emerald-700'
                       : isRejected

@@ -352,21 +352,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Infographic KPI Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {/* Card 1: Total / Assigned (Google Blue) */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#dadce0] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#dadce0] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-semibold text-[#5f6368] truncate mr-1">
+            <span className="text-xs sm:text-sm font-bold text-[#5f6368] truncate mr-1">
               {isSuperAdminOrHead ? 'คำขอทั้งหมด' : 'คำขอที่มอบหมาย'}
             </span>
-            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
-              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+              <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <div className="mt-2 sm:mt-3">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#202124] tracking-tight">
-              {totalCount} <span className="text-[10px] sm:text-xs font-normal text-[#5f6368]">รายการ</span>
+          <div className="mt-2.5 sm:mt-3">
+            <div className="text-2xl sm:text-3xl font-bold text-[#202124] tracking-tight">
+              {totalCount} <span className="text-xs sm:text-sm font-normal text-[#5f6368]">รายการ</span>
             </div>
-            <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#5f6368] font-medium truncate">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] shrink-0"></span>
+            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#5f6368] font-medium truncate">
+              <span className="inline-block w-2 h-2 rounded-full bg-[#1a73e8] shrink-0"></span>
               <span className="truncate">{isSuperAdminOrHead ? 'บันทึกผ่านดิจิทัล' : 'มอบหมายให้ท่าน'}</span>
             </div>
           </div>
@@ -374,37 +374,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Card 2: Pending Head Review (for Head/Admin) OR Pending Action (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#feefc3] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#fbbc04] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#b06000] truncate mr-1">1. รอหัวหน้าพิจารณา</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3] shrink-0">
-                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#b06000] truncate mr-1">1. รอหัวหน้าพิจารณา</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#fef7e0] text-[#b06000] flex items-center justify-center border border-[#feefc3] shrink-0">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#b06000] tracking-tight">
-                {pendingHeadCount} <span className="text-[10px] sm:text-xs font-normal text-[#b06000]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#b06000] tracking-tight">
+                {pendingHeadCount} <span className="text-xs sm:text-sm font-normal text-[#b06000]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#b06000] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#fbbc04] animate-ping shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#b06000] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#fbbc04] animate-ping shrink-0"></span>
                 <span className="truncate">รอพิจารณา & มอบหมาย</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#1a73e8] truncate mr-1">รอนักวิทย์พิจารณา</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
-                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#1a73e8] truncate mr-1">รอนักวิทย์พิจารณา</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+                <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#1a73e8] tracking-tight">
-                {pendingScientistCount} <span className="text-[10px] sm:text-xs font-normal text-[#1a73e8]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-xs sm:text-sm font-normal text-[#1a73e8]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#1a73e8] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] animate-pulse shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#1a73e8] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#1a73e8] animate-pulse shrink-0"></span>
                 <span className="truncate">รอตรวจสอบความพร้อม</span>
               </div>
             </div>
@@ -413,37 +413,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Card 3: Pending Scientist (for Head/Admin) OR Completed (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#d2e3fc] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#1a73e8] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#1a73e8] truncate mr-1">2. รอนักวิทย์พิจารณา</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
-                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#1a73e8] truncate mr-1">2. รอนักวิทย์พิจารณา</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e8f0fe] text-[#1a73e8] flex items-center justify-center border border-[#d2e3fc] shrink-0">
+                <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#1a73e8] tracking-tight">
-                {pendingScientistCount} <span className="text-[10px] sm:text-xs font-normal text-[#1a73e8]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#1a73e8] tracking-tight">
+                {pendingScientistCount} <span className="text-xs sm:text-sm font-normal text-[#1a73e8]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#1a73e8] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#1a73e8] shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#1a73e8] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#1a73e8] shrink-0"></span>
                 <span className="truncate">รอนักวิชาการตรวจสอบ</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
-                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#137333] tracking-tight">
-                {completedCount} <span className="text-[10px] sm:text-xs font-normal text-[#137333]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-xs sm:text-sm font-normal text-[#137333]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#137333] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853] shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#137333] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#34a853] shrink-0"></span>
                 <span className="truncate">ผ่านการพิจารณาแล้ว</span>
               </div>
             </div>
@@ -452,37 +452,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Card 4: Completed (for Head/Admin) OR Rejected (for Scientist) */}
         {isSuperAdminOrHead ? (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#ceead6] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#34a853] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
-                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#137333] truncate mr-1">อนุมัติครบถ้วน</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#e6f4ea] text-[#137333] flex items-center justify-center border border-[#ceead6] shrink-0">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#137333] tracking-tight">
-                {completedCount} <span className="text-[10px] sm:text-xs font-normal text-[#137333]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#137333] tracking-tight">
+                {completedCount} <span className="text-xs sm:text-sm font-normal text-[#137333]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#137333] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34a853] shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#137333] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#34a853] shrink-0"></span>
                 <span className="truncate">เสร็จสิ้นครบทั้ง 2 ฝ่าย</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-[#fad2cf] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#ea4335] transition-colors">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-[#fad2cf] shadow-xs flex flex-col justify-between relative overflow-hidden group hover:border-[#ea4335] transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] sm:text-xs font-semibold text-[#c5221f] truncate mr-1">ไม่อนุมัติ / ยกเลิก</span>
-              <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl bg-[#fce8e6] text-[#c5221f] flex items-center justify-center border border-[#fad2cf] shrink-0">
-                <XCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-bold text-[#c5221f] truncate mr-1">ไม่อนุมัติ / ยกเลิก</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#fce8e6] text-[#c5221f] flex items-center justify-center border border-[#fad2cf] shrink-0">
+                <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="mt-2 sm:mt-3">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#c5221f] tracking-tight">
-                {rejectedCount} <span className="text-[10px] sm:text-xs font-normal text-[#c5221f]">รายการ</span>
+            <div className="mt-2.5 sm:mt-3">
+              <div className="text-2xl sm:text-3xl font-bold text-[#c5221f] tracking-tight">
+                {rejectedCount} <span className="text-xs sm:text-sm font-normal text-[#c5221f]">รายการ</span>
               </div>
-              <div className="mt-1.5 flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] text-[#c5221f] font-medium truncate">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#ea4335] shrink-0"></span>
+              <div className="mt-1.5 flex items-center gap-1.5 text-xs text-[#c5221f] font-medium truncate">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#ea4335] shrink-0"></span>
                 <span className="truncate">คำขอที่ไม่อนุมัติ</span>
               </div>
             </div>
@@ -493,25 +493,25 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Filter and Search Bar in Google Style */}
       <div className="bg-white rounded-2xl p-4 shadow-xs border border-[#dadce0] flex flex-col md:flex-row items-center gap-3">
         <form onSubmit={handleSearchSubmit} className="relative flex-1 w-full">
-          <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#5f6368]" />
+          <Search className="w-5 h-5 absolute left-4 top-3 text-[#5f6368]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ค้นหาชื่อผู้ยื่น, รหัสติดตาม, สังกัด หรือชื่องาน..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafd] border border-[#dadce0] rounded-full text-xs sm:text-sm text-[#202124] placeholder-[#80868b] focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8] focus:bg-white outline-none font-normal transition-all"
+            className="w-full pl-12 pr-4 py-2.5 sm:py-3 bg-[#f8fafd] border border-[#dadce0] rounded-full text-sm sm:text-base text-[#202124] placeholder-[#80868b] focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8] focus:bg-white outline-none font-normal transition-all"
           />
         </form>
 
-        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-          <div className="flex items-center gap-1.5 text-xs text-[#5f6368] font-medium">
-            <Filter className="w-3.5 h-3.5" /> ตัวกรอง:
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-[#5f6368] font-semibold">
+            <Filter className="w-4 h-4" /> ตัวกรอง:
           </div>
 
           <select
             value={filterFormType}
             onChange={(e) => setFilterFormType(e.target.value)}
-            className="px-3.5 py-2 bg-white border border-[#dadce0] rounded-full text-xs font-medium text-[#3c4043] outline-none cursor-pointer focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8]"
+            className="px-4 py-2 bg-white border border-[#dadce0] rounded-full text-xs sm:text-sm font-medium text-[#3c4043] outline-none cursor-pointer focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8]"
           >
             <option value="all">ทุกแบบฟอร์ม</option>
             <option value="VET_LAB_02">VET.LAB 02 (ห้อง Lab)</option>
@@ -522,7 +522,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-3.5 py-2 bg-white border border-[#dadce0] rounded-full text-xs font-medium text-[#3c4043] outline-none cursor-pointer focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8]"
+            className="px-4 py-2 bg-white border border-[#dadce0] rounded-full text-xs sm:text-sm font-medium text-[#3c4043] outline-none cursor-pointer focus:ring-2 focus:ring-[#1a73e8]/20 focus:border-[#1a73e8]"
           >
             <option value="all">-- ทุกขั้นตอน/สถานะ --</option>
             {isSuperAdminOrHead && (
@@ -539,34 +539,34 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Requests Table */}
       <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         {/* Table Sub-header Hint */}
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-slate-50 px-5 py-3 border-b border-indigo-100/80 flex items-center justify-between text-xs">
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-slate-50 px-5 py-3 border-b border-indigo-100/80 flex items-center justify-between text-xs sm:text-sm">
           <div className="flex items-center gap-2 text-indigo-700 font-semibold">
             <Eye className="w-4 h-4 shrink-0 text-indigo-500" />
             <span>คลิกที่รายการคำขอเพื่อเปิดหน้าต่างดูข้อมูลคำขอฉบับเต็ม</span>
           </div>
-          <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-indigo-900 font-semibold bg-white/90 px-2.5 py-0.5 rounded-full border border-indigo-200/80 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+          <span className="hidden md:inline-flex items-center gap-1.5 text-xs sm:text-sm text-indigo-900 font-bold bg-white/90 px-3 py-1 rounded-full border border-indigo-200/80 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
             {requests.length} รายการคำขอ
           </span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-[13px]">
-            <thead className="bg-gradient-to-r from-slate-100 via-indigo-50/40 to-blue-50/30 text-slate-800 font-bold border-b border-slate-200 text-xs">
+          <table className="w-full text-left text-xs sm:text-sm">
+            <thead className="bg-gradient-to-r from-slate-100 via-indigo-50/40 to-blue-50/30 text-slate-800 font-bold border-b border-slate-200 text-xs sm:text-sm">
               <tr>
-                <th className="py-3 px-3.5 whitespace-nowrap font-bold text-slate-800">รหัสติดตาม</th>
-                <th className="py-3 px-3 whitespace-nowrap font-bold text-slate-800">แบบฟอร์ม</th>
-                <th className="py-3 px-3.5 font-bold text-slate-800 min-w-[150px] max-w-[220px]">ผู้ยื่นคำขอ / สังกัด</th>
-                <th className="py-3 px-3.5 font-bold text-slate-800 min-w-[160px] max-w-xs">โครงงาน / เรื่อง</th>
-                <th className="py-3 px-3 whitespace-nowrap text-center font-bold text-slate-800">วันที่ยื่น</th>
-                <th className="py-3 px-3 whitespace-nowrap text-center font-bold text-slate-800">ขั้นตอน & สถานะ</th>
-                <th className="py-3 px-3.5 sm:px-5 whitespace-nowrap text-right font-bold text-slate-800">การพิจารณา / เอกสาร</th>
+                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-900">รหัสติดตาม</th>
+                <th className="py-3.5 px-3.5 whitespace-nowrap font-bold text-slate-900">แบบฟอร์ม</th>
+                <th className="py-3.5 px-4 font-bold text-slate-900 min-w-[160px] max-w-[240px]">ผู้ยื่นคำขอ / สังกัด</th>
+                <th className="py-3.5 px-4 font-bold text-slate-900 min-w-[170px] max-w-sm">โครงงาน / เรื่อง</th>
+                <th className="py-3.5 px-3.5 whitespace-nowrap text-center font-bold text-slate-900">วันที่ยื่น</th>
+                <th className="py-3.5 px-3.5 whitespace-nowrap text-center font-bold text-slate-900">ขั้นตอน & สถานะ</th>
+                <th className="py-3.5 px-4 sm:px-6 whitespace-nowrap text-right font-bold text-slate-900">การพิจารณา / เอกสาร</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-slate-500 font-normal">
+                  <td colSpan={7} className="py-10 text-center text-slate-500 font-normal text-sm">
                     กำลังโหลดข้อมูลคำขอ...
                   </td>
                 </tr>
@@ -576,12 +576,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2.5">
                       <Inbox className="w-6 h-6" />
                     </div>
-                    <div className="font-bold text-slate-800 text-sm">
+                    <div className="font-bold text-slate-800 text-base">
                       {isSuperAdminOrHead
                         ? 'ไม่พบรายการคำขอตามเงื่อนไขที่เลือก'
                         : 'ยังไม่มีรายการคำขอที่ได้รับมอบหมายในขณะนี้'}
                     </div>
-                    <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                    <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto leading-relaxed">
                       {isSuperAdminOrHead
                         ? 'ลองปรับเปลี่ยนคำค้นหาหรือตัวกรองด้านบนเพื่อค้นหารายการคำขออื่น'
                         : `เมื่อหัวหน้าห้องปฏิบัติการพิจารณาอนุมัติส่วนที่ 2 และมอบหมายงานให้ ${roleInfo.userName} รายการคำขอจะปรากฏขึ้นที่นี่เพื่อรอท่านตรวจสอบและบันทึกส่วนที่ 3`}
@@ -597,36 +597,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       onClick={() => setSelectedRequestForDetails(req)}
                       className="hover:bg-indigo-50/30 transition-colors cursor-pointer group"
                     >
-                      <td className="py-3 px-3.5 whitespace-nowrap">
-                        <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100/90 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-2.5 py-1 rounded-lg text-xs tracking-wider border border-slate-200 transition-colors shadow-2xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"></span>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-3 py-1 rounded-xl text-xs sm:text-sm tracking-wider border border-slate-200 transition-colors shadow-2xs">
+                          <span className="w-2 h-2 rounded-full bg-indigo-600 shrink-0"></span>
                           <span>{req.trackingNo}</span>
                         </span>
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap">{getFormBadge(req.formType)}</td>
-                      <td className="py-3 px-3.5 max-w-[220px]">
-                        <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-xs sm:text-sm truncate">
+                      <td className="py-3.5 px-3.5 whitespace-nowrap">{getFormBadge(req.formType)}</td>
+                      <td className="py-3.5 px-4 max-w-[240px]">
+                        <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-sm sm:text-base truncate">
                           {req.applicantName}
                         </div>
-                        <div className="text-[11px] text-slate-500 truncate mt-0.5" title={req.department}>
+                        <div className="text-xs text-slate-500 truncate mt-0.5" title={req.department}>
                           {req.department}
                         </div>
                       </td>
-                      <td className="py-3 px-3.5 max-w-xs">
-                        <div className="font-medium text-slate-800 line-clamp-1 text-xs sm:text-[13px]" title={req.projectTitle}>
+                      <td className="py-3.5 px-4 max-w-sm">
+                        <div className="font-medium text-slate-800 line-clamp-1 text-xs sm:text-sm" title={req.projectTitle}>
                           {req.projectTitle}
                         </div>
-                        <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+                        <div className="text-xs text-slate-400 font-mono mt-0.5">
                           {req.phone || '-'}
                         </div>
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap text-center text-slate-600 text-xs font-mono">
+                      <td className="py-3.5 px-3.5 whitespace-nowrap text-center text-slate-600 text-xs sm:text-sm font-mono">
                         {req.submissionDateTh}
                       </td>
-                      <td className="py-3 px-3 text-center whitespace-nowrap">
+                      <td className="py-3.5 px-3.5 text-center whitespace-nowrap">
                         {wf.badge}
                       </td>
-                      <td className="py-3 px-3.5 sm:px-5 text-right whitespace-nowrap">
+                      <td className="py-3.5 px-4 sm:px-6 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2">
                           {/* Dynamic Action Button based on Workflow Stage */}
                           <button
@@ -635,7 +635,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                               e.stopPropagation();
                               onSelectRequestForReview(req);
                             }}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shadow-2xs hover:scale-[1.02] ${wf.buttonClass}`}
+                            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shadow-2xs hover:scale-[1.02] ${wf.buttonClass}`}
                             title="คลิกเพื่อพิจารณา / จัดการคำขอ หรือดูผลการพิจารณา"
                           >
                             {wf.buttonIcon}

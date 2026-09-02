@@ -291,33 +291,33 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto space-y-6">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-700 text-white p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-md relative overflow-hidden mb-5 sm:mb-6">
+      <div className="bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-700 text-white p-5 sm:p-7 lg:p-8 rounded-2xl sm:rounded-3xl shadow-md relative overflow-hidden">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider mb-2 border border-white/30">
-              <FlaskConical className="w-3.5 h-3.5 text-purple-200" /> แบบฟอร์ม: VET.LAB 04
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider mb-2.5 border border-white/30">
+              <FlaskConical className="w-4 h-4 text-purple-200" /> แบบฟอร์ม: VET.LAB 04
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               แบบขอเบิกจ่ายสารเคมีและวัสดุวิทยาศาสตร์
             </h1>
-            <p className="text-purple-100 text-xs sm:text-sm mt-1">
+            <p className="text-purple-100 text-sm sm:text-base mt-1.5 leading-relaxed">
               งานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น
             </p>
           </div>
           <button
             type="button"
             onClick={handleFillDemo}
-            className="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/30 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer backdrop-blur-xs active:scale-95"
+            className="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/30 text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all shadow-xs cursor-pointer backdrop-blur-xs active:scale-95"
             title="กรอกข้อมูลตัวอย่างสำหรับการทดสอบระบบ"
           >
             <Sparkles className="w-4 h-4 text-amber-300" /> กรอกตัวอย่าง
           </button>
         </div>
-        <div className="mt-5 pt-3.5 border-t border-white/20 flex flex-wrap items-center justify-between text-xs text-purple-100">
+        <div className="mt-5 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between text-xs sm:text-sm text-purple-100 gap-2">
           <span>วันที่ยื่นคำขอ: <strong className="text-white font-bold">{thaiDate.fullStr}</strong></span>
-          <span className="text-purple-100 font-semibold flex items-center gap-1.5 text-xs bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
+          <span className="text-purple-100 font-semibold flex items-center gap-2 text-xs sm:text-sm bg-white/10 px-3 py-1 rounded-full border border-white/20">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
             ระบบบันทึกคำขอและคำนวณสรุปค่าใช้จ่ายเบิกจ่าย
           </span>
@@ -325,31 +325,31 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       </div>
 
       {errorMsg && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm flex items-start gap-2.5 shadow-xs">
-          <Info className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+        <div className="p-4 sm:p-5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3 shadow-xs">
+          <Info className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
           <div>
-            <strong className="font-semibold">โปรดตรวจสอบ:</strong> {errorMsg}
+            <strong className="font-bold">โปรดตรวจสอบ:</strong> {errorMsg}
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-7">
         {/* Section 1 */}
-        <div className="bg-white rounded-2xl shadow-xs border border-purple-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-50/90 via-purple-50/50 to-indigo-50/40 px-6 py-4 border-b border-purple-100 flex items-center justify-between">
-            <h2 className="text-sm sm:text-base font-bold text-purple-950 flex items-center gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white text-xs flex items-center justify-center font-bold shadow-xs">1</span>
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xs border border-purple-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-50/90 via-purple-50/50 to-indigo-50/40 px-6 sm:px-8 py-4 sm:py-5 border-b border-purple-100 flex items-center justify-between">
+            <h2 className="text-base sm:text-lg font-bold text-purple-950 flex items-center gap-3">
+              <span className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white text-xs sm:text-sm flex items-center justify-center font-bold shadow-xs">1</span>
               ส่วนที่ 1 : สำหรับผู้ขอใช้บริการ (Applicant Information)
             </h2>
-            <span className="text-xs text-purple-600 font-medium bg-purple-100/60 px-2.5 py-0.5 rounded-full">* จำเป็นต้องระบุ</span>
+            <span className="text-xs sm:text-sm text-purple-700 font-bold bg-purple-100/70 px-3 py-1 rounded-full">* จำเป็นต้องระบุ</span>
           </div>
 
-          <div className="p-4 sm:p-6 lg:p-7 space-y-5 sm:space-y-6">
+          <div className="p-5 sm:p-7 lg:p-8 space-y-6">
             {/* Applicant Name & Role */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-              <div className="md:col-span-7 space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-purple-600" />
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6">
+              <div className="md:col-span-7 space-y-2">
+                <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                  <User className="w-4 h-4 text-purple-600" />
                   ชื่อ-สกุล ผู้ขอใช้บริการ <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -358,22 +358,22 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={applicantName}
                   onChange={(e) => setApplicantName(e.target.value)}
                   placeholder="เช่น นางสาวพิชญา สุขุมพันธ์"
-                  className="w-full px-3.5 py-2.5 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-800 text-xs sm:text-sm font-normal outline-none transition-colors"
+                  className="w-full px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-900 text-sm sm:text-base font-normal outline-none transition-colors"
                 />
               </div>
 
-              <div className="md:col-span-5 space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 block">
+              <div className="md:col-span-5 space-y-2">
+                <label className="text-sm font-semibold text-slate-800 block">
                   สถานภาพ <span className="text-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <button
                     type="button"
                     onClick={() => setRole('faculty_staff')}
-                    className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
+                    className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-semibold border text-center transition-all cursor-pointer ${
                       role === 'faculty_staff'
                         ? 'bg-purple-50 border-purple-600 text-purple-900 ring-2 ring-purple-500/20 shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     อาจารย์/บุคลากร
@@ -381,10 +381,10 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   <button
                     type="button"
                     onClick={() => setRole('student')}
-                    className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
+                    className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-semibold border text-center transition-all cursor-pointer ${
                       role === 'student'
                         ? 'bg-purple-50 border-purple-600 text-purple-900 ring-2 ring-purple-500/20 shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     นักศึกษา
@@ -392,10 +392,10 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   <button
                     type="button"
                     onClick={() => setRole('external')}
-                    className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
+                    className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-semibold border text-center transition-all cursor-pointer ${
                       role === 'external'
                         ? 'bg-purple-50 border-purple-600 text-purple-900 ring-2 ring-purple-500/20 shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     บุคคลภายนอก
@@ -403,10 +403,10 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   <button
                     type="button"
                     onClick={() => setRole('other')}
-                    className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
+                    className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-semibold border text-center transition-all cursor-pointer ${
                       role === 'other'
                         ? 'bg-purple-50 border-purple-600 text-purple-900 ring-2 ring-purple-500/20 shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     อื่นๆ
@@ -417,8 +417,8 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
 
             {/* Conditional input for Student ID */}
             {role === 'student' && (
-              <div className="p-4 bg-purple-50/70 border border-purple-100 rounded-xl shadow-2xs">
-                <label className="text-xs font-bold text-purple-950 uppercase tracking-wider block mb-1">
+              <div className="p-4 sm:p-5 bg-purple-50/70 border border-purple-100 rounded-2xl shadow-2xs">
+                <label className="text-xs sm:text-sm font-bold text-purple-950 uppercase tracking-wider block mb-1.5">
                   รหัสนักศึกษา (Student ID) <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -427,15 +427,15 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={studentId}
                   onChange={(e) => setStudentId(e.target.value)}
                   placeholder="เช่น 665180045-8"
-                  className="w-full md:w-1/2 px-3 py-2 bg-white rounded-lg border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
+                  className="w-full md:w-1/2 px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 text-sm sm:text-base font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                 />
               </div>
             )}
 
             {/* Conditional input for External */}
             {role === 'external' && (
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl shadow-2xs">
-                <label className="text-xs font-bold text-slate-700 block mb-1">
+              <div className="p-4 sm:p-5 bg-slate-50 border border-slate-200 rounded-2xl shadow-2xs">
+                <label className="text-xs sm:text-sm font-bold text-slate-800 block mb-1.5">
                   ระบุหน่วยงาน / บริษัท / สังกัด
                 </label>
                 <input
@@ -443,7 +443,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={otherRoleText}
                   onChange={(e) => setOtherRoleText(e.target.value)}
                   placeholder="เช่น ศูนย์ชันสูตรโรคสัตว์, หน่วยงานภายนอก"
-                  className="w-full md:w-1/2 px-3 py-2 bg-white rounded-lg border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
+                  className="w-full md:w-1/2 px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 text-sm sm:text-base font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                 />
               </div>
             )}
@@ -466,15 +466,15 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
             )}
 
             {/* Department, Phone, Email */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 block">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-800 block">
                   สังกัด/ภาควิชา <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
+                  className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm sm:text-base font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                 >
                   {KKU_DEPARTMENTS.map((dept) => (
                     <option key={dept} value={dept}>
@@ -489,14 +489,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                     value={customDepartment}
                     onChange={(e) => setCustomDepartment(e.target.value)}
                     placeholder="พิมพ์ชื่อสังกัด/หน่วยงาน"
-                    className="w-full mt-2 px-3 py-2 text-xs border border-slate-200 rounded-md bg-white focus:ring-1 focus:ring-purple-500 outline-none"
+                    className="w-full mt-2 px-3.5 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-1 focus:ring-purple-500 outline-none"
                   />
                 )}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-purple-600" />
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-purple-600" />
                   เบอร์โทรศัพท์ <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -505,13 +505,13 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="เช่น 086-987-6543"
-                  className="w-full px-3.5 py-2.5 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-800 text-xs sm:text-sm font-normal outline-none"
+                  className="w-full px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-900 text-sm sm:text-base font-normal outline-none"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-purple-600" />
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-purple-600" />
                   E-mail (รับผลการอนุมัติ) <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -520,18 +520,18 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="เช่น applicant@kku.ac.th"
-                  className="w-full px-3.5 py-2.5 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-800 text-xs sm:text-sm font-normal outline-none"
+                  className="w-full px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-900 text-sm sm:text-base font-normal outline-none"
                 />
               </div>
             </div>
 
             {/* Work Type & Project Title */}
-            <div className="border-t border-slate-100 pt-5 space-y-4">
+            <div className="border-t border-slate-100 pt-6 space-y-5">
               <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-2">
+                <label className="text-sm font-semibold text-slate-800 block mb-2.5">
                   ประเภทงานที่ขอใช้บริการ <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
                     { id: 'teaching', label: 'การเรียนการสอน' },
                     { id: 'research', label: 'งานวิจัย' },
@@ -540,10 +540,10 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   ].map((item) => (
                     <label
                       key={item.id}
-                      className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition-all ${
+                      className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer transition-all ${
                         workType === item.id
                           ? 'bg-purple-50 border-purple-600 text-purple-950 font-bold ring-2 ring-purple-500/20 shadow-xs'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                       }`}
                     >
                       <input
@@ -551,7 +551,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                         name="workType04"
                         checked={workType === item.id}
                         onChange={() => setWorkType(item.id as WorkType)}
-                        className="accent-purple-600"
+                        className="accent-purple-600 w-4 h-4"
                       />
                       <span className="text-xs sm:text-sm">{item.label}</span>
                     </label>
@@ -563,14 +563,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                     value={workTypeOtherText}
                     onChange={(e) => setWorkTypeOtherText(e.target.value)}
                     placeholder="ระบุประเภทงานอื่นๆ"
-                    className="mt-2 w-full md:w-1/2 px-3 py-2 text-xs border border-slate-200 rounded-md focus:ring-1 focus:ring-purple-500 outline-none"
+                    className="mt-2.5 w-full md:w-1/2 px-3.5 py-2 text-sm border border-slate-200 rounded-lg focus:ring-1 focus:ring-purple-500 outline-none"
                   />
                 )}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-purple-600" />
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-600" />
                   ชื่อโครงงาน/งานวิจัย/กระบวนวิชา <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -579,83 +579,83 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   value={projectTitle}
                   onChange={(e) => setProjectTitle(e.target.value)}
                   placeholder="เช่น การศึกษาแบคทีเรียดื้อยาในสัตว์..."
-                  className="w-full px-3.5 py-2.5 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-800 text-xs sm:text-sm font-normal outline-none"
+                  className="w-full px-4 py-2.5 sm:py-3 bg-white rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 text-slate-900 text-sm sm:text-base font-normal outline-none"
                 />
               </div>
             </div>
 
             {/* Chemicals Table */}
-            <div className="border-t border-slate-100 pt-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+            <div className="border-t border-slate-100 pt-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3.5">
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                     <FlaskConical className="w-4 h-4 text-purple-600" />
                     รายการสารเคมีและวัสดุวิทยาศาสตร์ที่ขอเบิก
                   </h3>
-                  <span className="text-[11px] text-slate-500 mt-0.5 block">
+                  <span className="text-xs text-slate-500 mt-0.5 block">
                     เลือกจากรายการสารเคมีสำเร็จรูปหรือพิมพ์ระบุรายการและปริมาณที่ต้องการ
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={addChemicalRow}
-                  className="inline-flex items-center gap-1 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 px-3.5 py-1.5 rounded-xl border border-purple-200 transition-all shadow-2xs cursor-pointer active:scale-95"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 px-4 py-2 rounded-xl border border-purple-200 transition-all shadow-2xs cursor-pointer active:scale-95"
                 >
-                  <Plus className="w-3.5 h-3.5" /> เพิ่มรายการ
+                  <Plus className="w-4 h-4" /> เพิ่มรายการ
                 </button>
               </div>
 
-              <div className="overflow-x-auto border border-purple-100 rounded-xl shadow-2xs">
+              <div className="overflow-x-auto border border-purple-100 rounded-2xl shadow-2xs">
                 <table className="w-full text-left text-xs sm:text-sm">
-                  <thead className="bg-gradient-to-r from-purple-50/80 to-indigo-50/40 text-purple-950 border-b border-purple-100 font-bold text-xs">
+                  <thead className="bg-gradient-to-r from-purple-50/80 to-indigo-50/40 text-purple-950 border-b border-purple-100 font-bold text-xs sm:text-sm">
                     <tr>
-                      <th className="py-2.5 px-3 w-12 text-center">ลำดับ</th>
-                      <th className="py-2.5 px-3">ชื่อสารเคมี / วัสดุวิทยาศาสตร์</th>
-                      <th className="py-2.5 px-3 w-32">จำนวน/ปริมาณ</th>
-                      <th className="py-2.5 px-3 w-1/3">วัตถุประสงค์การใช้</th>
-                      <th className="py-2.5 px-3 w-10 text-center">ลบ</th>
+                      <th className="py-3 px-3.5 w-14 text-center">ลำดับ</th>
+                      <th className="py-3 px-3.5">ชื่อสารเคมี / วัสดุวิทยาศาสตร์</th>
+                      <th className="py-3 px-3.5 w-36">จำนวน/ปริมาณ</th>
+                      <th className="py-3 px-3.5 w-1/3">วัตถุประสงค์การใช้</th>
+                      <th className="py-3 px-3.5 w-12 text-center">ลบ</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 bg-white">
                     {chemicalItems.map((item, idx) => (
                       <tr key={item.id} className="hover:bg-purple-50/30 transition-colors">
-                        <td className="py-2.5 px-3 text-center font-bold text-purple-600 text-xs">
+                        <td className="py-3 px-3.5 text-center font-bold text-purple-600 text-sm">
                           {idx + 1}
                         </td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-3 px-3.5">
                           <input
                             type="text"
                             required
                             value={item.itemName}
                             onChange={(e) => updateChemicalRow(idx, 'itemName', e.target.value)}
                             placeholder="พิมพ์ระบุชื่อสารเคมี / วัสดุวิทยาศาสตร์"
-                            className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
+                            className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
                           />
                         </td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-3 px-3.5">
                           <input
                             type="text"
                             value={item.quantity}
                             onChange={(e) => updateChemicalRow(idx, 'quantity', e.target.value)}
                             placeholder="เช่น 1 ขวด (500 ml)"
-                            className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
+                            className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                           />
                         </td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-3 px-3.5">
                           <input
                             type="text"
                             value={item.remarks}
                             onChange={(e) => updateChemicalRow(idx, 'remarks', e.target.value)}
                             placeholder="เช่น สกัดดีเอ็นเอ"
-                            className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
+                            className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                           />
                         </td>
-                        <td className="py-2.5 px-3 text-center">
+                        <td className="py-3 px-3.5 text-center">
                           <button
                             type="button"
                             disabled={chemicalItems.length <= 1}
                             onClick={() => removeChemicalRow(idx)}
-                            className={`p-1 rounded-lg transition-colors cursor-pointer ${
+                            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                               chemicalItems.length <= 1
                                 ? 'text-slate-300 cursor-not-allowed'
                                 : 'text-red-500 hover:bg-red-50'
@@ -672,15 +672,15 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
             </div>
 
             {/* Pickup Schedule */}
-            <div className="border-t border-slate-100 pt-5">
-              <div className="bg-purple-50/40 p-4 rounded-xl border border-purple-100">
-                <h4 className="text-xs sm:text-sm font-bold text-purple-950 flex items-center gap-1.5 mb-2.5">
-                  <Calendar className="w-3.5 h-3.5 text-purple-600" />
+            <div className="border-t border-slate-100 pt-6">
+              <div className="bg-purple-50/40 p-5 rounded-2xl border border-purple-100">
+                <h4 className="text-sm sm:text-base font-bold text-purple-950 flex items-center gap-2 mb-3">
+                  <Calendar className="w-4 h-4 text-purple-600" />
                   กำหนดวันและเวลาที่ประสงค์จะมารับสิ่งของ
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs font-semibold text-slate-700 block mb-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-semibold text-slate-800 block">
                       วันที่มารับ: <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -688,13 +688,13 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                       required
                       value={pickupDate}
                       onChange={(e) => setPickupDate(e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs sm:text-sm bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
                     />
                   </div>
 
-                  <div>
-                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1 mb-1">
-                      <Clock className="w-3.5 h-3.5 text-purple-600" />
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-semibold text-slate-800 flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-purple-600" />
                       เวลาที่มารับ: <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -702,7 +702,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                       required
                       value={pickupTime}
                       onChange={(e) => setPickupTime(e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs sm:text-sm bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
+                      className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none font-normal"
                     />
                   </div>
                 </div>
@@ -710,14 +710,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
             </div>
 
             {/* Terms & Consent */}
-            <div className="border-t border-slate-100 pt-5">
-              <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-950 text-xs sm:text-sm leading-relaxed shadow-2xs">
-                <label className="flex items-start gap-2.5 cursor-pointer">
+            <div className="border-t border-slate-100 pt-6">
+              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-950 text-sm sm:text-base leading-relaxed shadow-2xs">
+                <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={termsAccepted}
                     onChange={(e) => setTermsAccepted(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 accent-purple-600 rounded border-amber-300"
+                    className="mt-1 h-4 w-4 accent-purple-600 rounded border-amber-300 shrink-0"
                   />
                   <span>
                     <strong>คำรับรอง:</strong> ข้าพเจ้าขอรับรองว่าจะนำสารเคมีและวัสดุที่ได้รับไปใช้เพื่อการศึกษา/วิจัยตามที่ระบุไว้เท่านั้น และยินดีชำระค่าธรรมเนียมตามระเบียบของคณะสัตวแพทยศาสตร์
@@ -727,12 +727,12 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
             </div>
 
             {/* Signatures */}
-            <div className="border-t border-slate-100 pt-5">
-              <h3 className="text-xs sm:text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-purple-600"></span>
+            <div className="border-t border-slate-100 pt-6">
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
                 การลงลายมือชื่ออิเล็กทรอนิกส์ (Digital Signatures)
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <DigitalSignaturePad
                   label="ลายมือชื่อผู้ขอเบิกจ่าย"
                   subLabel="(Applicant Signature)"
@@ -752,9 +752,9 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
         </div>
 
         {/* Section 2 & 3 Notice */}
-        <div className="bg-gradient-to-r from-purple-50/60 to-indigo-50/40 rounded-xl border border-purple-200/80 p-5 text-xs text-slate-700 space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-1.5 font-bold text-purple-900">
-            <DollarSign className="w-4 h-4 text-purple-600" />
+        <div className="bg-gradient-to-r from-purple-50/70 to-indigo-50/50 rounded-2xl border border-purple-200/80 p-5 sm:p-6 text-xs sm:text-sm text-slate-700 space-y-2 shadow-2xs">
+          <div className="flex items-center gap-2 font-bold text-purple-950 text-sm sm:text-base">
+            <DollarSign className="w-5 h-5 text-purple-600" />
             ส่วนที่ 2 (หัวหน้าห้องปฏิบัติการ นางสุธิดา จันทร์ลุน อนุมัติ) และ ส่วนที่ 3 (เจ้าหน้าที่บันทึกการจ่ายของและสรุปค่าใช้จ่าย)
           </div>
           <p>
@@ -766,11 +766,11 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-2.5 pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={handlePreview}
-            className="w-full sm:w-auto px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+            className="w-full sm:w-auto px-5 py-3 text-sm sm:text-base font-semibold rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
           >
             <FileText className="w-4 h-4 text-slate-500" /> ดูตัวอย่างเอกสาร (Print Preview)
           </button>
@@ -778,11 +778,11 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full sm:w-auto px-6 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
+            className="w-full sm:w-auto px-7 py-3 text-sm sm:text-base font-bold rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer active:scale-95"
           >
             {isSubmitting ? (
               <>
-                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 กำลังบันทึกและส่งแจ้งเตือน...
               </>
             ) : (
