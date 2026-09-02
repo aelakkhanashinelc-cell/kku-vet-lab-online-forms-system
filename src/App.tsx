@@ -802,128 +802,30 @@ export function App() {
 
           {/* Cosmic Light Footer */}
           <footer className="bg-white/90 backdrop-blur-xl border-t border-indigo-100 text-xs text-slate-600">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-6 border-b border-indigo-100">
-                {/* Col 1: Faculty / Lab Identity */}
-                <div className="md:col-span-2 space-y-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                      KKU
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    KKU
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-900 text-sm tracking-tight flex items-center gap-1.5 flex-wrap">
+                      <span className="font-extrabold text-indigo-950">KKU Vet Lab</span>
+                      <span className="text-indigo-600">Online Forms System</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm tracking-tight flex items-center gap-1.5 flex-wrap">
-                        <span className="font-extrabold text-indigo-950">KKU Vet Lab</span>
-                        <span className="text-indigo-600">Online Forms System</span>
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        งานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ คณะสัตวแพทยศาสตร์ มข.
-                      </div>
+                    <div className="text-xs text-slate-500">
+                      งานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ คณะสัตวแพทยศาสตร์ มข.
                     </div>
                   </div>
-                  <p className="text-xs text-slate-500 leading-relaxed max-w-md pt-1">
-                    ระบบจัดการและให้บริการจองห้องปฏิบัติการ เครื่องมือวิทยาศาสตร์ และการเบิกจ่ายสารเคมี/วัสดุสิ้นเปลือง สำหรับอาจารย์ นักวิจัย และนักศึกษา คณะสัตวแพทยศาสตร์ มข.
-                  </p>
                 </div>
 
-                {/* Col 2: Service Forms */}
-                <div className="space-y-1.5">
-                  <div className="font-semibold text-slate-900 text-xs uppercase tracking-wider">
-                    แบบฟอร์มขอรับบริการ
-                  </div>
-                  <ul className="space-y-1 text-xs text-slate-600">
-                    <li>
-                      <button
-                        onClick={() => setActiveTab('REGULATIONS')}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • VET.LAB 01 ระเบียบ & คู่มือ
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setActiveTab('VET_LAB_02')}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • VET.LAB 02 ขอใช้ห้องปฏิบัติการ
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setActiveTab('VET_LAB_03')}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • VET.LAB 03 ขอใช้เครื่องมือวิจัย
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setActiveTab('VET_LAB_04')}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • VET.LAB 04 ขอเบิกสารเคมี/วัสดุ
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Col 3: Portal & Utilities */}
-                <div className="space-y-1.5">
-                  <div className="font-semibold text-slate-900 text-xs uppercase tracking-wider">
-                    ระบบและการติดต่อ
-                  </div>
-                  <ul className="space-y-1 text-xs text-slate-600">
-                    <li>
-                      <button
-                        onClick={() => setShowQuickTrack(true)}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • ค้นหาและติดตามสถานะคำขอ
-                      </button>
-                    </li>
-                    {isSuperAdmin && (
-                      <>
-                        <li>
-                          <button
-                            onClick={() => setShowOutbox(true)}
-                            className="hover:text-indigo-600 transition-colors cursor-pointer"
-                          >
-                            • ประวัติการส่งอีเมลแจ้งเตือน
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            onClick={() => setShowGasSettings(true)}
-                            className="hover:text-indigo-600 transition-colors cursor-pointer"
-                          >
-                            • Google Sheets Database
-                          </button>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 text-xs text-slate-500">
-                <div className="space-y-1 text-center sm:text-left">
+                <div className="space-y-1 text-center md:text-right text-xs text-slate-500">
                   <div>
                     © 2026 Faculty of Veterinary Medicine, Khon Kaen University. All rights reserved.
                   </div>
                   <div className="text-slate-600 font-medium">
                     ผู้พัฒนาระบบ: <strong className="text-slate-800">นางสาวลักขณา ฉันทะกลาง</strong>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-xs font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    System Ready (Google Workspace Connected)
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="text-rose-600 hover:text-rose-700 hover:underline font-medium cursor-pointer"
-                  >
-                    ออกจากระบบ
-                  </button>
                 </div>
               </div>
             </div>
