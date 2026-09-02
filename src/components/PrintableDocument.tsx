@@ -541,7 +541,10 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                   isApproved={request.part2?.approvalStatus === 'approved' || request.status === 'approved_by_head' || request.status === 'completed'}
                 />
                 <div className="text-[10.5px]">( {request.part2?.signature?.name || 'นางสุธิดา จันทร์ลุน'} )</div>
-                <div className="text-[10px] font-semibold">หัวหน้าห้องปฏิบัติการ (นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</div>
+                <div className="text-[10px] font-semibold leading-tight">
+                  <div>หัวหน้าห้องปฏิบัติการ</div>
+                  <div className="font-normal text-[9.5px] text-slate-800">(นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</div>
+                </div>
                 <div className="text-[10px]">วันที่ {request.part2?.signature?.date || (request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : '........./........./.........')}</div>
               </div>
             </div>
