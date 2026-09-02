@@ -137,18 +137,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         step: 0,
         badge: (
           <div className="flex flex-col items-center gap-0.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#fce8e6] text-[#c5221f] border border-[#fad2cf]">
-              <XCircle className="w-3.5 h-3.5 text-[#ea4335] shrink-0" />
-              <span>ไม่อนุมัติ ({isHeadRejected ? 'ส่วนที่ 2' : 'ส่วนที่ 3'})</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">
+              <XCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+              <span>ไม่อนุมัติ</span>
             </span>
-            <span className="text-[10px] text-[#c5221f] font-medium">
-              {isHeadRejected ? 'หัวหน้าไม่อนุมัติ' : 'ผู้ดูแลไม่พร้อมให้บริการ'}
+            <span className="text-[10px] text-rose-600 font-medium">
+              {isHeadRejected ? 'หัวหน้าไม่อนุมัติ (ส่วน 2)' : 'ผู้ดูแลไม่อนุมัติ (ส่วน 3)'}
             </span>
           </div>
         ),
-        buttonText: 'ดูผลการพิจารณา (ไม่อนุมัติ)',
-        buttonClass: 'bg-[#fce8e6] hover:bg-[#fad2cf] text-[#c5221f] border-[#fad2cf]',
-        buttonIcon: <Eye className="w-3.5 h-3.5 text-[#ea4335]" />,
+        buttonText: 'ดูผลการพิจารณา',
+        buttonClass: 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200 hover:border-rose-300',
+        buttonIcon: <Eye className="w-3.5 h-3.5 text-rose-600" />,
       };
     }
 
@@ -158,18 +158,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         step: 2,
         badge: (
           <div className="flex flex-col items-center gap-0.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#e6f4ea] text-[#137333] border border-[#ceead6]">
-              <CheckCircle className="w-3.5 h-3.5 text-[#34a853] shrink-0" />
-              <span>อนุมัติครบถ้วน (พร้อมบริการ)</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>{req.status === 'dispensed' ? 'จ่ายสารเคมีแล้ว' : 'อนุมัติครบถ้วน'}</span>
             </span>
-            <span className="text-[10px] text-[#137333] font-medium">
-              {req.status === 'dispensed' ? 'จ่ายของเรียบร้อยแล้ว' : 'ผ่านการพิจารณาทั้ง 2 ส่วน'}
+            <span className="text-[10px] text-emerald-600 font-medium">
+              {req.status === 'dispensed' ? 'จ่ายสารเคมีเรียบร้อย' : 'พร้อมให้บริการ (ผ่าน 2 ส่วน)'}
             </span>
           </div>
         ),
-        buttonText: 'ดูผลการพิจารณา',
-        buttonClass: 'bg-[#e6f4ea] hover:bg-[#ceead6] text-[#137333] border-[#ceead6]',
-        buttonIcon: <ShieldCheck className="w-3.5 h-3.5 text-[#34a853]" />,
+        buttonText: 'ดูผลการอนุมัติ',
+        buttonClass: 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border-emerald-200 hover:border-emerald-300',
+        buttonIcon: <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />,
       };
     }
 
@@ -180,17 +180,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         step: 1,
         badge: (
           <div className="flex flex-col items-center gap-0.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#e8f0fe] text-[#1a73e8] border border-[#d2e3fc]">
-              <UserCheck className="w-3.5 h-3.5 text-[#1a73e8] shrink-0" />
-              <span>รอนักวิทย์พิจารณา (ส่วนที่ 3)</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-2xs">
+              <UserCheck className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+              <span>รอนักวิทย์พิจารณา</span>
             </span>
-            <span className="text-[10px] text-[#1a73e8] max-w-[170px] truncate" title={`ผู้รับผิดชอบ: ${assigned}`}>
-              มอบหมาย: <strong>{assigned}</strong>
+            <span className="text-[10px] text-slate-500 max-w-[170px] truncate" title={`ผู้รับผิดชอบ: ${assigned}`}>
+              มอบหมาย: <strong className="text-indigo-900">{assigned}</strong>
             </span>
           </div>
         ),
-        buttonText: 'การพิจารณาคำขอ (ส่วน 3)',
-        buttonClass: 'bg-[#1a73e8] hover:bg-[#1557b0] text-white font-semibold shadow-xs',
+        buttonText: 'บันทึก (ส่วนที่ 3)',
+        buttonClass: 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold shadow-xs border-transparent',
         buttonIcon: <UserCheck className="w-3.5 h-3.5" />,
       };
     }
@@ -200,17 +200,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       step: 0,
       badge: (
         <div className="flex flex-col items-center gap-0.5">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#fef7e0] text-[#b06000] border border-[#feefc3]">
-            <Clock className="w-3.5 h-3.5 text-[#fbbc04] shrink-0 animate-pulse" />
-            <span>รอหัวหน้าพิจารณา (ส่วนที่ 2)</span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 shadow-2xs">
+            <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0 animate-pulse" />
+            <span>รอหัวหน้าพิจารณา</span>
           </span>
-          <span className="text-[10px] text-[#b06000]">
-            ขั้นตอนที่ 1 / 2
+          <span className="text-[10px] text-amber-700">
+            ขั้นตอนที่ 1 / 2 (ส่วนที่ 2)
           </span>
         </div>
       ),
-      buttonText: 'พิจารณาคำขอ (ส่วน 2)',
-      buttonClass: 'bg-[#1a73e8] hover:bg-[#1557b0] text-white font-semibold shadow-xs',
+      buttonText: 'พิจารณา (ส่วนที่ 2)',
+      buttonClass: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold shadow-xs border-transparent',
       buttonIcon: <Edit3 className="w-3.5 h-3.5" />,
     };
   };
@@ -219,20 +219,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     switch (formType) {
       case 'VET_LAB_02':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#e8f0fe] text-[#1a73e8] border border-[#d2e3fc]">
-            <Building2 className="w-3.5 h-3.5 text-[#1a73e8]" /> VET.LAB 02 (ห้อง)
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs whitespace-nowrap">
+            <Building2 className="w-3.5 h-3.5 text-blue-600" /> ห้องแล็บ (02)
           </span>
         );
       case 'VET_LAB_03':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#e6f4ea] text-[#137333] border border-[#ceead6]">
-            <Wrench className="w-3.5 h-3.5 text-[#34a853]" /> VET.LAB 03 (เครื่องมือ)
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200 shadow-2xs whitespace-nowrap">
+            <Wrench className="w-3.5 h-3.5 text-teal-600" /> เครื่องมือ (03)
           </span>
         );
       case 'VET_LAB_04':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#f3e8fd] text-[#7627bb] border border-[#e1bee7]">
-            <FlaskConical className="w-3.5 h-3.5 text-[#9334e8]" /> VET.LAB 04 (สารเคมี)
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 shadow-2xs whitespace-nowrap">
+            <FlaskConical className="w-3.5 h-3.5 text-purple-600" /> สารเคมี (04)
           </span>
         );
       default:
@@ -425,41 +425,41 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* Requests Table */}
-      <div className="bg-white rounded-3xl shadow-xs border border-[#dadce0] overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         {/* Table Sub-header Hint */}
-        <div className="bg-[#f8fafd] px-5 py-3 border-b border-[#dadce0] flex items-center justify-between text-xs text-[#5f6368]">
-          <div className="flex items-center gap-2 text-[#1a73e8] font-medium">
+        <div className="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex items-center justify-between text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-indigo-600 font-medium">
             <Eye className="w-4 h-4 shrink-0" />
             <span>คลิกที่รายการคำขอเพื่อเปิดหน้าต่างดูข้อมูลคำขอฉบับเต็ม</span>
           </div>
-          <span className="hidden md:inline text-xs text-[#5f6368] font-mono">
+          <span className="hidden md:inline text-xs text-slate-500 font-mono">
             {requests.length} คำขอ
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
-            <thead className="bg-[#f8fafd] text-[#5f6368] font-semibold border-b border-[#dadce0] text-xs">
+            <thead className="bg-slate-50/80 text-slate-700 font-bold border-b border-slate-200 text-xs">
               <tr>
-                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-700">รหัสติดตาม</th>
-                <th className="py-3.5 px-4">แบบฟอร์ม</th>
-                <th className="py-3.5 px-4">ผู้ยื่นคำขอ / สังกัด</th>
-                <th className="py-3.5 px-4">โครงงาน / เรื่อง</th>
-                <th className="py-3.5 px-4">วันที่ยื่น</th>
-                <th className="py-3.5 px-4 text-center">ขั้นตอน & สถานะ</th>
-                <th className="py-3.5 px-4 sm:px-6 text-right">การพิจารณา / เอกสาร</th>
+                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">รหัสติดตาม</th>
+                <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">แบบฟอร์ม</th>
+                <th className="py-3.5 px-4 font-bold text-slate-800 min-w-[170px]">ผู้ยื่นคำขอ / สังกัด</th>
+                <th className="py-3.5 px-4 font-bold text-slate-800 min-w-[200px]">โครงงาน / เรื่อง</th>
+                <th className="py-3.5 px-4 whitespace-nowrap text-center font-bold text-slate-800">วันที่ยื่น</th>
+                <th className="py-3.5 px-4 whitespace-nowrap text-center font-bold text-slate-800">ขั้นตอน & สถานะ</th>
+                <th className="py-3.5 px-4 sm:px-6 whitespace-nowrap text-right font-bold text-slate-800">การพิจารณา / เอกสาร</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#dadce0]">
+            <tbody className="divide-y divide-slate-100">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-[#5f6368] font-normal">
+                  <td colSpan={7} className="py-10 text-center text-slate-500 font-normal">
                     กำลังโหลดข้อมูลคำขอ...
                   </td>
                 </tr>
               ) : requests.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-[#5f6368] font-normal">
+                  <td colSpan={7} className="py-10 text-center text-slate-500 font-normal">
                     ไม่พบรายการคำขอตามเงื่อนไขที่เลือก
                   </td>
                 </tr>
@@ -470,7 +470,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <tr
                       key={req.id}
                       onClick={() => setSelectedRequestForDetails(req)}
-                      className="hover:bg-[#f8fafd] transition-colors cursor-pointer group"
+                      className="hover:bg-indigo-50/30 transition-colors cursor-pointer group"
                     >
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <span className="inline-flex items-center gap-1.5 font-mono font-bold text-slate-800 bg-slate-100/90 group-hover:bg-indigo-50 group-hover:text-indigo-700 group-hover:border-indigo-200 px-3 py-1 rounded-lg text-xs tracking-wider border border-slate-200 transition-colors shadow-2xs">
@@ -478,25 +478,31 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           <span>{req.trackingNo}</span>
                         </span>
                       </td>
-                      <td className="py-3.5 px-4">{getFormBadge(req.formType)}</td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">{getFormBadge(req.formType)}</td>
                       <td className="py-3.5 px-4">
-                        <div className="font-medium text-[#202124] group-hover:text-[#1a73e8]">{req.applicantName}</div>
-                        <div className="text-xs text-[#5f6368] line-clamp-1">{req.department}</div>
+                        <div className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors text-xs sm:text-sm">
+                          {req.applicantName}
+                        </div>
+                        <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5" title={req.department}>
+                          {req.department}
+                        </div>
                       </td>
                       <td className="py-3.5 px-4 max-w-xs">
-                        <div className="font-normal text-[#202124] line-clamp-1" title={req.projectTitle}>
+                        <div className="font-medium text-slate-800 line-clamp-1 text-xs" title={req.projectTitle}>
                           {req.projectTitle}
                         </div>
-                        <div className="text-xs text-[#5f6368] font-mono">{req.phone}</div>
+                        <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+                          {req.phone || '-'}
+                        </div>
                       </td>
-                      <td className="py-3.5 px-4 whitespace-nowrap text-[#5f6368] text-xs">
+                      <td className="py-3.5 px-4 whitespace-nowrap text-center text-slate-600 text-xs font-mono">
                         {req.submissionDateTh}
                       </td>
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         {wf.badge}
                       </td>
                       <td className="py-3.5 px-4 sm:px-6 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5">
+                        <div className="flex items-center justify-end gap-2">
                           {/* Dynamic Action Button based on Workflow Stage */}
                           <button
                             type="button"
@@ -504,7 +510,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                               e.stopPropagation();
                               onSelectRequestForReview(req);
                             }}
-                            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 ${wf.buttonClass}`}
+                            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shadow-2xs hover:scale-[1.02] ${wf.buttonClass}`}
                             title="คลิกเพื่อพิจารณา / จัดการคำขอ หรือดูผลการพิจารณา"
                           >
                             {wf.buttonIcon}
@@ -518,7 +524,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                               e.stopPropagation();
                               onSelectRequestForPrint(req);
                             }}
-                            className="p-2 rounded-full text-[#5f6368] hover:text-[#1a73e8] hover:bg-[#e8f0fe] border border-[#dadce0] transition-colors cursor-pointer"
+                            className="p-1.5 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-white border border-slate-200 transition-all cursor-pointer shadow-2xs hover:shadow-xs hover:border-slate-300"
                             title="ดูเอกสารฉบับพิมพ์ / ดาวน์โหลด PDF"
                           >
                             <Printer className="w-3.5 h-3.5" />
