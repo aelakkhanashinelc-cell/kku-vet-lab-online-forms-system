@@ -1,0 +1,6 @@
+{
+  "name": "KKU Vet Lab Online Forms System",
+  "description": "ระบบขอใช้บริการห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น (VET.LAB 01, 02, 03, 04) พร้อมระบบลงนามดิจิทัล ติดตามสถานะ และส่งออกเอกสาร",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
