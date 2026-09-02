@@ -73,7 +73,9 @@ export function App() {
   const currentUserEmail = authUser?.email || '';
   const currentUserName = authUser?.name || '';
   const roleInfo = getUserRoleInfo(currentUserEmail);
-  const isSuperAdmin = currentUserEmail.trim().toLowerCase() === 'lakkch@kku.ac.th';
+  const isSuperAdmin =
+    roleInfo.role === 'admin' ||
+    currentUserEmail.trim().toLowerCase() === 'lakkch@kku.ac.th';
 
   // Adjust active tab if user switches role
   useEffect(() => {
@@ -278,7 +280,7 @@ export function App() {
                 <span className="hidden sm:inline md:hidden">ติดตามคำขอ</span>
               </button>
 
-              {/* Email Outbox & Google Sheets (Visible ONLY to Super Admin: lakkch@kku.ac.th) */}
+              {/* Email Outbox & Google Sheets (Visible to Super Admin) */}
               {isSuperAdmin && (
                 <>
                   <button
@@ -288,13 +290,13 @@ export function App() {
                     title="ตั้งค่าและดูประวัติการส่งอีเมลแจ้งเตือน (เฉพาะผู้ดูแลระบบ)"
                   >
                     <Mail className="w-3.5 h-3.5 text-orange-600 shrink-0" />
-                    <span className="hidden lg:inline">ระบบอีเมล</span>
+                    <span className="hidden md:inline">ระบบอีเมล</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setShowGasSettings(true)}
-                    className={`hidden xl:flex px-3 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 ${
+                    className={`flex px-2.5 sm:px-3.5 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 ${
                       isGasConfigured()
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100/80 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                         : 'bg-white/90 text-slate-700 border-indigo-200/80 hover:bg-indigo-50'
@@ -302,7 +304,7 @@ export function App() {
                     title="เชื่อมต่อ Google Sheets & Apps Script (เฉพาะผู้ดูแลระบบ)"
                   >
                     <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Google Sheets</span>
+                    <span className="hidden sm:inline">Google Sheets</span>
                     {isGasConfigured() && <span className="font-bold text-emerald-600">✓</span>}
                   </button>
                 </>
@@ -526,7 +528,8 @@ export function App() {
 
                 {/* Menu 5: Request Management & Status Portal */}
                 {roleInfo.isStaff ? (
-                  <button
+                  <>
+                    <button
                     type="button"
                     onClick={() => {
                       setActiveTab('DASHBOARD');
@@ -557,6 +560,30 @@ export function App() {
                       </div>
                     </div>
                   </button>
+                  {isSuperAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowGasSettings(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full group flex items-center gap-3 px-3.5 py-2 rounded-2xl text-left transition-all duration-200 cursor-pointer border bg-emerald-50/80 hover:bg-emerald-100 text-emerald-950 border-emerald-300 font-semibold shadow-2xs mt-1.5"
+                    >
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-emerald-600 text-white shadow-xs">
+                        <FileSpreadsheet className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0 flex-1 leading-tight">
+                        <div className="text-xs font-bold truncate flex items-center gap-1 text-slate-900">
+                          <span>Google Sheets & Script</span>
+                          {isGasConfigured() && <span className="text-[10px] text-emerald-700 font-bold">✓</span>}
+                        </div>
+                        <div className="text-[10px] text-emerald-800 truncate">
+                          ตั้งค่าเชื่อมต่อสเปรดชีต
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                  </>
                 ) : (
                   <button
                     type="button"

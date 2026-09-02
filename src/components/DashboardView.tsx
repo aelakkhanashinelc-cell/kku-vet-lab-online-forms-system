@@ -319,6 +319,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-100" /> ส่งออก CSV (Excel)
           </button>
+          {roleInfo.role === 'admin' && (
+            <button
+              onClick={onOpenGasSettings}
+              className={`px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 border backdrop-blur-md shadow-md transition-all cursor-pointer active:scale-95 ${
+                isGasConfigured()
+                  ? 'bg-teal-600/80 hover:bg-teal-600 text-white border-teal-400/40 shadow-teal-500/20'
+                  : 'bg-white/20 hover:bg-white/30 text-white border-white/30'
+              }`}
+              title="ตั้งค่าเชื่อมต่อ Google Sheets & Apps Script (เฉพาะผู้ดูแลระบบ)"
+            >
+              <FileSpreadsheet className="w-4 h-4 text-teal-100" />
+              <span>Google Sheets</span>
+              {isGasConfigured() && <span className="text-teal-200 font-bold">✓</span>}
+            </button>
+          )}
           <button
             onClick={fetchRequests}
             className="p-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-all shadow-xs cursor-pointer active:scale-95"
