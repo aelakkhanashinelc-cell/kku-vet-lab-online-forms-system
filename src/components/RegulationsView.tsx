@@ -291,7 +291,7 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
               </div>
               <ul className="space-y-1 pl-4 list-decimal text-[11px] text-slate-600">
                 <li>
-                  <strong>ผู้ประสานงานห้องปฏิบัติการ*</strong> หมายถึง <strong>คุณปรียาภรณ์ สุระชน</strong> (ห้องงานปฏิบัติการฯ ชั้น 5 อาคารพิเชฏฐ์ เหลืองทองคำ)
+                  <strong>ผู้ประสานงานห้องปฏิบัติการ*</strong> หมายถึง <strong>คุณรัตนา หลายวิวัฒน์</strong>
                 </li>
                 <li>
                   <strong>หัวหน้าห้องปฏิบัติการ**</strong> หมายถึง <strong>นางสุธิดา จันทร์ลุน (ตำแหน่งนักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</strong>

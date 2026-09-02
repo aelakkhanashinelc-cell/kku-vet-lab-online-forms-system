@@ -469,12 +469,6 @@ function sendNotificationEmails(req, trackingNo, formType, itemsSummary) {
               <div style="font-size: 13px; color: #1e293b; margin-top: 6px; white-space: pre-line;">\${itemsSummary || '-'}</div>
             </div>
           </div>
-
-          <!-- Official Contact Note -->
-          <div style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 12px 16px; border-radius: 4px; margin-top: 20px;">
-            <div style="font-weight: bold; color: #9a3412; font-size: 13px;">ผู้ประสานงานห้องปฏิบัติการ:</div>
-            <div style="font-size: 13px; color: #7c2d12;">คุณปรียาภรณ์ สุระชน (ห้องงานปฏิบัติการฯ ชั้น 5 อาคารพิเชฏฐ์ฯ)</div>
-            <div style="font-size: 12px; color: #9a3412; margin-top: 2px;">หัวหน้าห้องปฏิบัติการ: นางสุธิดา จันทร์ลุน (suthidaj@kku.ac.th)</div>
           </div>
         </div>
 

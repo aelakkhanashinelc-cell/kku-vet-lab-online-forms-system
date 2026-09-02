@@ -9,11 +9,8 @@ export const LAB_OFFICIALS = {
     email: 'suthidaj@kku.ac.th',
   },
   coordinator: {
-    name: 'คุณปรียาภรณ์ สุระชน',
+    name: 'คุณรัตนา หลายวิวัฒน์',
     roleTitle: 'ผู้ประสานงานห้องปฏิบัติการ',
-    location: 'ห้องงานปฏิบัติการ ชั้น 5 อาคารพิเชฏฐ์ เหลืองทองคำ',
-    phone: '043-009700 ต่อ 46101',
-    officeHours: '09.00-12.00 และ 13.00-15.30 น. (วันจันทร์-ศุกร์)',
   },
   primaryEmail: 'suthidaj@kku.ac.th',
   fallbackEmails: ['suthidaj@kku.ac.th', 'lakkch@kku.ac.th'],
@@ -119,7 +116,7 @@ export function generateHeadRejectedEmail(request: VetLabRequest, baseUrl?: stri
 >> ดาวน์โหลดเอกสาร PDF: ${printUrl}
 --------------------------------------------------
 
-หากมีข้อสงสัยเพิ่มเติม สามารถติดต่อผู้ประสานงานห้องปฏิบัติการ (${LAB_OFFICIALS.coordinator.name}) ${LAB_OFFICIALS.coordinator.location} โทร ${LAB_OFFICIALS.coordinator.phone}
+หากมีข้อสงสัยเพิ่มเติม สามารถติดต่อผู้ประสานงานห้องปฏิบัติการ (${LAB_OFFICIALS.coordinator.name})
 
 ขอแสดงความนับถือ
 งานห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น`;
