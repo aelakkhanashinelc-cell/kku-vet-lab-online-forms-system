@@ -374,7 +374,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
           <span>วันที่ยื่นคำขอ: <strong className="text-white font-bold">{thaiDate.fullStr}</strong></span>
           <span className="text-emerald-100 font-semibold flex items-center gap-1.5 text-xs bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            ระบบบันทึกและส่งแจ้งเตือนประธานกรรมการงานห้องปฏิบัติการฯ ทันที
+            ระบบบันทึกและส่งแจ้งเตือนหัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ ทันที
           </span>
         </div>
       </div>

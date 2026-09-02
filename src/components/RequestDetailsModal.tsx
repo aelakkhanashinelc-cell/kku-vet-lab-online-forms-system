@@ -660,7 +660,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                   }`}
                 ></span>
                 <h3 className="font-bold text-slate-900 text-xs sm:text-sm">
-                  ส่วนที่ 2: ผลการพิจารณาของประธาน/หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)
+                  ส่วนที่ 2: ผลการพิจารณาของหัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ (นางสุธิดา จันทร์ลุน)
                 </h3>
               </div>
               <span

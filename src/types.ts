@@ -100,7 +100,7 @@ export interface VetLabRequest {
   applicantSignature: SignatureData;
   advisorSignature: SignatureData;
 
-  // Part 2: Head of Lab (ประธานกรรมการงานห้องปฏิบัติการฯ)
+  // Part 2: Head of Lab (หัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ)
   part2?: {
     approvalStatus: 'approved' | 'rejected' | 'forwarded' | 'pending';
     comment?: string;

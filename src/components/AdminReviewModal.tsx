@@ -983,7 +983,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
             <div className="border border-indigo-200 rounded-lg p-5 bg-indigo-50/20 space-y-4">
               <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
                 <UserCheck className="w-4 h-4 text-indigo-600" />
-                ส่วนที่ 2 : ความเห็นของหัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)
+                ส่วนที่ 2 : ความเห็นของหัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ (นางสุธิดา จันทร์ลุน นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)
               </h3>
 
               {!isHeadAuthorized && (

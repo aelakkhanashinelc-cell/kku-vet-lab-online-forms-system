@@ -428,7 +428,7 @@ function sendNotificationEmails(req, trackingNo, formType, itemsSummary) {
         <!-- Content -->
         <div style="padding: 28px; color: #1e293b; line-height: 1.6;">
           <p style="margin-top: 0; font-size: 15px;">
-            เรียน คุณ <strong>\${req.applicantName}</strong> และประธานกรรมการงานห้องปฏิบัติการฯ,
+            เรียน คุณ <strong>\${req.applicantName}</strong> และหัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ,
           </p>
           <p style="font-size: 14px; color: #475569;">
             ระบบได้รับข้อมูลคำขอของท่านและบันทึกลงฐานข้อมูล Google Sheets เรียบร้อยแล้ว โดยมีรายละเอียดดังนี้:

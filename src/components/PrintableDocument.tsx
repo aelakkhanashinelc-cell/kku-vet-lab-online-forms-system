@@ -492,7 +492,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         {/* Part 2: Head of Lab */}
         <div className="border border-black mt-2.5 p-2 rounded-none bg-slate-50/40">
           <div className="font-bold text-[11.5px] mb-0.5">
-            ส่วนที่ 2 : ความเห็นของประธานกรรมการงานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ
+            ส่วนที่ 2 : ความเห็นของหัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ
           </div>
           <div className="space-y-1 text-[11px]">
             <div className="flex flex-wrap items-center gap-4 pl-1">
@@ -542,13 +542,13 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                   signature={request.part2?.signature}
                   fallbackName={request.part2?.signature?.name || 'นางสุธิดา จันทร์ลุน'}
                   fallbackDate={request.part2?.signature?.date || (request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : undefined)}
-                  roleLabel="หัวหน้าห้องปฏิบัติการ"
+                  roleLabel="หัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ"
                   isApproved={request.part2?.approvalStatus === 'approved' || request.status === 'approved_by_head' || request.status === 'completed'}
                 />
                 <div className="text-[10.5px]">( {request.part2?.signature?.name || 'นางสุธิดา จันทร์ลุน'} )</div>
                 <div className="text-[10px] leading-tight">
                   <div className="text-[9.5px] font-normal text-slate-800">(นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ)</div>
-                  <div className="font-semibold text-[10px]">หัวหน้าห้องปฏิบัติการ</div>
+                  <div className="font-semibold text-[10px]">หัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ</div>
                 </div>
                 <div className="text-[10px]">วันที่ {request.part2?.signature?.date || (request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : '........./........./.........')}</div>
               </div>

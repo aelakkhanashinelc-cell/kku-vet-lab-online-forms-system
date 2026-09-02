@@ -296,7 +296,7 @@ export const QuickTrackModal: React.FC<QuickTrackModalProps> = ({
                                 ? '✕'
                                 : '2'}
                             </div>
-                            <span className="font-semibold text-slate-800 block">2. ประธานกรรมการฯ</span>
+                            <span className="font-semibold text-slate-800 block">2. หัวหน้างานห้องปฏิบัติการฯ</span>
                             <span className="text-slate-500">
                               {req.part2?.approvalStatus === 'approved'
                                 ? 'อนุมัติแล้ว'
