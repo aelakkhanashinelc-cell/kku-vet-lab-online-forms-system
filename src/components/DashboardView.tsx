@@ -21,6 +21,8 @@ import {
   ArrowRight,
   Eye,
   Inbox,
+  FileCheck2,
+  Sparkles,
 } from 'lucide-react';
 import { VetLabRequest, FormType, RequestStatus } from '../types';
 import { isGasConfigured, isGasSyncEnabled, exportRequestsToCSV } from '../utils/gasService';
@@ -272,53 +274,71 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Top Header Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-xs border border-[#dadce0] flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-400/25 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+        {/* Ambient Decorative Glows */}
+        <div className="absolute -right-20 -top-20 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute right-1/3 -bottom-24 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div className="relative z-10 space-y-3 max-w-3xl">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="w-2 h-2 rounded-full bg-[#1a73e8] animate-pulse"></span>
-            <span className="text-[11px] font-bold text-[#1a73e8] uppercase tracking-wider font-mono">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md text-cyan-300 text-[11px] font-bold uppercase tracking-wider border border-cyan-400/30">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
               STAFF MANAGEMENT & APPROVAL PORTAL
             </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Real-time Live Sync
             </span>
-            <span className="px-3 py-0.5 rounded-full bg-[#202124] text-white text-[11px] font-semibold">
-              {roleInfo.roleTitle}: {roleInfo.userName}
+            <span className="px-3 py-1 rounded-full bg-amber-400/15 text-amber-200 border border-amber-300/30 text-[11px] font-semibold flex items-center gap-1.5 backdrop-blur-md">
+              <UserCheck className="w-3.5 h-3.5 text-amber-300" />
+              {roleInfo.roleTitle}: <span className="text-white font-bold">{roleInfo.userName}</span>
             </span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#202124] mt-1.5 tracking-tight">
-            รายการคำขอ & การอนุมัติ (Request & Approval Portal)
-          </h1>
-          <p className="text-xs sm:text-sm text-[#5f6368] mt-1">
+
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg border border-white/20 flex items-center justify-center shrink-0">
+              <FileCheck2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-xs">
+                รายการคำขอ & การอนุมัติ
+              </h1>
+              <div className="text-xs sm:text-sm font-medium text-cyan-200/90 font-mono mt-0.5">
+                Request & Approval Portal
+              </div>
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed pt-0.5">
             {isSuperAdminOrHead
               ? 'พิจารณาอนุมัติคำขอ (ส่วนที่ 2-3), มอบหมายผู้รับผิดชอบ, ตรวจสอบความพร้อม และส่งออกเอกสาร PDF'
               : `แสดงและพิจารณาเฉพาะรายการคำขอที่หัวหน้าห้องปฏิบัติการมอบหมายให้ ${roleInfo.userName} ตรวจสอบ (ส่วนที่ 3)`}
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="relative z-10 flex flex-wrap items-center gap-2.5 self-start md:self-center shrink-0">
           {(roleInfo.role === 'admin' || roleInfo.role === 'head') && (
             <button
               onClick={() => setShowManageStaff(true)}
-              className="px-4 py-2 rounded-full border border-[#d2e3fc] bg-[#e8f0fe] hover:bg-[#d2e3fc] text-[#1a73e8] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs font-semibold flex items-center gap-2 border border-indigo-400/40 backdrop-blur-md shadow-md hover:shadow-indigo-500/25 transition-all cursor-pointer active:scale-95"
               title="เพิ่ม/แก้ไข รายชื่อนักวิทยาศาสตร์และผู้มีสิทธิ์"
             >
-              <UserPlus className="w-3.5 h-3.5 text-[#1a73e8]" /> จัดการนักวิทยาศาสตร์
+              <UserPlus className="w-4 h-4 text-indigo-200" /> จัดการนักวิทยาศาสตร์
             </button>
           )}
           <button
             onClick={handleExportCsv}
-            className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2 shadow-md hover:shadow-emerald-500/25 border border-emerald-400/30 transition-all cursor-pointer active:scale-95"
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-[#34a853]" /> ส่งออก CSV (Excel)
+            <FileSpreadsheet className="w-4 h-4 text-emerald-100" /> ส่งออก CSV (Excel)
           </button>
           <button
             onClick={fetchRequests}
-            className="p-2.5 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#5f6368] transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-all shadow-xs cursor-pointer active:scale-95"
             title="รีเฟรชข้อมูล"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -535,19 +555,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Requests Table */}
       <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         {/* Table Sub-header Hint */}
-        <div className="bg-slate-50/80 px-5 py-3 border-b border-slate-200 flex items-center justify-between text-xs text-slate-500">
-          <div className="flex items-center gap-2 text-indigo-600 font-medium">
-            <Eye className="w-4 h-4 shrink-0" />
+        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-slate-50 px-5 py-3 border-b border-indigo-100/80 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2 text-indigo-700 font-semibold">
+            <Eye className="w-4 h-4 shrink-0 text-indigo-500" />
             <span>คลิกที่รายการคำขอเพื่อเปิดหน้าต่างดูข้อมูลคำขอฉบับเต็ม</span>
           </div>
-          <span className="hidden md:inline text-xs text-slate-500 font-mono">
-            {requests.length} คำขอ
+          <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-indigo-900 font-semibold bg-white/90 px-2.5 py-0.5 rounded-full border border-indigo-200/80 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+            {requests.length} รายการคำขอ
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
-            <thead className="bg-slate-50/80 text-slate-700 font-bold border-b border-slate-200 text-xs">
+            <thead className="bg-gradient-to-r from-slate-100 via-indigo-50/40 to-blue-50/30 text-slate-800 font-bold border-b border-slate-200 text-xs">
               <tr>
                 <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">รหัสติดตาม</th>
                 <th className="py-3.5 px-4 whitespace-nowrap font-bold text-slate-800">แบบฟอร์ม</th>
