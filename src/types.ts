@@ -1,6 +1,6 @@
 export type FormType = 'VET_LAB_01' | 'VET_LAB_02' | 'VET_LAB_03' | 'VET_LAB_04';
 
-export type ApplicantRole = 'faculty_staff' | 'student' | 'other';
+export type ApplicantRole = 'faculty_staff' | 'student' | 'external' | 'other';
 
 export type WorkType = 'teaching' | 'research' | 'special_problem' | 'other';
 

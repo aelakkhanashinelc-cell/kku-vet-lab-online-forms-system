@@ -633,7 +633,8 @@ function getRoleNameTh(role) {
   switch (role) {
     case "faculty_staff": return "อาจารย์/บุคลากร";
     case "student": return "นักศึกษา";
-    case "other": return "บุคคลภายนอก";
+    case "external": return "บุคคลภายนอก";
+    case "other": return "อื่นๆ";
     default: return role || "-";
   }
 }

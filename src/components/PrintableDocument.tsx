@@ -255,10 +255,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                 นักศึกษา {request.studentId && <span className="border-b border-dotted border-black px-1 font-mono font-semibold">รหัส {request.studentId}</span>}
               </span>
               <span className="flex items-center gap-1">
+                <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.role === 'external' ? 'bg-black text-white font-bold' : ''}`}>
+                  {request.role === 'external' ? '✓' : ''}
+                </span>
+                บุคคลภายนอก {request.role === 'external' && request.otherRoleText && <span className="border-b border-dotted border-black px-1">({request.otherRoleText})</span>}
+              </span>
+              <span className="flex items-center gap-1">
                 <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.role === 'other' ? 'bg-black text-white font-bold' : ''}`}>
                   {request.role === 'other' ? '✓' : ''}
                 </span>
-                อื่นๆ {request.otherRoleText && <span className="border-b border-dotted border-black px-1">{request.otherRoleText}</span>}
+                อื่นๆ {request.role === 'other' && request.otherRoleText && <span className="border-b border-dotted border-black px-1 font-medium">{request.otherRoleText}</span>}
               </span>
             </div>
           </div>

@@ -204,6 +204,10 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
       setErrorMsg('กรุณาระบุรหัสนักศึกษา');
       return;
     }
+    if (role === 'other' && !otherRoleText.trim()) {
+      setErrorMsg('กรุณาระบุสถานภาพ');
+      return;
+    }
     if (!phone.trim()) {
       setErrorMsg('กรุณาระบุเบอร์โทรศัพท์ติดต่อ');
       return;
@@ -250,7 +254,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
       applicantName,
       role,
       studentId: role === 'student' ? studentId : undefined,
-      otherRoleText: role === 'other' ? otherRoleText : undefined,
+      otherRoleText: (role === 'other' || role === 'external') ? otherRoleText : undefined,
       department: department === 'อื่นๆ (ระบุ)' ? customDepartment : department,
       phone,
       email,
@@ -319,6 +323,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
       applicantName: applicantName || 'ผู้ยื่นคำขอทดสอบ',
       role,
       studentId,
+      otherRoleText: (role === 'other' || role === 'external') ? otherRoleText : undefined,
       department: department === 'อื่นๆ (ระบุ)' ? customDepartment : department,
       phone,
       email,
@@ -416,7 +421,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                 <label className="text-xs font-semibold text-slate-700 block">
                   สถานภาพ <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <button
                     type="button"
                     onClick={() => setRole('faculty_staff')}
@@ -441,6 +446,17 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                   </button>
                   <button
                     type="button"
+                    onClick={() => setRole('external')}
+                    className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
+                      role === 'external'
+                        ? 'bg-emerald-50 border-emerald-600 text-emerald-900 ring-2 ring-emerald-500/20 shadow-xs'
+                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    บุคคลภายนอก
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => setRole('other')}
                     className={`py-2 px-2 rounded-xl text-xs font-semibold border text-center transition-all cursor-pointer ${
                       role === 'other'
@@ -448,13 +464,13 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                         : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    บุคคลภายนอก
+                    อื่นๆ
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Student ID / Other */}
+            {/* Conditional input for Student ID */}
             {role === 'student' && (
               <div className="p-4 bg-emerald-50/70 border border-emerald-100 rounded-xl shadow-2xs">
                 <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider block mb-1">
@@ -471,17 +487,35 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
               </div>
             )}
 
-            {role === 'other' && (
+            {/* Conditional input for External */}
+            {role === 'external' && (
               <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl shadow-2xs">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">
-                  ระบุหน่วยงาน/สถานภาพ
+                <label className="text-xs font-bold text-slate-700 block mb-1">
+                  ระบุหน่วยงาน / บริษัท / สังกัด
                 </label>
                 <input
                   type="text"
                   value={otherRoleText}
                   onChange={(e) => setOtherRoleText(e.target.value)}
-                  placeholder="เช่น สัตวแพทย์ประจำคลินิก"
+                  placeholder="เช่น โรงพยาบาลสัตว์เอกชน, หน่วยงานภายนอก"
                   className="w-full md:w-1/2 px-3 py-2 bg-white rounded-lg border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
+                />
+              </div>
+            )}
+
+            {/* Conditional input for Other */}
+            {role === 'other' && (
+              <div className="p-4 bg-amber-50/80 border border-amber-200 rounded-xl shadow-2xs">
+                <label className="text-xs font-bold text-amber-950 block mb-1">
+                  ระบุสถานภาพ <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={otherRoleText}
+                  onChange={(e) => setOtherRoleText(e.target.value)}
+                  placeholder="เช่น นักวิจัย, ผู้ช่วยวิจัย, แพทย์ประจำบ้าน, นักเรียนแลกเปลี่ยน"
+                  className="w-full md:w-1/2 px-3 py-2 bg-white rounded-lg border border-amber-300 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none"
                 />
               </div>
             )}

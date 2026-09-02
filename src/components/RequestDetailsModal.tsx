@@ -364,7 +364,13 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                 <div>
                   <div className="text-slate-500 text-[11px]">สถานภาพ / ตำแหน่ง:</div>
                   <div className="font-semibold text-slate-800">
-                    {request.role === 'student' ? 'นักศึกษา' : request.role === 'faculty_staff' ? 'อาจารย์ / บุคลากร' : request.otherRoleText || 'บุคคลภายนอก'}
+                    {request.role === 'student'
+                      ? 'นักศึกษา'
+                      : request.role === 'faculty_staff'
+                      ? 'อาจารย์ / บุคลากร'
+                      : request.role === 'external'
+                      ? ('บุคคลภายนอก' + (request.otherRoleText ? ` (${request.otherRoleText})` : ''))
+                      : (request.otherRoleText ? `อื่นๆ (${request.otherRoleText})` : 'อื่นๆ')}
                     {request.studentId && <span className="ml-1 text-slate-500 font-mono">({request.studentId})</span>}
                   </div>
                 </div>
