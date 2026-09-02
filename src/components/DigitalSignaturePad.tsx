@@ -98,22 +98,6 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
     setHasDrawn(false);
   };
 
-  const generateTypedSignatureDataUrl = (name: string): string => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 400;
-    canvas.height = 140;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return '';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, 400, 140);
-    ctx.font = 'italic bold 32px "Brush Script MT", cursive, sans-serif';
-    ctx.fillStyle = '#312e81';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(name || 'Signature', 200, 70);
-    return canvas.toDataURL('image/png');
-  };
-
   const handleApply = () => {
     let finalDataUrl = value?.dataUrl || '';
     if (mode === 'draw') {
@@ -191,32 +175,34 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
             setIsOpen(true);
           }
         }}
-        className={`border border-dashed rounded-lg p-3 bg-white text-center transition-colors min-h-[84px] flex flex-col items-center justify-center group ${
+        className={`border border-dashed rounded-lg p-3 bg-white text-center transition-colors min-h-[110px] flex flex-col items-center justify-center group ${
           disabled
             ? 'opacity-80 cursor-not-allowed border-slate-200'
             : 'cursor-pointer border-slate-300 hover:border-indigo-500'
         }`}
       >
         {value?.dataUrl ? (
-          <div className="w-full flex flex-col items-center">
-            <img
-              src={value.dataUrl}
-              alt="Signature"
-              className="h-12 object-contain max-w-[220px]"
-            />
-            <div className="mt-1 text-[11px] text-slate-600 border-t border-slate-100 pt-1 w-full flex justify-between px-2 font-normal">
+          <div className="w-full flex flex-col items-center justify-center">
+            <div className="h-16 md:h-20 w-full flex items-center justify-center overflow-hidden">
+              <img
+                src={value.dataUrl}
+                alt="Signature"
+                className="h-14 md:h-16 max-h-16 max-w-[280px] object-contain mx-auto block"
+              />
+            </div>
+            <div className="mt-2 text-[11.5px] text-slate-600 border-t border-slate-100 pt-1.5 w-full flex justify-between px-3 font-normal">
               <span>ชื่อ: {value.name || '-'}</span>
               <span>วันที่: {value.date || '-'}</span>
             </div>
           </div>
         ) : value?.name ? (
-          <div className="text-center">
-            <div className="text-base font-serif italic text-indigo-950 font-semibold">{value.name}</div>
-            <div className="text-xs text-slate-500 mt-0.5 font-normal">วันที่: {value.date || '-'}</div>
+          <div className="text-center py-2">
+            <div className="text-xl font-serif italic text-indigo-950 font-bold tracking-wide">{value.name}</div>
+            <div className="text-xs text-slate-500 mt-1 font-normal">วันที่: {value.date || '-'}</div>
           </div>
         ) : (
-          <div className="flex flex-col items-center text-slate-400 group-hover:text-indigo-600 transition-colors">
-            <PenTool className="w-5 h-5 mb-1 opacity-70" />
+          <div className="flex flex-col items-center justify-center text-slate-400 group-hover:text-indigo-600 transition-colors py-2">
+            <PenTool className="w-6 h-6 mb-1.5 opacity-70" />
             <span className="text-xs font-medium">
               {disabled ? 'ยังไม่มีการลงนาม' : 'คลิกเพื่อลงลายมือชื่อดิจิทัล'}
             </span>
@@ -365,9 +351,9 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
                       className="w-full px-3 py-2 border border-slate-300 rounded-md text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
                     />
                   </div>
-                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-center flex flex-col items-center justify-center min-h-[90px]">
                     <span className="text-[11px] text-slate-400 font-normal block mb-1.5">ตัวอย่างลายเซ็นแบบตัวพิมพ์:</span>
-                    <div className="text-xl font-serif italic text-indigo-950 font-semibold tracking-wide">
+                    <div className="text-2xl font-serif italic text-indigo-950 font-bold tracking-wide">
                       {typedName || 'ตัวอย่างลายมือชื่อ'}
                     </div>
                   </div>

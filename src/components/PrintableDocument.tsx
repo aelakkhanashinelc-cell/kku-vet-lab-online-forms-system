@@ -24,7 +24,7 @@ const RenderSignatureStamp: React.FC<{
 
   if (!isApproved || !name || name === '-' || name.startsWith('.')) {
     return (
-      <div className="h-10 flex items-center justify-center text-slate-400 text-[11px] italic">
+      <div className="h-14 flex items-center justify-center text-slate-400 text-[11px] italic text-center w-full">
         (ลงชื่อ)....................................................
       </div>
     );
@@ -32,8 +32,12 @@ const RenderSignatureStamp: React.FC<{
 
   if (hasDrawnUrl) {
     return (
-      <div className="h-10 flex items-center justify-center">
-        <img src={signature!.dataUrl} alt={name} className="max-h-9 object-contain" />
+      <div className="h-14 flex items-center justify-center w-full overflow-hidden">
+        <img
+          src={signature!.dataUrl}
+          alt={name}
+          className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
+        />
       </div>
     );
   }
@@ -42,15 +46,19 @@ const RenderSignatureStamp: React.FC<{
   const autoDataUrl = generateTypedSignatureDataUrl(name);
   if (autoDataUrl) {
     return (
-      <div className="h-10 flex items-center justify-center">
-        <img src={autoDataUrl} alt={name} className="max-h-9 object-contain" />
+      <div className="h-14 flex items-center justify-center w-full overflow-hidden">
+        <img
+          src={autoDataUrl}
+          alt={name}
+          className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
+        />
       </div>
     );
   }
 
   return (
-    <div className="h-10 flex items-center justify-center text-center">
-      <div className="text-indigo-950 font-bold italic text-[14px] font-serif">
+    <div className="h-14 flex items-center justify-center text-center w-full">
+      <div className="text-indigo-950 font-bold italic text-[17px] font-serif tracking-wide">
         {name}
       </div>
     </div>

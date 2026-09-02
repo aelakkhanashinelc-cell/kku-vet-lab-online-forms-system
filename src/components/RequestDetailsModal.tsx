@@ -584,15 +584,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                 {/* Applicant Signature */}
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between">
                   <div className="text-[11px] text-slate-500 font-medium">ลายมือชื่อผู้ขอรับบริการ:</div>
-                  <div className="my-2 min-h-[48px] flex items-center justify-center bg-white border border-slate-200 rounded p-1">
+                  <div className="my-2 min-h-[64px] flex items-center justify-center bg-white border border-slate-200 rounded-lg p-2 overflow-hidden">
                     {request.applicantSignature?.dataUrl ? (
                       <img
                         src={request.applicantSignature.dataUrl}
                         alt="Applicant Signature"
-                        className="max-h-12 object-contain"
+                        className="h-12 max-h-14 max-w-[240px] object-contain mx-auto block"
                       />
                     ) : (
-                      <span className="font-serif italic text-slate-700 text-sm font-semibold">
+                      <span className="font-serif italic text-slate-700 text-base font-semibold">
                         {request.applicantSignature?.name || request.applicantName}
                       </span>
                     )}
@@ -608,15 +608,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                 {/* Advisor Signature */}
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between">
                   <div className="text-[11px] text-slate-500 font-medium">ลายมือชื่ออาจารย์ที่ปรึกษา / หน.โครงการ:</div>
-                  <div className="my-2 min-h-[48px] flex items-center justify-center bg-white border border-slate-200 rounded p-1">
+                  <div className="my-2 min-h-[64px] flex items-center justify-center bg-white border border-slate-200 rounded-lg p-2 overflow-hidden">
                     {request.advisorSignature?.dataUrl ? (
                       <img
                         src={request.advisorSignature.dataUrl}
                         alt="Advisor Signature"
-                        className="max-h-12 object-contain"
+                        className="h-12 max-h-14 max-w-[240px] object-contain mx-auto block"
                       />
                     ) : (
-                      <span className="font-serif italic text-slate-700 text-sm font-semibold">
+                      <span className="font-serif italic text-slate-700 text-base font-semibold">
                         {request.advisorSignature?.name || 'อาจารย์ที่ปรึกษา'}
                       </span>
                     )}
@@ -714,15 +714,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                         วันที่พิจารณา: {request.part2.reviewedAt || request.part2.signature?.date || '-'}
                       </div>
                     </div>
-                    <div className="min-w-[120px] h-12 border border-slate-200 rounded flex items-center justify-center p-1 bg-slate-50">
+                    <div className="min-w-[150px] h-16 border border-slate-200 rounded-lg flex items-center justify-center p-2 bg-white overflow-hidden shadow-2xs">
                       {request.part2.signature?.dataUrl ? (
                         <img
                           src={request.part2.signature.dataUrl}
                           alt="Head Signature"
-                          className="max-h-10 object-contain"
+                          className="h-12 max-h-14 max-w-[200px] object-contain mx-auto block"
                         />
                       ) : (
-                        <span className="font-serif italic text-xs font-semibold text-slate-700">
+                        <span className="font-serif italic text-sm font-semibold text-slate-700">
                           {request.part2.signature?.name || 'สุธิดา จันทร์ลุน'}
                         </span>
                       )}
@@ -820,15 +820,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                           วันที่พิจารณา: {request.part3.reviewedAt || request.part3.signature?.date || '-'}
                         </div>
                       </div>
-                      <div className="min-w-[120px] h-12 border border-slate-200 rounded flex items-center justify-center p-1 bg-slate-50">
+                      <div className="min-w-[150px] h-16 border border-slate-200 rounded-lg flex items-center justify-center p-2 bg-white overflow-hidden shadow-2xs">
                         {request.part3.signature?.dataUrl ? (
                           <img
                             src={request.part3.signature.dataUrl}
                             alt="Officer Signature"
-                            className="max-h-10 object-contain"
+                            className="h-12 max-h-14 max-w-[200px] object-contain mx-auto block"
                           />
                         ) : (
-                          <span className="font-serif italic text-xs font-semibold text-slate-700">
+                          <span className="font-serif italic text-sm font-semibold text-slate-700">
                             {request.part3.signature?.name || 'เจ้าหน้าที่ผู้ดูแล'}
                           </span>
                         )}

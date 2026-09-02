@@ -606,9 +606,13 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
                       วันที่พิจารณา: {request.part2?.reviewedAt ? new Date(request.part2.reviewedAt).toLocaleDateString('th-TH') : request.part2?.signature?.date || '-'}
                     </div>
                   </div>
-                  <div className="min-w-[130px] h-12 border border-slate-200 rounded flex items-center justify-center p-1 bg-white">
+                  <div className="min-w-[150px] h-16 border border-slate-200 rounded-lg flex items-center justify-center p-2 bg-white overflow-hidden shadow-2xs">
                     {request.part2?.signature?.dataUrl ? (
-                      <img src={request.part2.signature.dataUrl} alt="Head Signature" className="max-h-10 object-contain" />
+                      <img
+                        src={request.part2.signature.dataUrl}
+                        alt="Head Signature"
+                        className="h-12 max-h-14 max-w-[200px] object-contain mx-auto block"
+                      />
                     ) : (
                       <span className="text-[11px] font-semibold text-slate-400 font-mono">ลงนามทางอิเล็กทรอนิกส์</span>
                     )}
@@ -673,9 +677,13 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
                         วันที่พิจารณา: {request.part3?.reviewedAt ? new Date(request.part3.reviewedAt).toLocaleDateString('th-TH') : request.part3?.signature?.date || '-'}
                       </div>
                     </div>
-                    <div className="min-w-[130px] h-12 border border-slate-200 rounded flex items-center justify-center p-1 bg-white">
+                    <div className="min-w-[150px] h-16 border border-slate-200 rounded-lg flex items-center justify-center p-2 bg-white overflow-hidden shadow-2xs">
                       {request.part3?.signature?.dataUrl ? (
-                        <img src={request.part3.signature.dataUrl} alt="Officer Signature" className="max-h-10 object-contain" />
+                        <img
+                          src={request.part3.signature.dataUrl}
+                          alt="Officer Signature"
+                          className="h-12 max-h-14 max-w-[200px] object-contain mx-auto block"
+                        />
                       ) : (
                         <span className="text-[11px] font-semibold text-slate-400 font-mono">ลงนามทางอิเล็กทรอนิกส์</span>
                       )}
@@ -899,24 +907,50 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
 
                 {/* Signatures Preview */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
-                  <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between">
                     <div className="text-[11px] text-slate-500 font-medium">ผู้ขอรับบริการ:</div>
-                    <div className="font-semibold text-slate-900 mt-1">
+                    <div className="font-semibold text-slate-900 mt-0.5 text-xs">
                       {request.applicantSignature?.name || request.applicantName}
                     </div>
-                    {request.applicantSignature?.dataUrl && (
-                      <img src={request.applicantSignature.dataUrl} alt="Signature" className="max-h-8 mt-1" />
-                    )}
+                    <div className="my-1.5 min-h-[56px] flex items-center justify-center bg-white border border-slate-200 rounded-md p-1.5 overflow-hidden">
+                      {request.applicantSignature?.dataUrl ? (
+                        <img
+                          src={request.applicantSignature.dataUrl}
+                          alt="Signature"
+                          className="h-11 max-h-12 max-w-[200px] object-contain mx-auto block"
+                        />
+                      ) : (
+                        <span className="font-serif italic text-slate-700 text-sm font-semibold">
+                          {request.applicantSignature?.name || request.applicantName}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[10px] text-slate-400 text-center">
+                      วันที่: {request.applicantSignature?.date || request.submissionDateTh}
+                    </div>
                   </div>
 
-                  <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between">
                     <div className="text-[11px] text-slate-500 font-medium">อาจารย์ที่ปรึกษา / หน.โครงการ:</div>
-                    <div className="font-semibold text-slate-900 mt-1">
+                    <div className="font-semibold text-slate-900 mt-0.5 text-xs">
                       {request.advisorSignature?.name || 'อาจารย์ที่ปรึกษา'}
                     </div>
-                    {request.advisorSignature?.dataUrl && (
-                      <img src={request.advisorSignature.dataUrl} alt="Advisor Signature" className="max-h-8 mt-1" />
-                    )}
+                    <div className="my-1.5 min-h-[56px] flex items-center justify-center bg-white border border-slate-200 rounded-md p-1.5 overflow-hidden">
+                      {request.advisorSignature?.dataUrl ? (
+                        <img
+                          src={request.advisorSignature.dataUrl}
+                          alt="Advisor Signature"
+                          className="h-11 max-h-12 max-w-[200px] object-contain mx-auto block"
+                        />
+                      ) : (
+                        <span className="font-serif italic text-slate-700 text-sm font-semibold">
+                          {request.advisorSignature?.name || 'อาจารย์ที่ปรึกษา'}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[10px] text-slate-400 text-center">
+                      วันที่: {request.advisorSignature?.date || request.submissionDateTh}
+                    </div>
                   </div>
                 </div>
               </div>
