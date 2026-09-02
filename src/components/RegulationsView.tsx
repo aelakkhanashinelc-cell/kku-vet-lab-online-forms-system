@@ -20,6 +20,12 @@ import {
   Layers,
   FileCheck,
   Award,
+  ArrowRight,
+  ArrowDown,
+  Send,
+  Edit3,
+  UserCheck,
+  Workflow,
 } from 'lucide-react';
 
 interface RegulationsViewProps {
@@ -108,172 +114,358 @@ export const RegulationsView: React.FC<RegulationsViewProps> = ({
       </div>
 
       {/* 3. MASTER SERVICE WORKFLOW TIMELINE (แผนภาพไทม์ไลน์ขั้นตอนการขอรับบริการ 6 ขั้นตอน) */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-              <Layers className="w-4 h-4 text-indigo-600" />
+      <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-xs space-y-5">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 shrink-0">
+              <Workflow className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-sm sm:text-base font-bold text-slate-900">
-                แผนภาพและไทม์ไลน์ขั้นตอนการขอรับบริการ (Service Workflow Timeline)
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                <span>แผนภาพและไทม์ไลน์ขั้นตอนการขอรับบริการ</span>
+                <span className="hidden sm:inline-block text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">
+                  WORKFLOW TIMELINE
+                </span>
               </h2>
-              <p className="text-xs text-slate-500">
-                สรุป 6 ขั้นตอนหลักตั้งแต่เริ่มต้นยื่นคำขอ จนถึงเสร็จสิ้นการใช้งาน
+              <p className="text-xs text-slate-500 mt-0.5">
+                กระบวนการแบบ Full-Digital 6 ขั้นตอน ตั้งแต่เริ่มต้นยื่นคำขอ จนถึงเข้าใช้งานและปิดงาน
               </p>
             </div>
           </div>
-          <span className="self-start sm:self-auto text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
-            ระบบออนไลน์ Full-Digital
+          <span className="self-start sm:self-auto text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-full border border-indigo-200 flex items-center gap-1.5 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+            อนุมัติ 2 ระดับ • ติดตามสด
           </span>
         </div>
 
-        {/* Visual Step Pipeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 pt-2">
-          {/* Step 1 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                1
-              </span>
-              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
-                ขั้นตอนที่ 1
-              </span>
+        {/* Phase Summary Bar (Overview Process Stepper) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200/90 text-xs">
+          <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-blue-200/80 shadow-2xs">
+            <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+              A
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                ศึกษาข้อปฏิบัติ & เลือกแบบฟอร์ม
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                ทำความเข้าใจระเบียบ (VET.LAB 01) และเลือกฟอร์มที่ต้องการ:
-              </p>
-              <div className="mt-2 space-y-1 text-[11px]">
-                <div className="text-blue-900 font-medium flex items-center gap-1">
-                  • <strong>02:</strong> ขอใช้ห้องปฏิบัติการ (6 สาขา)
+            <div className="min-w-0">
+              <div className="font-bold text-blue-950 truncate">ระยะที่ 1: ยื่นคำขอออนไลน์</div>
+              <div className="text-[11px] text-blue-700 truncate">ขั้นตอนที่ 1 - 3 (ผู้ขอรับบริการ)</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-amber-200/80 shadow-2xs">
+            <div className="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs shrink-0">
+              B
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-amber-950 truncate">ระยะที่ 2: พิจารณาอนุมัติ 2 ระดับ</div>
+              <div className="text-[11px] text-amber-700 truncate">ขั้นตอนที่ 4 - 5 (ส่วนที่ 2 และส่วนที่ 3)</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-purple-200/80 shadow-2xs">
+            <div className="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+              C
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-purple-950 truncate">ระยะที่ 3: เข้ารับบริการ & สรุปผล</div>
+              <div className="text-[11px] text-purple-700 truncate">ขั้นตอนที่ 6 (เข้าใช้ตามระเบียบ)</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* ROW 1: Phase 1 — ขั้นตอนฝั่งผู้ขอรับบริการ (ขั้นตอนที่ 1 -> 2 -> 3) */}
+        {/* ========================================================================= */}
+        <div className="space-y-2">
+          <div className="text-xs font-bold text-blue-900 flex items-center gap-1.5 px-1">
+            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+            <span>ระยะที่ 1: ขั้นตอนการเตรียมการและยื่นคำขอรับบริการ</span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch gap-2.5 lg:gap-0">
+            {/* Step 1 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-blue-50/70 to-white border border-blue-200 shadow-xs flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    1
+                  </span>
+                  <span className="text-[10px] font-bold text-blue-700 bg-blue-100/70 px-2.5 py-0.5 rounded-full border border-blue-200">
+                    ขั้นตอนที่ 1 • เตรียมการ
+                  </span>
                 </div>
-                <div className="text-teal-900 font-medium flex items-center gap-1">
-                  • <strong>03:</strong> ขอใช้เครื่องมือ/ครุภัณฑ์
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-blue-700 transition-colors">
+                  ศึกษาข้อปฏิบัติ & เลือกฟอร์ม
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  ทำความเข้าใจกฎระเบียบ (VET.LAB 01) และเลือกแบบฟอร์มที่ต้องการ:
+                </p>
+                <div className="mt-2 space-y-1 text-[11px] bg-white/80 p-2 rounded-xl border border-blue-100">
+                  <div className="text-blue-900 font-medium">
+                    • <strong>VET.LAB 02:</strong> ขอใช้ห้องปฏิบัติการ (6 สาขา)
+                  </div>
+                  <div className="text-teal-900 font-medium">
+                    • <strong>VET.LAB 03:</strong> ขอใช้เครื่องมือ/ครุภัณฑ์
+                  </div>
+                  <div className="text-purple-900 font-medium">
+                    • <strong>VET.LAB 04:</strong> ขอเบิกสารเคมี/วัสดุ
+                  </div>
                 </div>
-                <div className="text-purple-900 font-medium flex items-center gap-1">
-                  • <strong>04:</strong> ขอเบิกสารเคมี/วัสดุสิ้นเปลือง
+              </div>
+              <div className="mt-3 pt-2 border-t border-blue-100 text-[10px] text-blue-700 font-semibold flex items-center gap-1">
+                <span>📘 ศึกษาระเบียบข้อปฏิบัติ</span>
+              </div>
+            </div>
+
+            {/* Desktop Connector 1 -> 2 */}
+            <div className="hidden lg:flex items-center justify-center px-2 z-10">
+              <div className="w-8 h-8 rounded-full bg-white border-2 border-blue-400 text-blue-600 flex items-center justify-center shadow-md shadow-blue-500/15">
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </div>
+            </div>
+
+            {/* Mobile Connector 1 -> 2 */}
+            <div className="flex lg:hidden items-center justify-center py-0.5">
+              <div className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[10px] font-bold">
+                <ArrowDown className="w-3 h-3 text-blue-600" />
+                <span>ไปขั้นตอนที่ 2</span>
+              </div>
+            </div>
+
+            {/* Step 2 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-sky-50/70 to-white border border-sky-200 shadow-xs flex flex-col justify-between hover:border-sky-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    2
+                  </span>
+                  <span className="text-[10px] font-bold text-sky-800 bg-sky-100/70 px-2.5 py-0.5 rounded-full border border-sky-200">
+                    ขั้นตอนที่ 2 • กรอกข้อมูล
+                  </span>
                 </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-sky-700 transition-colors">
+                  กรอกข้อมูล & ลงนามดิจิทัล
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  ระบุรายละเอียดวันเวลา วัตถุประสงค์ พร้อมลายมือชื่อดิจิทัล:
+                </p>
+                <div className="mt-2 space-y-1.5 text-[11px] bg-white/80 p-2 rounded-xl border border-sky-100 text-slate-700">
+                  <div>
+                    • <strong>ผู้ขอรับบริการ:</strong> วาดลายมือชื่อสดบนหน้าจอ (iPad/มือถือ/คอม)
+                  </div>
+                  <div className="text-amber-900 font-medium">
+                    • <strong>กรณีนักศึกษา:</strong> ให้อาจารย์ที่ปรึกษา / หน.โครงการ ร่วมลงนามดิจิทัล
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-sky-100 text-[10px] text-sky-700 font-semibold flex items-center gap-1">
+                <span>✍️ ลงนามดิจิทัลครบถ้วนในระบบ</span>
+              </div>
+            </div>
+
+            {/* Desktop Connector 2 -> 3 */}
+            <div className="hidden lg:flex items-center justify-center px-2 z-10">
+              <div className="w-8 h-8 rounded-full bg-white border-2 border-indigo-400 text-indigo-600 flex items-center justify-center shadow-md shadow-indigo-500/15">
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </div>
+            </div>
+
+            {/* Mobile Connector 2 -> 3 */}
+            <div className="flex lg:hidden items-center justify-center py-0.5">
+              <div className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[10px] font-bold">
+                <ArrowDown className="w-3 h-3 text-indigo-600" />
+                <span>ไปขั้นตอนที่ 3</span>
+              </div>
+            </div>
+
+            {/* Step 3 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-indigo-50/70 to-white border border-indigo-200 shadow-xs flex flex-col justify-between hover:border-indigo-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    3
+                  </span>
+                  <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100/70 px-2.5 py-0.5 rounded-full border border-indigo-200">
+                    ขั้นตอนที่ 3 • ส่งคำขอ
+                  </span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-indigo-700 transition-colors">
+                  ยื่นคำขอล่วงหน้า ≥ 3 วันทำการ
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  ส่งคำขอออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้งานจริง:
+                </p>
+                <div className="mt-2 p-2 rounded-xl bg-indigo-50/90 border border-indigo-200 text-[11px] text-indigo-950 space-y-1">
+                  <div>
+                    • ระบบออกรหัส <strong>Tracking No.</strong> สำหรับติดตามสถานะคำขอ
+                  </div>
+                  <div>
+                    • ส่งอีเมลยืนยันการรับคำขอพร้อมแนบเอกสาร PDF
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-indigo-100 text-[10px] text-indigo-700 font-semibold flex items-center gap-1">
+                <span>⚡ ออกรหัส Tracking ติดตามสด</span>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Step 2 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                2
-              </span>
-              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
-                ขั้นตอนที่ 2
-              </span>
+        {/* ========================================================================= */}
+        {/* TRANSITION CONNECTOR STRIP (ระยะที่ 1 -> ระยะที่ 2 & 3) */}
+        {/* ========================================================================= */}
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs border border-indigo-400/30">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-white/20 backdrop-blur-xs flex items-center justify-center text-cyan-200 font-bold shrink-0">
+              ➔
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                กรอกข้อมูล & ลายเซ็นดิจิทัล
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                กรอกรายละเอียดการขอใช้อย่างครบถ้วน:
-              </p>
-              <ul className="mt-2 space-y-1 text-[11px] text-slate-600">
-                <li>• ผู้ขอรับบริการลงนามอิเล็กทรอนิกส์</li>
-                <li>• <strong>กรณีเป็นนักศึกษา:</strong> ต้องให้อาจารย์ที่ปรึกษา / หน.โครงการ พิจารณาลงนามให้ความเห็นชอบ</li>
-              </ul>
+            <div className="leading-tight">
+              <span className="font-bold text-cyan-200">ส่งคำขอเข้าสู่ระบบแล้ว</span>{' '}
+              <span className="text-white/90">
+                — ระบบส่งต่อให้หัวหน้าห้องปฏิบัติการและนักวิชาการวิทยาศาสตร์พิจารณาอนุมัติ 2 ระดับ
+              </span>
             </div>
           </div>
+          <span className="self-start sm:self-auto text-[10px] font-mono font-bold bg-white/15 px-2.5 py-1 rounded-full border border-white/20 text-cyan-100 shrink-0">
+            APPROVAL STAGE (ส่วนที่ 2 & 3)
+          </span>
+        </div>
 
-          {/* Step 3 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-blue-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                3
-              </span>
-              <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
-                ขั้นตอนที่ 3
-              </span>
-            </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                ยื่นคำขอล่วงหน้า ≥ 3 วัน
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                ส่งแบบฟอร์มผ่านระบบออนไลน์ล่วงหน้าอย่างน้อย <strong>3 วันทำการ</strong> ก่อนวันเข้าใช้งานจริง
-              </p>
-              <div className="mt-2 p-2 rounded bg-amber-50 border border-amber-200/70 text-[10px] text-amber-900">
-                ระบบจะออกรหัส <strong>Tracking No.</strong> เพื่อใช้ติดตามสถานะได้แบบ Real-time
+        {/* ========================================================================= */}
+        {/* ROW 2: Phase 2 & 3 — ขั้นตอนการพิจารณาอนุมัติ & เข้ารับบริการ (ขั้นตอนที่ 4 -> 5 -> 6) */}
+        {/* ========================================================================= */}
+        <div className="space-y-2">
+          <div className="text-xs font-bold text-amber-900 flex items-center gap-1.5 px-1">
+            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>ระยะที่ 2 และ 3: การพิจารณาอนุมัติ 2 ระดับ และการเข้าใช้งานจริง</span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch gap-2.5 lg:gap-0">
+            {/* Step 4 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-amber-50/70 to-white border border-amber-200 shadow-xs flex flex-col justify-between hover:border-amber-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    4
+                  </span>
+                  <span className="text-[10px] font-bold text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200">
+                    ส่วนที่ 2 • หน.ห้องแล็บ
+                  </span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-amber-700 transition-colors">
+                  หัวหน้าห้องแล็บพิจารณา & มอบหมาย
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  <strong>หัวหน้างานห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)</strong> พิจารณาคำขอ:
+                </p>
+                <div className="mt-2 space-y-1.5 text-[11px] bg-white/80 p-2 rounded-xl border border-amber-100 text-slate-700">
+                  <div>
+                    • <strong>อนุมัติ:</strong> มอบหมายงานให้นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ
+                  </div>
+                  <div>
+                    • <strong>ไม่อนุมัติ:</strong> ระบุเหตุผล และระบบส่งอีเมลแจ้งผู้ยื่นทันที
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-amber-100 text-[10px] text-amber-800 font-semibold flex items-center gap-1">
+                <span>⚖️ พิจารณาอนุมัติระดับที่ 1</span>
               </div>
             </div>
-          </div>
 
-          {/* Step 4 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-amber-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                4
-              </span>
-              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
-                ส่วนที่ 2
-              </span>
-            </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                หัวหน้าห้องแล็บพิจารณา & มอบหมาย
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                <strong>หัวหน้าห้องปฏิบัติการ (นางสุธิดา จันทร์ลุน)</strong> พิจารณาอนุมัติคำขอ:
-              </p>
-              <ul className="mt-2 space-y-1 text-[11px] text-slate-600">
-                <li>• <strong>กรณีอนุมัติ:</strong> มอบหมายงานไปยังนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</li>
-                <li>• <strong>กรณีไม่อนุมัติ:</strong> แจ้งผลพร้อมเหตุผลให้ผู้ขอทราบ</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Step 5 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-emerald-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                5
-              </span>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                ส่วนที่ 3
-              </span>
-            </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                ตรวจสอบความพร้อม & นัดหมายเข้าใช้
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                <strong>นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</strong> ตรวจสอบความพร้อมของห้อง/เครื่องมือ และลงนามส่วนที่ 3
-              </p>
-              <div className="mt-2 p-2 rounded bg-emerald-50 border border-emerald-200/70 text-[10px] text-emerald-900">
-                ผู้ขอรับบริการเข้าใช้งานตามวัน-เวลาที่กำหนด และลงบันทึกในสมุด <strong>Log Book</strong>
+            {/* Desktop Connector 4 -> 5 */}
+            <div className="hidden lg:flex items-center justify-center px-2 z-10">
+              <div className="w-8 h-8 rounded-full bg-white border-2 border-emerald-400 text-emerald-600 flex items-center justify-center shadow-md shadow-emerald-500/15">
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </div>
-          </div>
 
-          {/* Step 6 */}
-          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 relative overflow-hidden flex flex-col justify-between hover:border-purple-300 transition-colors">
-            <div className="flex items-start justify-between mb-2">
-              <span className="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                6
-              </span>
-              <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
-                สิ้นสุดการใช้งาน
-              </span>
+            {/* Mobile Connector 4 -> 5 */}
+            <div className="flex lg:hidden items-center justify-center py-0.5">
+              <div className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold">
+                <ArrowDown className="w-3 h-3 text-emerald-600" />
+                <span>ไปขั้นตอนที่ 5</span>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">
-                เคลียร์พื้นที่, คืนของ & สรุปค่าใช้จ่าย
-              </h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                ทำความสะอาดพื้นที่ เคลียร์ตัวอย่างออกจากตู้เย็น/แช่แข็ง คืนกุญแจและเครื่องมือ
-              </p>
-              <div className="mt-2 text-[10px] text-purple-900 font-medium">
-                (กรณีสารเคมี ฟอร์ม 04: สรุปค่าใช้จ่ายเพื่อตัดงบหรือชำระที่งานการเงิน)
+
+            {/* Step 5 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-emerald-50/70 to-white border border-emerald-200 shadow-xs flex flex-col justify-between hover:border-emerald-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    5
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    ส่วนที่ 3 • นักวิทยาศาสตร์
+                  </span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-emerald-700 transition-colors">
+                  ตรวจสอบความพร้อม & นัดหมายเข้าใช้
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  <strong>นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ</strong> ตรวจสอบความพร้อมและลงนามส่วนที่ 3:
+                </p>
+                <div className="mt-2 space-y-1 text-[11px] bg-white/80 p-2 rounded-xl border border-emerald-100 text-slate-700">
+                  <div>
+                    • ตรวจสอบความพร้อมห้อง/เครื่องมือ และนัดหมายวันเวลา
+                  </div>
+                  <div>
+                    • ลงนามอนุมัติส่วนที่ 3 ครบถ้วน พร้อมส่งมอบบริการ
+                  </div>
+                  <div>
+                    • ผู้ขอพิมพ์เอกสารฉบับสมบูรณ์ (พร้อมลายมือชื่อ 3 ส่วน)
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-emerald-100 text-[10px] text-emerald-800 font-semibold flex items-center gap-1">
+                <span>✅ อนุมัติสมบูรณ์พร้อมให้บริการ</span>
+              </div>
+            </div>
+
+            {/* Desktop Connector 5 -> 6 */}
+            <div className="hidden lg:flex items-center justify-center px-2 z-10">
+              <div className="w-8 h-8 rounded-full bg-white border-2 border-purple-400 text-purple-600 flex items-center justify-center shadow-md shadow-purple-500/15">
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </div>
+            </div>
+
+            {/* Mobile Connector 5 -> 6 */}
+            <div className="flex lg:hidden items-center justify-center py-0.5">
+              <div className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-[10px] font-bold">
+                <ArrowDown className="w-3 h-3 text-purple-600" />
+                <span>ไปขั้นตอนที่ 6</span>
+              </div>
+            </div>
+
+            {/* Step 6 Card */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-purple-50/70 to-white border border-purple-200 shadow-xs flex flex-col justify-between hover:border-purple-400 hover:shadow-md transition-all group">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    6
+                  </span>
+                  <span className="text-[10px] font-bold text-purple-800 bg-purple-100/80 px-2.5 py-0.5 rounded-full border border-purple-200">
+                    ขั้นตอนที่ 6 • สิ้นสุดบริการ
+                  </span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 group-hover:text-purple-700 transition-colors">
+                  เข้ารับบริการ, คืนของ & สรุปผล
+                </h3>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  เข้าใช้งานจริงตามวัน-เวลาที่ได้รับอนุมัติ:
+                </p>
+                <div className="mt-2 space-y-1 text-[11px] bg-white/80 p-2 rounded-xl border border-purple-100 text-slate-700">
+                  <div>
+                    • ลงบันทึกการเข้าใช้ในสมุด <strong>Log Book</strong> ประจำห้อง
+                  </div>
+                  <div>
+                    • ทำความสะอาดพื้นที่ เคลียร์ตัวอย่าง คืนอุปกรณ์และกุญแจ
+                  </div>
+                  <div className="text-purple-900 font-medium">
+                    • กรณีฟอร์ม 04: สรุปยอดตัดสต๊อกสารเคมีและค่าใช้จ่าย
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-purple-100 text-[10px] text-purple-800 font-semibold flex items-center gap-1">
+                <span>🎉 เสร็จสิ้นกระบวนการบริการ</span>
               </div>
             </div>
           </div>
