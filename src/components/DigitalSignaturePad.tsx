@@ -32,10 +32,10 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    if (value?.name) setTypedName(value.name);
+    setTypedName(value?.name || '');
     if (value?.date) setDateStr(value.date);
-    if (value?.dataUrl) setHasDrawn(true);
-  }, [value]);
+    setHasDrawn(!!value?.dataUrl);
+  }, [value?.name, value?.date, value?.dataUrl]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;

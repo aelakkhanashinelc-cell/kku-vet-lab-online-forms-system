@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Wrench,
   Plus,
@@ -103,7 +103,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
   // Acknowledgement & Signatures
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>({
-    name: '',
+    name: initialApplicantName || '',
     date: thaiDate.fullStr,
     dataUrl: '',
   });
@@ -112,6 +112,15 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
     date: thaiDate.fullStr,
     dataUrl: '',
   });
+
+  // Auto-sync applicantName into applicantSignature.name if user hasn't typed a different name
+  const prevApplicantNameRef = useRef(applicantName);
+  useEffect(() => {
+    if (!applicantSignature.name || applicantSignature.name === prevApplicantNameRef.current) {
+      setApplicantSignature((prev) => ({ ...prev, name: applicantName }));
+    }
+    prevApplicantNameRef.current = applicantName;
+  }, [applicantName]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -180,12 +189,12 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
     ]);
     setTimeSlot('official_hours');
     setApplicantSignature({
-      name: '',
+      name: 'นายณัฐพล ชัยชนะ',
       date: thaiDate.fullStr,
       dataUrl: '',
     });
     setAdvisorSignature({
-      name: '',
+      name: 'ผศ.ดร.สมชาย เจริญสุข',
       date: thaiDate.fullStr,
       dataUrl: '',
     });

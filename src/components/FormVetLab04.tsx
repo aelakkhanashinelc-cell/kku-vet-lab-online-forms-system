@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   FlaskConical,
   Plus,
@@ -98,7 +98,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
   // Acknowledgement & Signatures
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>({
-    name: '',
+    name: initialApplicantName || '',
     date: thaiDate.fullStr,
     dataUrl: '',
   });
@@ -107,6 +107,15 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     date: thaiDate.fullStr,
     dataUrl: '',
   });
+
+  // Auto-sync applicantName into applicantSignature.name if user hasn't typed a different name
+  const prevApplicantNameRef = useRef(applicantName);
+  useEffect(() => {
+    if (!applicantSignature.name || applicantSignature.name === prevApplicantNameRef.current) {
+      setApplicantSignature((prev) => ({ ...prev, name: applicantName }));
+    }
+    prevApplicantNameRef.current = applicantName;
+  }, [applicantName]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -151,12 +160,12 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     setPickupDate(new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0]);
     setPickupTime('13:30');
     setApplicantSignature({
-      name: '',
+      name: 'นางสาวพิชญา สุขุมพันธ์',
       date: thaiDate.fullStr,
       dataUrl: '',
     });
     setAdvisorSignature({
-      name: '',
+      name: 'ศ.ดร.วินิจ ฉัตรชัย',
       date: thaiDate.fullStr,
       dataUrl: '',
     });

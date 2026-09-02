@@ -95,11 +95,13 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
   );
   const [headRejectionReason, setHeadRejectionReason] = useState(request.part2?.rejectionReason || '');
   const [headSignature, setHeadSignature] = useState<SignatureData>(
-    request.part2?.signature || {
-      name: '',
-      date: thaiDate.fullStr,
-      dataUrl: '',
-    }
+    request.part2?.signature?.name
+      ? request.part2.signature
+      : {
+          name: 'นางสุธิดา จันทร์ลุน',
+          date: thaiDate.fullStr,
+          dataUrl: request.part2?.signature?.dataUrl || '',
+        }
   );
 
   // States for Assigning Lab Staff (Caretaker) with department filters
@@ -119,11 +121,13 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
     request.part3?.comment || request.part3?.rejectionReason || 'ตรวจสอบความพร้อมเรียบร้อย พร้อมให้บริการ'
   );
   const [officerSignature, setOfficerSignature] = useState<SignatureData>(
-    request.part3?.signature || {
-      name: '',
-      date: thaiDate.fullStr,
-      dataUrl: '',
-    }
+    request.part3?.signature?.name
+      ? request.part3.signature
+      : {
+          name: request.part2?.assignedStaffName || userRole.userName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ',
+          date: thaiDate.fullStr,
+          dataUrl: request.part3?.signature?.dataUrl || '',
+        }
   );
 
   const [showDetailsSection, setShowDetailsSection] = useState(false);
