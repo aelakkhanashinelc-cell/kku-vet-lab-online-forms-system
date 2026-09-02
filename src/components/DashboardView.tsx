@@ -280,21 +280,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="absolute right-1/3 -bottom-24 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div className="relative z-10 space-y-3 max-w-3xl">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md text-cyan-300 text-[11px] font-bold uppercase tracking-wider border border-cyan-400/30">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-              STAFF MANAGEMENT & APPROVAL PORTAL
-            </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Real-time Live Sync
-            </span>
-            <span className="px-3 py-1 rounded-full bg-amber-400/15 text-amber-200 border border-amber-300/30 text-[11px] font-semibold flex items-center gap-1.5 backdrop-blur-md">
-              <UserCheck className="w-3.5 h-3.5 text-amber-300" />
-              {roleInfo.roleTitle}: <span className="text-white font-bold">{roleInfo.userName}</span>
-            </span>
-          </div>
+        <div className="relative z-10 space-y-2.5 max-w-3xl">
 
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg border border-white/20 flex items-center justify-center shrink-0">
