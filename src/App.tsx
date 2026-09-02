@@ -315,7 +315,13 @@ export function App() {
                     {authUser.name}
                   </div>
                   <div className="text-[10px] text-indigo-600/90 leading-none font-medium">
-                    {roleInfo.roleTitle.split(' ')[0]}
+                    {roleInfo.role === 'admin'
+                      ? 'ผู้ดูแลระบบ'
+                      : roleInfo.role === 'head'
+                      ? 'หัวหน้าห้องปฏิบัติการ'
+                      : roleInfo.role === 'scientist'
+                      ? 'นักวิชาการวิทยาศาสตร์'
+                      : 'ผู้ขอรับบริการ'}
                   </div>
                 </div>
               </div>

@@ -7,6 +7,9 @@ import {
   Info,
   Lock,
   Sparkles,
+  Crown,
+  ShieldCheck,
+  Microscope,
 } from 'lucide-react';
 import { getUserRoleInfo, saveAuthUser, AuthUser } from '../utils/staffData';
 import { logLoginToGoogleAppsScript } from '../utils/gasService';
@@ -176,6 +179,39 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, initialMes
                   className="w-full pl-10 pr-3.5 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm placeholder-slate-400 focus:bg-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
                 />
               </div>
+              {email.trim().includes('@') && (() => {
+                const info = getUserRoleInfo(email.trim());
+                if (info.role === 'admin') {
+                  return (
+                    <div className="mt-2 p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-purple-900 text-xs flex items-center gap-2 animate-in fade-in">
+                      <ShieldCheck className="w-4 h-4 text-purple-600 shrink-0" />
+                      <span>สถานะ: <strong>ผู้ดูแลระบบ (Super Admin)</strong></span>
+                    </div>
+                  );
+                }
+                if (info.role === 'head') {
+                  return (
+                    <div className="mt-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-2 animate-in fade-in">
+                      <Crown className="w-4 h-4 text-amber-600 shrink-0" />
+                      <span>สถานะ: <strong>หัวหน้าห้องปฏิบัติการ (Head of Lab)</strong></span>
+                    </div>
+                  );
+                }
+                if (info.role === 'scientist') {
+                  return (
+                    <div className="mt-2 p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-xs flex items-center gap-2 animate-in fade-in">
+                      <Microscope className="w-4 h-4 text-blue-600 shrink-0" />
+                      <span>สถานะ: <strong>นักวิชาการวิทยาศาสตร์ ({info.userName})</strong></span>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="mt-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2 animate-in fade-in">
+                    <User className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>สถานะ: <strong>ผู้ขอรับบริการทั่วไป (บุคคลทั่วไป / นักศึกษา)</strong></span>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Cosmic Primary Action Button */}

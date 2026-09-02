@@ -232,12 +232,16 @@ export const getStoredAuthUser = (): AuthUser | null => {
     const user = JSON.parse(raw);
     if (user && user.email) {
       const roleInfo = getUserRoleInfo(user.email);
-      return {
+      const updatedUser: AuthUser = {
         ...user,
         role: roleInfo.role,
         roleTitle: roleInfo.roleTitle,
         isStaff: roleInfo.isStaff,
       };
+      if (user.role !== roleInfo.role || user.roleTitle !== roleInfo.roleTitle) {
+        localStorage.setItem('vetlab_auth_user', JSON.stringify(updatedUser));
+      }
+      return updatedUser;
     }
   } catch (e) {
     console.error('Error reading auth user:', e);
