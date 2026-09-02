@@ -28,14 +28,16 @@ export async function safeJsonFromResponse(response: Response): Promise<any> {
   }
 }
 
+export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbzI_t4oiogCWZRE1kNhdn4v2ojaJIzDEDJP-hIHxZxGs_lRNPTKHwad5XUDydK5xWuG/exec';
+
 /**
  * Retrieve saved Google Apps Script Web App URL
  */
 export function getGasUrl(): string {
   try {
-    return localStorage.getItem(GAS_URL_STORAGE_KEY) || '';
+    return localStorage.getItem(GAS_URL_STORAGE_KEY) || DEFAULT_GAS_URL;
   } catch {
-    return '';
+    return DEFAULT_GAS_URL;
   }
 }
 
