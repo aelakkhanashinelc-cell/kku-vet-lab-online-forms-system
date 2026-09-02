@@ -71,6 +71,7 @@ export function App() {
   const currentUserEmail = authUser?.email || '';
   const currentUserName = authUser?.name || '';
   const roleInfo = getUserRoleInfo(currentUserEmail);
+  const isSuperAdmin = currentUserEmail.trim().toLowerCase() === 'lakkch@kku.ac.th';
 
   // Adjust active tab if user switches role
   useEffect(() => {
@@ -233,32 +234,35 @@ export function App() {
                 <span className="hidden sm:inline">ค้นหา / ติดตามคำขอ</span>
               </button>
 
-              {/* Email Outbox */}
-              <button
-                type="button"
-                onClick={() => setShowOutbox(true)}
-                className="flex px-3 py-1.5 rounded-full bg-white/90 hover:bg-orange-50 text-slate-700 hover:text-orange-900 border border-orange-200/80 hover:border-orange-300 text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-                title="ตั้งค่าและดูประวัติการส่งอีเมลแจ้งเตือน"
-              >
-                <Mail className="w-3.5 h-3.5 text-orange-600 shrink-0" />
-                <span className="hidden sm:inline">ระบบอีเมลแจ้งเตือน</span>
-              </button>
+              {/* Email Outbox & Google Sheets (Visible ONLY to Super Admin: lakkch@kku.ac.th) */}
+              {isSuperAdmin && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setShowOutbox(true)}
+                    className="flex px-3 py-1.5 rounded-full bg-white/90 hover:bg-orange-50 text-slate-700 hover:text-orange-900 border border-orange-200/80 hover:border-orange-300 text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                    title="ตั้งค่าและดูประวัติการส่งอีเมลแจ้งเตือน (เฉพาะผู้ดูแลระบบ)"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+                    <span className="hidden sm:inline">ระบบอีเมลแจ้งเตือน</span>
+                  </button>
 
-              {/* Google Sheets Sync Pill */}
-              <button
-                type="button"
-                onClick={() => setShowGasSettings(true)}
-                className={`hidden lg:flex px-3 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs ${
-                  isGasConfigured()
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100/80 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                    : 'bg-white/90 text-slate-700 border-indigo-200/80 hover:bg-indigo-50'
-                }`}
-                title="เชื่อมต่อ Google Sheets & Apps Script"
-              >
-                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Google Sheets</span>
-                {isGasConfigured() && <span className="font-bold text-emerald-600">✓</span>}
-              </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowGasSettings(true)}
+                    className={`hidden lg:flex px-3 py-1.5 rounded-full border text-xs font-medium items-center gap-1.5 transition-all cursor-pointer shadow-xs ${
+                      isGasConfigured()
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100/80 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                        : 'bg-white/90 text-slate-700 border-indigo-200/80 hover:bg-indigo-50'
+                    }`}
+                    title="เชื่อมต่อ Google Sheets & Apps Script (เฉพาะผู้ดูแลระบบ)"
+                  >
+                    <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Google Sheets</span>
+                    {isGasConfigured() && <span className="font-bold text-emerald-600">✓</span>}
+                  </button>
+                </>
+              )}
 
               {/* Account Profile Chip */}
               <div
@@ -834,22 +838,26 @@ export function App() {
                         • ค้นหาและติดตามสถานะคำขอ
                       </button>
                     </li>
-                    <li>
-                      <button
-                        onClick={() => setShowOutbox(true)}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • ประวัติการส่งอีเมลแจ้งเตือน
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setShowGasSettings(true)}
-                        className="hover:text-indigo-600 transition-colors cursor-pointer"
-                      >
-                        • Google Sheets Database
-                      </button>
-                    </li>
+                    {isSuperAdmin && (
+                      <>
+                        <li>
+                          <button
+                            onClick={() => setShowOutbox(true)}
+                            className="hover:text-indigo-600 transition-colors cursor-pointer"
+                          >
+                            • ประวัติการส่งอีเมลแจ้งเตือน
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => setShowGasSettings(true)}
+                            className="hover:text-indigo-600 transition-colors cursor-pointer"
+                          >
+                            • Google Sheets Database
+                          </button>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -932,7 +940,7 @@ export function App() {
         />
       )}
 
-      {showOutbox && (
+      {showOutbox && isSuperAdmin && (
         <EmailOutboxModal
           isOpen={showOutbox}
           onClose={() => setShowOutbox(false)}
@@ -941,7 +949,7 @@ export function App() {
         />
       )}
 
-      {showGasSettings && (
+      {showGasSettings && isSuperAdmin && (
         <GasSettingsModal
           isOpen={showGasSettings}
           onClose={() => setShowGasSettings(false)}

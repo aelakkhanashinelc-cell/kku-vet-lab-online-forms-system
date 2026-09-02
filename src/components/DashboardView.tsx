@@ -287,12 +287,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
           )}
 
-          <button
-            onClick={onOpenOutbox}
-            className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
-          >
-            <Mail className="w-3.5 h-3.5 text-[#ea4335]" /> ประวัติอีเมล
-          </button>
+          {currentUserEmail?.trim().toLowerCase() === 'lakkch@kku.ac.th' && (
+            <button
+              onClick={onOpenOutbox}
+              className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#ea4335]" /> ประวัติอีเมล
+            </button>
+          )}
           <button
             onClick={handleExportCsv}
             className="px-4 py-2 rounded-full border border-[#dadce0] bg-white hover:bg-[#f1f3f4] text-[#3c4043] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
