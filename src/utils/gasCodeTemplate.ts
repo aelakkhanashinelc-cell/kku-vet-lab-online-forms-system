@@ -420,8 +420,9 @@ function generateA4DocumentHtml(req, trackingNo, formType) {
 function sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webAppUrl) {
   if (!req.email) return;
   try {
-    const trackUrl = webAppUrl + "/?action=track&trackingNo=" + encodeURIComponent(trackingNo);
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
+    const trackUrl = webAppUrl + "/?action=track&trackingNo=" + encodeURIComponent(trackingNo);
+    const downloadUrl = printUrl + "&download=1";
     const subject = "[KKU VET LAB] ใบตอบรับการยื่นคำขอ: " + trackingNo + " (สถานะ: รอหัวหน้าพิจารณา)";
 
     const htmlBody = 
@@ -439,14 +440,21 @@ function sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webA
       '      <p style="margin: 3px 0;"><strong>รายการที่ขอ:</strong> ' + itemsSummary + '</p>' +
       '      <p style="margin: 3px 0;"><strong>สถานะปัจจุบัน:</strong> <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: bold;">รอหัวหน้าห้องปฏิบัติการพิจารณา (ส่วนที่ 2)</span></p>' +
       '    </div>' +
-      '    <!-- กล่องแจ้งไฟล์แนบ PDF -->' +
-      '    <div style="background: #eff6ff; border: 1px dashed #3b82f6; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 13px; color: #1e40af;">' +
-      '      📎 <strong>มีไฟล์แนบแบบฟอร์ม PDF ขนาด A4 แนบมาพร้อมกับอีเมลนี้</strong><br/>' +
-      '      ท่านสามารถเปิดดูหรือบันทึกไฟล์แนบ <code>' + formType + '_' + trackingNo + '.pdf</code> ด้านล่างอีเมลนี้ หรือกดปุ่มด้านล่างเพื่อเปิดดูแบบฟอร์มออนไลน์ได้ทันที' +
-      '    </div>' +
-      '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + printUrl + '" style="background: #2563eb; color: #ffffff; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; margin-right: 8px;">📄 เปิดดูแบบฟอร์ม A4 ออนไลน์</a>' +
-      '      <a href="' + trackUrl + '" style="background: #64748b; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">🔍 ตรวจสอบสถานะ</a>' +
+      '    <!-- กล่องปุ่มดาวน์โหลดไฟล์ PDF เชื่อมต่อไปยังหน้าเว็บ -->' +
+      '    <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 16px; border-radius: 10px; margin: 20px 0; text-align: center;">' +
+      '      <p style="margin: 0 0 10px 0; font-size: 13px; color: #166534; font-weight: bold;">' +
+      '        📄 เอกสารแบบฟอร์มคำขอขนาด A4 สำหรับดาวน์โหลดและพิมพ์:' +
+      '      </p>' +
+      '      <a href="' + downloadUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 4px 6px rgba(22,163,74,0.25); margin-bottom: 8px;">' +
+      '        📥 ดาวน์โหลดแบบฟอร์ม PDF (A4)' +
+      '      </a>' +
+      '      <br/>' +
+      '      <a href="' + trackUrl + '" target="_blank" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 500;">' +
+      '        🔍 หรือคลิกตรวจสอบสถานะคำขอออนไลน์' +
+      '      </a>' +
+      '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
+      '        * กดปุ่มเพื่อเปิดดูหน้าเว็บและดาวน์โหลดไฟล์ PDF ได้ทันทีโดยไม่ต้องแนบไฟล์ในอีเมล' +
+      '      </p>' +
       '    </div>' +
       '    <p style="font-size: 13px; color: #64748b;">เมื่อหัวหน้าห้องปฏิบัติการและนักวิชาการวิทยาศาสตร์พิจารณาแล้ว ระบบจะส่งอีเมลแจ้งผลให้ท่านทราบในลำดับถัดไป</p>' +
       '  </div>' +
@@ -455,9 +463,7 @@ function sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webA
       '  </div>' +
       '</div>';
 
-    const pdfFile = createA4FormPdfBlob(req, trackingNo, formType);
     const emailOptions = { to: req.email, subject: subject, htmlBody: htmlBody, name: SENDER_NAME };
-    if (pdfFile) emailOptions.attachments = [pdfFile];
     MailApp.sendEmail(emailOptions);
   } catch(e) { Logger.log("Error applicant receipt: " + e.toString()); }
 }
@@ -467,6 +473,7 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
   try {
     const reviewUrl = webAppUrl + "/?action=review&trackingNo=" + encodeURIComponent(trackingNo);
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
+    const downloadUrl = printUrl + "&download=1";
     const subject = "[คำขอใหม่รอพิจารณา] " + trackingNo + " (" + req.applicantName + ")";
 
     const htmlBody = 
@@ -483,20 +490,17 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
       '      <p style="margin: 3px 0;"><strong>สังกัด:</strong> ' + (req.department || '-') + '</p>' +
       '      <p style="margin: 3px 0;"><strong>รายการ:</strong> ' + itemsSummary + '</p>' +
       '    </div>' +
-      '    <!-- กล่องแจ้งไฟล์แนบ PDF -->' +
-      '    <div style="background: #fff7ed; border: 1px dashed #f97316; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 13px; color: #9a3412;">' +
-      '      📎 <strong>แนบไฟล์แบบฟอร์มคำขอ PDF ขนาด A4 ฉบับเต็มมาพร้อมอีเมลนี้แล้ว</strong> เพื่อให้ท่านตรวจสอบรายละเอียดประกอบการพิจารณาได้อย่างสะดวกรวดเร็ว' +
-      '    </div>' +
-      '    <div style="text-align: center; margin: 26px 0;">' +
-      '      <a href="' + reviewUrl + '" style="background: #ea580c; color: #ffffff; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(234,88,12,0.3); margin-bottom: 8px;">เข้าพิจารณาคำขอและมอบหมายงาน (ส่วนที่ 2)</a><br/>' +
-      '      <a href="' + printUrl + '" style="color: #475569; font-size: 13px; text-decoration: underline;">หรือเปิดดูแบบฟอร์ม A4 ออนไลน์</a>' +
+      '    <div style="text-align: center; margin: 24px 0;">' +
+      '      <a href="' + reviewUrl + '" target="_blank" style="background: #ea580c; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(234,88,12,0.3); margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอและมอบหมายงาน (ส่วนที่ 2)</a><br/>' +
+      '      <a href="' + downloadUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ</a>' +
+      '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
+      '        * เชื่อมต่อมายังไฟล์ PDF ที่หน้าเว็บเพื่อดูข้อมูลฉบับเต็มและดาวน์โหลดได้สะดวกรวดเร็ว' +
+      '      </p>' +
       '    </div>' +
       '  </div>' +
       '</div>';
 
-    const pdfFile = createA4FormPdfBlob(req, trackingNo, formType);
     const emailOptions = { to: HEAD_OF_LAB_EMAIL, subject: subject, htmlBody: htmlBody, name: SENDER_NAME };
-    if (pdfFile) emailOptions.attachments = [pdfFile];
     MailApp.sendEmail(emailOptions);
   } catch(e) { Logger.log("Error head alert: " + e.toString()); }
 }
@@ -508,6 +512,7 @@ function sendCaretakerAssignmentEmail(req, trackingNo, formType, webAppUrl) {
   try {
     const reviewUrl = webAppUrl + "/?action=review&trackingNo=" + encodeURIComponent(trackingNo);
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
+    const downloadUrl = printUrl + "&download=1";
     const staffName = (req.part2 && req.part2.assignedStaffName) || "นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ";
     const comment = (req.part2 && (req.part2.assignedStaffComment || req.part2.comment)) || "โปรดตรวจสอบความพร้อม";
     const subject = "[มอบหมายงาน] คำขอ " + trackingNo + " ได้รับการอนุมัติจากหัวหน้าแล้ว - โปรดตรวจสอบความพร้อม (ส่วนที่ 3)";
@@ -526,20 +531,17 @@ function sendCaretakerAssignmentEmail(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>ผู้ขอใช้บริการ:</strong> ' + req.applicantName + ' (โทร. ' + req.phone + ')</p>' +
       '      <p style="margin: 3px 0;"><strong>ชื่องาน:</strong> ' + (req.projectTitle || '-') + '</p>' +
       '    </div>' +
-      '    <!-- กล่องแจ้งไฟล์แนบ PDF -->' +
-      '    <div style="background: #eff6ff; border: 1px dashed #2563eb; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 13px; color: #1e40af;">' +
-      '      📎 <strong>แนบไฟล์แบบฟอร์ม PDF A4 (ที่มีลายมือชื่ออนุมัติของหัวหน้าห้องแล็บแล้ว) มาพร้อมกับอีเมลนี้</strong>' +
-      '    </div>' +
-      '    <div style="text-align: center; margin: 26px 0;">' +
-      '      <a href="' + reviewUrl + '" style="background: #1d4ed8; color: #ffffff; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; margin-bottom: 8px;">เข้าตรวจสอบความพร้อมและลงนาม (ส่วนที่ 3)</a><br/>' +
-      '      <a href="' + printUrl + '" style="color: #475569; font-size: 13px; text-decoration: underline;">เปิดดูแบบฟอร์ม A4 ออนไลน์</a>' +
+      '    <div style="text-align: center; margin: 24px 0;">' +
+      '      <a href="' + reviewUrl + '" target="_blank" style="background: #1d4ed8; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; margin-bottom: 10px;">🔘 เข้าตรวจสอบความพร้อมและลงนาม (ส่วนที่ 3)</a><br/>' +
+      '      <a href="' + downloadUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ</a>' +
+      '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
+      '        * เอกสารมีลายมือชื่ออนุมัติของหัวหน้าห้องปฏิบัติการแล้ว สามารถดาวน์โหลดหรือพิมพ์จากหน้าเว็บได้ทันที' +
+      '      </p>' +
       '    </div>' +
       '  </div>' +
       '</div>';
 
-    const pdfFile = createA4FormPdfBlob(req, trackingNo, formType);
     const emailOptions = { to: assignedEmail, subject: subject, htmlBody: htmlBody, name: SENDER_NAME };
-    if (pdfFile) emailOptions.attachments = [pdfFile];
     MailApp.sendEmail(emailOptions);
   } catch(e) { Logger.log("Error caretaker assignment: " + e.toString()); }
 }
@@ -549,6 +551,7 @@ function sendHeadRejectedToApplicant(req, trackingNo, formType, webAppUrl) {
   if (!req.email) return;
   try {
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
+    const downloadUrl = printUrl + "&download=1";
     const reason = (req.part2 && (req.part2.rejectionReason || req.part2.comment)) || "ไม่เป็นไปตามเกณฑ์การขอใช้บริการ";
     const subject = "[แจ้งผลการพิจารณาคำขอ] ไม่อนุมัติคำขอ " + trackingNo;
 
@@ -564,19 +567,16 @@ function sendHeadRejectedToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>เหตุผลการไม่อนุมัติ / ความเห็น:</strong></p>' +
       '      <p style="margin: 6px 0 0 0; color: #991b1b; font-weight: bold; font-size: 14px;">' + reason + '</p>' +
       '    </div>' +
-      '    <!-- กล่องแจ้งไฟล์แนบ PDF -->' +
-      '    <div style="background: #fef2f2; border: 1px dashed #ef4444; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 13px; color: #991b1b;">' +
-      '      📎 <strong>แนบไฟล์แบบฟอร์มทางการ PDF A4 ที่มีบันทึกเหตุผลการปฏิเสธมาพร้อมกับอีเมลนี้แล้ว</strong>' +
-      '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + printUrl + '" style="background: #64748b; color: #ffffff; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">เปิดดูแบบฟอร์มเอกสาร PDF ออนไลน์</a>' +
+      '      <a href="' + downloadUrl + '" target="_blank" style="background: #475569; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">📥 ดาวน์โหลดเอกสารแบบฟอร์ม PDF (A4) บนหน้าเว็บ</a>' +
+      '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
+      '        * เปิดดูและดาวน์โหลดแบบฟอร์มทางการที่มีบันทึกเหตุผลการปฏิเสธจากหน้าเว็บ' +
+      '      </p>' +
       '    </div>' +
       '  </div>' +
       '</div>';
 
-    const pdfFile = createA4FormPdfBlob(req, trackingNo, formType);
     const emailOptions = { to: req.email, subject: subject, htmlBody: htmlBody, name: SENDER_NAME };
-    if (pdfFile) emailOptions.attachments = [pdfFile];
     MailApp.sendEmail(emailOptions);
   } catch(e) { Logger.log("Error rejection: " + e.toString()); }
 }
@@ -586,6 +586,8 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
   if (!req.email) return;
   try {
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
+    const downloadUrl = printUrl + "&download=1";
+    const trackUrl = webAppUrl + "/?action=track&trackingNo=" + encodeURIComponent(trackingNo);
     const isApproved = req.part3 && req.part3.approvalStatus === "approved";
     const officerName = (req.part3 && req.part3.signature && req.part3.signature.name) || (req.part2 && req.part2.assignedStaffName) || "นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ";
     const officerComment = (req.part3 && req.part3.comment) || "ตรวจสอบความพร้อมเรียบร้อย";
@@ -606,12 +608,12 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>ผู้รับผิดชอบดูแล:</strong> ' + officerName + '</p>' +
       '      <p style="margin: 3px 0;"><strong>ข้อความแนะนำ/เงื่อนไข:</strong> ' + officerComment + '</p>' +
       '    </div>' +
-      '    <!-- กล่องแจ้งไฟล์แนบ PDF -->' +
-      '    <div style="background: #f0fdf4; border: 1px dashed #16a34a; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 13px; color: #166534;">' +
-      '      📎 <strong>แนบไฟล์แบบฟอร์มคำขอฉบับสมบูรณ์ PDF A4 (พร้อมลายมือชื่อครบ 2 ฝ่าย) มาพร้อมกับอีเมลนี้แล้ว</strong>' +
-      '    </div>' +
       '    <div style="text-align: center; margin: 26px 0;">' +
-      '      <a href="' + printUrl + '" style="background: #16a34a; color: #ffffff; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3);">ดาวน์โหลดใบคำขอฉบับสมบูรณ์ (PDF)</a>' +
+      '      <a href="' + downloadUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3); margin-bottom: 8px;">📥 ดาวน์โหลดใบคำขอฉบับสมบูรณ์ (PDF A4)</a><br/>' +
+      '      <a href="' + trackUrl + '" target="_blank" style="color: #0284c7; font-size: 13px; text-decoration: underline;">🔍 ตรวจสอบสถานะคำขอออนไลน์</a>' +
+      '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
+      '        * เชื่อมต่อมายังไฟล์ PDF ฉบับสมบูรณ์ที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทั้ง 2 ฝ่ายที่หน้าเว็บ' +
+      '      </p>' +
       '    </div>' +
       '    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px; border-radius: 8px; font-size: 13px; color: #475569;">' +
       '      <strong>คำแนะนำการเข้ารับบริการ:</strong><br>' +
@@ -620,9 +622,7 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
       '  </div>' +
       '</div>';
 
-    const pdfFile = createA4FormPdfBlob(req, trackingNo, formType);
     const emailOptions = { to: req.email, subject: subject, htmlBody: htmlBody, name: SENDER_NAME };
-    if (pdfFile) emailOptions.attachments = [pdfFile];
     MailApp.sendEmail(emailOptions);
   } catch(e) { Logger.log("Error final review: " + e.toString()); }
 }

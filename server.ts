@@ -294,6 +294,7 @@ function createEmailNotificationHtml(
 
   const reviewUrl = `${origin}/?action=review&trackingNo=${cleanTrackingNo}&id=${cleanId}`;
   const printUrl = `${origin}/?action=print&trackingNo=${cleanTrackingNo}&id=${cleanId}`;
+  const downloadUrl = `${origin}/?action=print&trackingNo=${cleanTrackingNo}&id=${cleanId}&download=1`;
   const trackUrl = `${origin}/?action=track&trackingNo=${cleanTrackingNo}`;
 
   const itemsHtml = formatItemsListText(request);
@@ -331,8 +332,8 @@ function createEmailNotificationHtml(
           </tr>
         </table>
         <div style="margin-top: 14px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #0284c7; text-decoration: underline; font-weight: 500;">
-            📄 ดูแบบฟอร์มเอกสารทางการ (PDF)
+          <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0284c7; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
+            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
@@ -360,24 +361,24 @@ function createEmailNotificationHtml(
     actionSection = `
       <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
         <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
-          ท่านสามารถติดตามสถานะคำขอหรือดูเอกสารฉบับร่างได้:
+          กดปุ่มด้านล่างเพื่อเชื่อมต่อไปยังหน้าเว็บและดาวน์โหลดแบบฟอร์ม PDF:
         </p>
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
-            <td align="center" style="background-color: #0284c7; border-radius: 8px;">
-              <a href="${trackUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">🔍 ติดตามสถานะคำขอออนไลน์</span>
+            <td align="center" style="background-color: #16a34a; border-radius: 8px;">
+              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.25);">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์ม PDF (ขนาด A4)</span>
               </a>
             </td>
           </tr>
         </table>
         <div style="margin-top: 14px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #475569; text-decoration: underline;">
-            📄 ดูแบบฟอร์มเอกสารที่ยื่น (PDF)
+          <a href="${trackUrl}" target="_blank" style="font-size: 13px; color: #0284c7; text-decoration: underline; font-weight: 500;">
+            🔍 ตรวจสอบสถานะคำขอออนไลน์
           </a>
         </div>
-        <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
-          ลิงก์ติดตามสถานะ: <a href="${trackUrl}" target="_blank" style="color: #0284c7;">${trackUrl}</a>
+        <p style="margin-top: 10px; font-size: 11px; color: #64748b;">
+          * กดปุ่มเพื่อเปิดดูและบันทึกไฟล์แบบฟอร์ม PDF ได้ทันทีจากระบบหน้าเว็บโดยตรง ไม่ต้องแนบไฟล์ในอีเมล
         </p>
       </div>
     `;
@@ -400,19 +401,19 @@ function createEmailNotificationHtml(
     actionSection = `
       <div style="margin-top: 24px; text-align: center; background: #fafaf9; border: 1px solid #e7e5e4; padding: 22px; border-radius: 12px;">
         <p style="margin: 0 0 14px 0; font-size: 14px; color: #44403c; font-weight: bold;">
-          ท่านสามารถเปิดดูเอกสารแบบฟอร์ม PDF ที่มีรายละเอียดการปฏิเสธได้:
+          กดปุ่มด้านล่างเพื่อเปิดดูเอกสารแบบฟอร์ม PDF ที่บันทึกการไม่อนุมัติบนหน้าเว็บ:
         </p>
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
             <td align="center" style="background-color: #475569; border-radius: 8px;">
-              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">📄 ดูแบบฟอร์มเอกสาร (PDF) ที่มีรายละเอียดการปฏิเสธ</span>
+              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์ม PDF (บันทึกการไม่อนุมัติ)</span>
               </a>
             </td>
           </tr>
         </table>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
-          ลิงก์เปิดเอกสาร: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
+          ลิงก์เปิดเอกสาร: <a href="${downloadUrl}" target="_blank" style="color: #0284c7;">${downloadUrl}</a>
         </p>
       </div>
     `;
@@ -449,8 +450,8 @@ function createEmailNotificationHtml(
           </tr>
         </table>
         <div style="margin-top: 14px;">
-          <a href="${printUrl}" target="_blank" style="font-size: 13px; color: #475569; text-decoration: underline; font-weight: 500;">
-            📄 ดูแบบฟอร์มเอกสาร (PDF)
+          <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #16a34a; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
+            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
@@ -518,13 +519,13 @@ function createEmailNotificationHtml(
     actionSection = `
       <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
         <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
-          ท่านสามารถดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทุกส่วน (ส่วนที่ 1, 2, 3) เป็นไฟล์ PDF ได้ที่ปุ่มด้านล่าง:
+          กดปุ่มด้านล่างเพื่อดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF A4 มีลายมือชื่ออิเล็กทรอนิกส์ครบทุกส่วน):
         </p>
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
             <td align="center" style="background-color: #16a34a; border-radius: 8px;">
-              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">📄 ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)</span>
+              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.3);">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)</span>
               </a>
             </td>
           </tr>
@@ -535,7 +536,7 @@ function createEmailNotificationHtml(
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
-          ลิงก์เปิดเอกสาร PDF: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
+          ลิงก์เปิดเอกสาร PDF: <a href="${downloadUrl}" target="_blank" style="color: #0284c7;">${downloadUrl}</a>
         </p>
       </div>
     `;

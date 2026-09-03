@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { X, FileDown, CheckCircle, ShieldCheck, Loader2 } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { X, FileDown, CheckCircle, ShieldCheck, Loader2, Printer } from 'lucide-react';
 import { VetLabRequest, SignatureData } from '../types';
 import { generateTypedSignatureDataUrl, generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 // @ts-ignore
@@ -147,6 +147,19 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
       setIsGeneratingPdf(false);
     }
   };
+
+  // Auto-download PDF if URL contains download=1 or download=pdf
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const searchParams = new URLSearchParams(window.location.search);
+    const shouldDownload = searchParams.get('download') === '1' || searchParams.get('download') === 'pdf' || searchParams.get('action') === 'download';
+    if (shouldDownload) {
+      const timer = setTimeout(() => {
+        handleSavePdf();
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const isHeadRejected = request.part2?.approvalStatus === 'rejected';
 

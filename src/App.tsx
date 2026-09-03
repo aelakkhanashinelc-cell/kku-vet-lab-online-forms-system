@@ -123,7 +123,7 @@ export function App() {
         if (authUser) {
           handleOpenReviewByTracking(target);
         }
-      } else if (action === 'print') {
+      } else if (action === 'print' || action === 'download' || action === 'pdf') {
         handleOpenPrintByTracking(target);
       } else {
         setQuickTrackNo(target);
