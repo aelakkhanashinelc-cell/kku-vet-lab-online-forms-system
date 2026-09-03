@@ -473,22 +473,14 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
         </div>
         <div className="mt-5 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between text-xs sm:text-sm text-emerald-100 gap-2">
           <span>วันที่ยื่นคำขอ: <strong className="text-white font-bold">{thaiDate.fullStr}</strong></span>
-          <div className="flex flex-wrap items-center gap-2">
-            {lastDraftSavedTime && (
-              <span className="text-emerald-300 font-medium flex items-center gap-1.5 text-xs bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/30">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                บันทึกร่างอัตโนมัติแล้ว ({lastDraftSavedTime} น.)
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={handleResetDraft}
-              className="text-xs text-emerald-200 hover:text-white underline hover:no-underline px-2 py-1 transition-colors cursor-pointer"
-              title="ล้างข้อมูลที่กรอกค้างไว้และเริ่มใหม่"
-            >
-              ล้างข้อมูลร่าง
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleResetDraft}
+            className="text-xs text-emerald-200 hover:text-white underline hover:no-underline px-2 py-1 transition-colors cursor-pointer"
+            title="ล้างข้อมูลที่กรอกค้างไว้และเริ่มใหม่"
+          >
+            ล้างข้อมูลร่าง
+          </button>
         </div>
       </div>
 
