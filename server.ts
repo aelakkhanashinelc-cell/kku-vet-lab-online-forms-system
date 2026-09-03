@@ -326,14 +326,14 @@ function createEmailNotificationHtml(
           <tr>
             <td align="center" style="background-color: #ea580c; border-radius: 8px;">
               <a href="${reviewUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าพิจารณาคำขอส่วนที่ 2 (คลิกที่นี่)</span>
+                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</span>
               </a>
             </td>
           </tr>
         </table>
         <div style="margin-top: 14px;">
-          <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0284c7; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
-            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ
+          <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0284c7; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
+            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
@@ -361,13 +361,13 @@ function createEmailNotificationHtml(
     actionSection = `
       <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
         <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
-          กดปุ่มด้านล่างเพื่อเชื่อมต่อไปยังหน้าเว็บและดาวน์โหลดแบบฟอร์ม PDF:
+          กดปุ่มด้านล่างเพื่อเชื่อมต่อไปยังหน้าเปิดไฟล์ PDF ของระบบ:
         </p>
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
             <td align="center" style="background-color: #16a34a; border-radius: 8px;">
-              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.25);">
-                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์ม PDF (ขนาด A4)</span>
+              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.25);">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</span>
               </a>
             </td>
           </tr>
@@ -406,14 +406,14 @@ function createEmailNotificationHtml(
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
             <td align="center" style="background-color: #475569; border-radius: 8px;">
-              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์ม PDF (บันทึกการไม่อนุมัติ)</span>
+              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 13px 26px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</span>
               </a>
             </td>
           </tr>
         </table>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
-          ลิงก์เปิดเอกสาร: <a href="${downloadUrl}" target="_blank" style="color: #0284c7;">${downloadUrl}</a>
+          ลิงก์เปิดเอกสาร: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
         </p>
       </div>
     `;
@@ -444,14 +444,14 @@ function createEmailNotificationHtml(
           <tr>
             <td align="center" style="background-color: #0284c7; border-radius: 8px;">
               <a href="${reviewUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px;">
-                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าตรวจสอบความพร้อมและพิจารณาส่วนที่ 3 (คลิกที่นี่)</span>
+                <span style="color: #ffffff !important; text-decoration: none;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</span>
               </a>
             </td>
           </tr>
         </table>
         <div style="margin-top: 14px;">
-          <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #16a34a; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
-            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ
+          <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #16a34a; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">
+            📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
@@ -519,13 +519,13 @@ function createEmailNotificationHtml(
     actionSection = `
       <div style="margin-top: 24px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px; border-radius: 12px;">
         <p style="margin: 0 0 14px 0; font-size: 14px; color: #334155; font-weight: bold;">
-          กดปุ่มด้านล่างเพื่อดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF A4 มีลายมือชื่ออิเล็กทรอนิกส์ครบทุกส่วน):
+          กดปุ่มด้านล่างเพื่อเปิดหน้าไฟล์ PDF ของระบบ (ฉบับสมบูรณ์ มีลายมือชื่ออิเล็กทรอนิกส์ครบทุกส่วน):
         </p>
         <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
           <tr>
             <td align="center" style="background-color: #16a34a; border-radius: 8px;">
-              <a href="${downloadUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.3);">
-                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)</span>
+              <a href="${printUrl}" target="_blank" style="display: inline-block; padding: 14px 28px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: bold; color: #ffffff !important; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(22,163,74,0.3);">
+                <span style="color: #ffffff !important; text-decoration: none;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</span>
               </a>
             </td>
           </tr>
@@ -536,7 +536,7 @@ function createEmailNotificationHtml(
           </a>
         </div>
         <p style="margin-top: 14px; font-size: 11px; color: #64748b; word-break: break-all; line-height: 1.4;">
-          ลิงก์เปิดเอกสาร PDF: <a href="${downloadUrl}" target="_blank" style="color: #0284c7;">${downloadUrl}</a>
+          ลิงก์เปิดเอกสาร PDF: <a href="${printUrl}" target="_blank" style="color: #0284c7;">${printUrl}</a>
         </p>
       </div>
     `;

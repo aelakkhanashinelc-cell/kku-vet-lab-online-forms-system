@@ -483,7 +483,7 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
       '    <p style="margin: 4px 0 0 0; opacity: 0.9; font-size: 13px;">เรียน หัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ</p>' +
       '  </div>' +
       '  <div style="padding: 24px; color: #1e293b; line-height: 1.6;">' +
-      '    <p style="font-size: 15px; margin-top: 0;">มีผู้ขอรับบริการได้ยื่นคำขอใหม่เข้าสู่ระบบ โปรดพิจารณาอนุมัติและมอบหมายงาน:</p>' +
+      '    <p style="font-size: 15px; margin-top: 0;">มีผู้ขอรับบริการได้ยื่นคำขอใหม่เข้าสู่ระบบ โปรดเข้าดูรายละเอียดและพิจารณาคำขอ:</p>' +
       '    <div style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 16px; margin: 18px 0; border-radius: 6px;">' +
       '      <p style="margin: 3px 0;"><strong>รหัสติดตาม:</strong> <span style="color: #c2410c; font-weight: bold; font-size: 16px;">' + trackingNo + '</span></p>' +
       '      <p style="margin: 3px 0;"><strong>ผู้ยื่นคำขอ:</strong> ' + req.applicantName + ' (โทร. ' + req.phone + ' | ' + req.email + ')</p>' +
@@ -491,10 +491,10 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
       '      <p style="margin: 3px 0;"><strong>รายการ:</strong> ' + itemsSummary + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + reviewUrl + '" target="_blank" style="background: #ea580c; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(234,88,12,0.3); margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอและมอบหมายงาน (ส่วนที่ 2)</a><br/>' +
-      '      <a href="' + downloadUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ</a>' +
+      '      <a href="' + reviewUrl + '" target="_blank" style="background: #ea580c; color: #ffffff !important; padding: 13px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 4px 10px rgba(234,88,12,0.3); margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</a><br/>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เชื่อมต่อมายังไฟล์ PDF ที่หน้าเว็บเพื่อดูข้อมูลฉบับเต็มและดาวน์โหลดได้สะดวกรวดเร็ว' +
+      '        * กดปุ่มเพื่อเปิดหน้าไฟล์ PDF ขนาด 1 หน้า A4 ของระบบเพื่อดูข้อมูลและพิมพ์' +
       '      </p>' +
       '    </div>' +
       '  </div>' +
@@ -532,10 +532,10 @@ function sendCaretakerAssignmentEmail(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>ชื่องาน:</strong> ' + (req.projectTitle || '-') + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + reviewUrl + '" target="_blank" style="background: #1d4ed8; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; margin-bottom: 10px;">🔘 เข้าตรวจสอบความพร้อมและลงนาม (ส่วนที่ 3)</a><br/>' +
-      '      <a href="' + downloadUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 10px 22px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ</a>' +
+      '      <a href="' + reviewUrl + '" target="_blank" style="background: #1d4ed8; color: #ffffff !important; padding: 13px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</a><br/>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เอกสารมีลายมือชื่ออนุมัติของหัวหน้าห้องปฏิบัติการแล้ว สามารถดาวน์โหลดหรือพิมพ์จากหน้าเว็บได้ทันที' +
+      '        * เอกสารมีลายมือชื่ออนุมัติของหัวหน้าห้องปฏิบัติการแล้ว สามารถเปิดดูและดาวน์โหลดจากหน้าเว็บได้ทันที' +
       '      </p>' +
       '    </div>' +
       '  </div>' +
@@ -568,7 +568,7 @@ function sendHeadRejectedToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 6px 0 0 0; color: #991b1b; font-weight: bold; font-size: 14px;">' + reason + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + downloadUrl + '" target="_blank" style="background: #475569; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">📥 ดาวน์โหลดเอกสารแบบฟอร์ม PDF (A4) บนหน้าเว็บ</a>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #475569; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
       '        * เปิดดูและดาวน์โหลดแบบฟอร์มทางการที่มีบันทึกเหตุผลการปฏิเสธจากหน้าเว็บ' +
       '      </p>' +
@@ -609,10 +609,10 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>ข้อความแนะนำ/เงื่อนไข:</strong> ' + officerComment + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 26px 0;">' +
-      '      <a href="' + downloadUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3); margin-bottom: 8px;">📥 ดาวน์โหลดใบคำขอฉบับสมบูรณ์ (PDF A4)</a><br/>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3); margin-bottom: 8px;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a><br/>' +
       '      <a href="' + trackUrl + '" target="_blank" style="color: #0284c7; font-size: 13px; text-decoration: underline;">🔍 ตรวจสอบสถานะคำขอออนไลน์</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เชื่อมต่อมายังไฟล์ PDF ฉบับสมบูรณ์ที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทั้ง 2 ฝ่ายที่หน้าเว็บ' +
+      '        * เชื่อมต่อมายังหน้าเปิดไฟล์ PDF ของระบบที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทั้ง 2 ฝ่าย' +
       '      </p>' +
       '    </div>' +
       '    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px; border-radius: 8px; font-size: 13px; color: #475569;">' +
