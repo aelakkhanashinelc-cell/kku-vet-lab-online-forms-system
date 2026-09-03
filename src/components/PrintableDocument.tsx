@@ -81,14 +81,21 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
     if (!printContentRef.current || isGeneratingPdf) return;
     try {
       setIsGeneratingPdf(true);
+
+      // Ensure all web fonts (Sarabun, Noto Sans Thai, etc.) are 100% loaded before rendering
+      if (typeof document !== 'undefined' && (document as any).fonts?.ready) {
+        await (document as any).fonts.ready;
+      }
+
       const formCode = getFormCode().replace(/\s+/g, '_');
       const cleanTrackingNo = request.trackingNo || 'FORM';
       const filename = `แบบฟอร์ม_${cleanTrackingNo}_${formCode}.pdf`;
 
       // Render at fixed standard A4 width (794px = 210mm @ 96DPI) regardless of mobile viewport
       const canvas = await html2canvas(printContentRef.current, {
-        scale: 2,
+        scale: 2.5,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
         windowWidth: 1024,
@@ -106,15 +113,20 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             el.style.margin = '0 auto';
             el.style.backgroundColor = '#ffffff';
             el.style.color = '#000000';
+            el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
+            el.style.lineHeight = '1.35';
+            el.style.webkitFontSmoothing = 'antialiased';
           }
         },
       });
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      // Use PNG format for crisp, lossless Thai text rendering without JPEG halos
+      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4',
+        compress: true,
       });
 
       const pdfWidth = 210;
@@ -135,8 +147,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
       const xOffset = Math.max(0, (pdfWidth - renderWidth) / 2);
       const yOffset = Math.max(0, (pdfHeight - renderHeight) / 2);
 
-      // Single-page precise render
-      pdf.addImage(imgData, 'JPEG', xOffset, yOffset, renderWidth, renderHeight, undefined, 'FAST');
+      // Single-page precise render using PNG
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, renderWidth, renderHeight, undefined, 'FAST');
 
       pdf.save(filename);
       setPdfSuccess(true);
@@ -212,14 +224,15 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-8 shadow-2xl rounded-xs font-serif text-[12px] leading-snug my-auto mx-auto shrink-0"
+          className="printable-page-container bg-white text-black p-8 shadow-2xl rounded-xs font-sans text-[12px] leading-snug my-auto mx-auto shrink-0 antialiased"
           style={{
             width: '794px',
             minWidth: '794px',
             maxWidth: '794px',
             minHeight: '1123px',
             boxSizing: 'border-box',
-            fontFamily: "'Sarabun', 'TH Sarabun New', 'Cordia New', sans-serif",
+            fontFamily: "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif",
+            lineHeight: '1.35',
           }}
         >
         {/* Document Header */}
