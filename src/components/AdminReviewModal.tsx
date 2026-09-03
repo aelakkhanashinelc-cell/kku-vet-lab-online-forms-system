@@ -153,7 +153,8 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
         }
   );
 
-  const [showDetailsSection, setShowDetailsSection] = useState(false);
+  // Open request details section by default so the reviewer sees all request information first
+  const [showDetailsSection, setShowDetailsSection] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 

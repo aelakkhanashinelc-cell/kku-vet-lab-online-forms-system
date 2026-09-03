@@ -534,7 +534,6 @@ function sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webA
   try {
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
     const trackUrl = webAppUrl + "/?action=track&trackingNo=" + encodeURIComponent(trackingNo);
-    const downloadUrl = printUrl + "&download=1";
     const subject = "[KKU VET LAB] ใบตอบรับการยื่นคำขอ: " + trackingNo + " (สถานะ: รอหัวหน้าพิจารณา)";
 
     const htmlBody = 
@@ -552,20 +551,20 @@ function sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webA
       '      <p style="margin: 3px 0;"><strong>รายการที่ขอ:</strong> ' + itemsSummary + '</p>' +
       '      <p style="margin: 3px 0;"><strong>สถานะปัจจุบัน:</strong> <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: bold;">รอหัวหน้าห้องปฏิบัติการพิจารณา (ส่วนที่ 2)</span></p>' +
       '    </div>' +
-      '    <!-- กล่องปุ่มดาวน์โหลดไฟล์ PDF เชื่อมต่อไปยังหน้าเว็บ -->' +
+      '    <!-- กล่องปุ่มเปิดดูไฟล์ PDF เชื่อมต่อไปยังหน้าเว็บ -->' +
       '    <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 16px; border-radius: 10px; margin: 20px 0; text-align: center;">' +
       '      <p style="margin: 0 0 10px 0; font-size: 13px; color: #166534; font-weight: bold;">' +
-      '        📄 เอกสารแบบฟอร์มคำขอขนาด A4 สำหรับดาวน์โหลดและพิมพ์:' +
+      '        📄 เอกสารแบบฟอร์มคำขอขนาด A4 สำหรับเปิดดูและตรวจสอบ:' +
       '      </p>' +
-      '      <a href="' + downloadUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 4px 6px rgba(22,163,74,0.25); margin-bottom: 8px;">' +
-      '        📥 ดาวน์โหลดแบบฟอร์ม PDF (A4)' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 4px 6px rgba(22,163,74,0.25); margin-bottom: 8px;">' +
+      '        📄 เปิดดูแบบฟอร์ม PDF' +
       '      </a>' +
       '      <br/>' +
       '      <a href="' + trackUrl + '" target="_blank" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 500;">' +
       '        🔍 หรือคลิกตรวจสอบสถานะคำขอออนไลน์' +
       '      </a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * กดปุ่มเพื่อเปิดดูหน้าเว็บและดาวน์โหลดไฟล์ PDF ได้ทันทีโดยไม่ต้องแนบไฟล์ในอีเมล' +
+      '        * กดปุ่มเพื่อเปิดดูไฟล์เอกสารแบบฟอร์มบนหน้าจอได้ทันที' +
       '      </p>' +
       '    </div>' +
       '    <p style="font-size: 13px; color: #64748b;">เมื่อหัวหน้าห้องปฏิบัติการและนักวิชาการวิทยาศาสตร์พิจารณาแล้ว ระบบจะส่งอีเมลแจ้งผลให้ท่านทราบในลำดับถัดไป</p>' +
@@ -585,7 +584,6 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
   try {
     const reviewUrl = webAppUrl + "/?action=review&trackingNo=" + encodeURIComponent(trackingNo);
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
-    const downloadUrl = printUrl + "&download=1";
     const subject = "[คำขอใหม่รอพิจารณา] " + trackingNo + " (" + req.applicantName + ")";
 
     const htmlBody = 
@@ -604,9 +602,9 @@ function sendHeadNotificationEmail(req, trackingNo, formType, itemsSummary, webA
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
       '      <a href="' + reviewUrl + '" target="_blank" style="background: #ea580c; color: #ffffff !important; padding: 13px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; box-shadow: 0 4px 10px rgba(234,88,12,0.3); margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</a><br/>' +
-      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📄 เปิดดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * กดปุ่มเพื่อเปิดหน้าไฟล์ PDF ขนาด 1 หน้า A4 ของระบบเพื่อดูข้อมูลและพิมพ์' +
+      '        * กดปุ่มเพื่อเปิดดูไฟล์แบบฟอร์มขนาด A4 ของระบบบนหน้าจอ' +
       '      </p>' +
       '    </div>' +
       '  </div>' +
@@ -624,7 +622,6 @@ function sendCaretakerAssignmentEmail(req, trackingNo, formType, webAppUrl) {
   try {
     const reviewUrl = webAppUrl + "/?action=review&trackingNo=" + encodeURIComponent(trackingNo);
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
-    const downloadUrl = printUrl + "&download=1";
     const staffName = (req.part2 && req.part2.assignedStaffName) || "นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ";
     const comment = (req.part2 && (req.part2.assignedStaffComment || req.part2.comment)) || "โปรดตรวจสอบความพร้อม";
     const subject = "[มอบหมายงาน] คำขอ " + trackingNo + " ได้รับการอนุมัติจากหัวหน้าแล้ว - โปรดตรวจสอบความพร้อม (ส่วนที่ 3)";
@@ -645,9 +642,9 @@ function sendCaretakerAssignmentEmail(req, trackingNo, formType, webAppUrl) {
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
       '      <a href="' + reviewUrl + '" target="_blank" style="background: #1d4ed8; color: #ffffff !important; padding: 13px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 10px;">🔘 เข้าพิจารณาคำขอ (ดูรายละเอียดคำขอ)</a><br/>' +
-      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #0284c7; color: #ffffff !important; padding: 11px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">📄 เปิดดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เอกสารมีลายมือชื่ออนุมัติของหัวหน้าห้องปฏิบัติการแล้ว สามารถเปิดดูและดาวน์โหลดจากหน้าเว็บได้ทันที' +
+      '        * เอกสารมีลายมือชื่ออนุมัติของหัวหน้าห้องปฏิบัติการแล้ว สามารถเปิดดูไฟล์บนหน้าจอได้ทันที' +
       '      </p>' +
       '    </div>' +
       '  </div>' +
@@ -663,7 +660,6 @@ function sendHeadRejectedToApplicant(req, trackingNo, formType, webAppUrl) {
   if (!req.email) return;
   try {
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
-    const downloadUrl = printUrl + "&download=1";
     const reason = (req.part2 && (req.part2.rejectionReason || req.part2.comment)) || "ไม่เป็นไปตามเกณฑ์การขอใช้บริการ";
     const subject = "[แจ้งผลการพิจารณาคำขอ] ไม่อนุมัติคำขอ " + trackingNo;
 
@@ -680,9 +676,9 @@ function sendHeadRejectedToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 6px 0 0 0; color: #991b1b; font-weight: bold; font-size: 14px;">' + reason + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 24px 0;">' +
-      '      <a href="' + printUrl + '" target="_blank" style="background: #475569; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #475569; color: #ffffff !important; padding: 12px 26px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">📄 เปิดดูแบบฟอร์ม PDF</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เปิดดูและดาวน์โหลดแบบฟอร์มทางการที่มีบันทึกเหตุผลการปฏิเสธจากหน้าเว็บ' +
+      '        * เปิดดูแบบฟอร์มทางการที่มีบันทึกเหตุผลการปฏิเสธจากหน้าเว็บ' +
       '      </p>' +
       '    </div>' +
       '  </div>' +
@@ -698,7 +694,6 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
   if (!req.email) return;
   try {
     const printUrl = webAppUrl + "/?action=print&trackingNo=" + encodeURIComponent(trackingNo);
-    const downloadUrl = printUrl + "&download=1";
     const trackUrl = webAppUrl + "/?action=track&trackingNo=" + encodeURIComponent(trackingNo);
     const isApproved = req.part3 && req.part3.approvalStatus === "approved";
     const officerName = (req.part3 && req.part3.signature && req.part3.signature.name) || (req.part2 && req.part2.assignedStaffName) || "นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ";
@@ -721,10 +716,10 @@ function sendFinalReviewToApplicant(req, trackingNo, formType, webAppUrl) {
       '      <p style="margin: 3px 0;"><strong>ข้อความแนะนำ/เงื่อนไข:</strong> ' + officerComment + '</p>' +
       '    </div>' +
       '    <div style="text-align: center; margin: 26px 0;">' +
-      '      <a href="' + printUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3); margin-bottom: 8px;">📥 ดาวน์โหลด / ดูแบบฟอร์ม PDF</a><br/>' +
+      '      <a href="' + printUrl + '" target="_blank" style="background: #16a34a; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 10px rgba(22,163,74,0.3); margin-bottom: 8px;">📄 เปิดดูแบบฟอร์ม PDF</a><br/>' +
       '      <a href="' + trackUrl + '" target="_blank" style="color: #0284c7; font-size: 13px; text-decoration: underline;">🔍 ตรวจสอบสถานะคำขอออนไลน์</a>' +
       '      <p style="margin: 8px 0 0 0; font-size: 11px; color: #64748b;">' +
-      '        * เชื่อมต่อมายังหน้าเปิดไฟล์ PDF ของระบบที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทั้ง 2 ฝ่าย' +
+      '        * เปิดดูไฟล์แบบฟอร์มฉบับสมบูรณ์ที่มีลายมือชื่ออิเล็กทรอนิกส์ครบทั้ง 2 ฝ่ายบนหน้าจอ' +
       '      </p>' +
       '    </div>' +
       '    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px; border-radius: 8px; font-size: 13px; color: #475569;">' +

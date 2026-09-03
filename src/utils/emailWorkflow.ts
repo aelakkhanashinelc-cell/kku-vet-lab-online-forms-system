@@ -58,7 +58,6 @@ export function generateHeadNotificationEmail(request: VetLabRequest, baseUrl?: 
   const appOrigin = baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const reviewUrl = appOrigin ? `${appOrigin}?action=review&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
   const printUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
-  const downloadUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}&download=1` : '';
   const itemsDetail = formatItemsSummary(request);
 
   const subject = `[คำขอใหม่] ${formName} - ${request.applicantName} (รหัส: ${request.trackingNo})`;
@@ -80,9 +79,9 @@ ${itemsDetail}
 
 --------------------------------------------------
 [การดำเนินการสำหรับหัวหน้าห้องปฏิบัติการ]
-คลิกปุ่มหรือลิงก์ด้านล่างเพื่อเข้าสู่ระบบพิจารณา อนุมัติ/ปฏิเสธ หรือมอบหมายผู้ดูแล:
->> จัดการคำขอ (ส่วนที่ 2): ${reviewUrl}
->> ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ: ${downloadUrl || printUrl}
+คลิกปุ่มหรือลิงก์ด้านล่างเพื่อเข้าสู่ระบบดูรายละเอียดและพิจารณาคำขอ:
+>> ดูรายละเอียดและเข้าพิจารณาคำขอ (ส่วนที่ 2): ${reviewUrl}
+>> เปิดดูแบบฟอร์ม PDF: ${printUrl}
 --------------------------------------------------
 
 ระบบบริการห้องปฏิบัติการออนไลน์ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น`;
@@ -91,13 +90,12 @@ ${itemsDetail}
 }
 
 /**
- * 2. Step 2 (กรณีปฏิเสธ): อีเมลแจ้งเตือนผู้รับบริการว่าหัวหน้างานไม่อนุมัติ พร้อมเหตุผลและแนบลิงก์ดาวน์โหลด PDF
+ * 2. Step 2 (กรณีปฏิเสธ): อีเมลแจ้งเตือนผู้รับบริการว่าหัวหน้างานไม่อนุมัติ พร้อมเหตุผลและแนบลิงก์ดูแบบฟอร์ม PDF
  */
 export function generateHeadRejectedEmail(request: VetLabRequest, baseUrl?: string): { subject: string; body: string; printUrl: string } {
   const formName = getFormTypeName(request.formType);
   const appOrigin = baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const printUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
-  const downloadUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}&download=1` : '';
   const reason = request.part2?.rejectionReason || request.part2?.comment || 'ไม่เป็นไปตามเกณฑ์การขอใช้บริการห้องปฏิบัติการ';
 
   const subject = `[แจ้งผลการพิจารณาคำขอ] ไม่อนุมัติคำขอ ${request.trackingNo} - ${formName}`;
@@ -114,8 +112,8 @@ export function generateHeadRejectedEmail(request: VetLabRequest, baseUrl?: stri
 
 --------------------------------------------------
 [เอกสารแบบฟอร์มที่มีรายละเอียดการปฏิเสธ]
-ท่านสามารถคลิกลิงก์ด้านล่างเพื่อเชื่อมต่อไปยังหน้าเว็บและดาวน์โหลดเอกสารแบบฟอร์ม PDF ที่บันทึกเหตุผลการปฏิเสธ:
->> ดาวน์โหลดเอกสาร PDF จากหน้าเว็บ: ${downloadUrl || printUrl}
+ท่านสามารถคลิกลิงก์ด้านล่างเพื่อเชื่อมต่อไปยังหน้าเปิดดูแบบฟอร์ม PDF ที่บันทึกเหตุผลการปฏิเสธ:
+>> เปิดดูแบบฟอร์ม PDF: ${printUrl}
 --------------------------------------------------
 
 หากมีข้อสงสัยเพิ่มเติม สามารถติดต่อผู้ประสานงานห้องปฏิบัติการ (${LAB_OFFICIALS.coordinator.name})
@@ -134,7 +132,6 @@ export function generateCaretakerNotificationEmail(request: VetLabRequest, baseU
   const appOrigin = baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const reviewUrl = appOrigin ? `${appOrigin}?action=review&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
   const printUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
-  const downloadUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}&download=1` : '';
   const itemsDetail = formatItemsSummary(request);
   const assignedStaffName = request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ';
   const assignedComment = request.part2?.assignedStaffComment || request.part2?.comment || 'มอบหมายให้ดูแลและประสานงานกับผู้ขอใช้บริการ';
@@ -156,9 +153,9 @@ ${itemsDetail}
 
 --------------------------------------------------
 [การดำเนินการสำหรับผู้ดูแล]
-โปรดพิจารณาความพร้อมของสถานที่/อุปกรณ์ และจัดการคำขอเพื่อเข้ารับบริการต่อไป:
->> จัดการคำขอ (ส่วนที่ 3): ${reviewUrl}
->> ดาวน์โหลด / ดูแบบฟอร์ม PDF A4 บนหน้าเว็บ: ${downloadUrl || printUrl}
+โปรดตรวจสอบความพร้อมของสถานที่/อุปกรณ์ และจัดการคำขอเพื่อเข้ารับบริการต่อไป:
+>> ดูรายละเอียดและเข้าพิจารณาคำขอ (ส่วนที่ 3): ${reviewUrl}
+>> เปิดดูแบบฟอร์ม PDF: ${printUrl}
 --------------------------------------------------
 
 งานห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น`;
@@ -167,13 +164,12 @@ ${itemsDetail}
 }
 
 /**
- * 4. Step 3: อีเมลแจ้งเตือนผู้รับบริการเมื่อผู้ดูแลจัดการคำขอสำเร็จ พร้อมลิงก์ดาวน์โหลด PDF และข้อความแนะนำการติดต่อ
+ * 4. Step 3: อีเมลแจ้งเตือนผู้รับบริการเมื่อผู้ดูแลจัดการคำขอสำเร็จ พร้อมลิงก์ดูแบบฟอร์ม PDF
  */
 export function generateFinalReviewEmail(request: VetLabRequest, baseUrl?: string): { subject: string; body: string; printUrl: string } {
   const formName = getFormTypeName(request.formType);
   const appOrigin = baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
   const printUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
-  const downloadUrl = appOrigin ? `${appOrigin}?action=print&id=${encodeURIComponent(request.id)}&trackingNo=${encodeURIComponent(request.trackingNo)}&download=1` : '';
   const trackUrl = appOrigin ? `${appOrigin}?action=track&trackingNo=${encodeURIComponent(request.trackingNo)}` : '';
   const isApproved = request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed';
   const officerName = request.part3?.signature?.name || request.part2?.assignedStaffName || 'เจ้าหน้าที่ประจำห้องปฏิบัติการ';
@@ -197,9 +193,9 @@ export function generateFinalReviewEmail(request: VetLabRequest, baseUrl?: strin
 ==================================================
 
 --------------------------------------------------
-[ดาวน์โหลดแบบฟอร์มเอกสารฉบับสมบูรณ์ (PDF)]
-ท่านสามารถดาวน์โหลดไฟล์แบบฟอร์ม PDF ที่มีรายละเอียดครบถ้วน (ส่วนที่ 1, 2 และ 3 พร้อมลายเซ็นราชการ) ได้ที่ลิงก์นี้:
->> ดาวน์โหลดแบบฟอร์ม PDF ฉบับสมบูรณ์จากหน้าเว็บ: ${downloadUrl || printUrl}
+[เอกสารแบบฟอร์มฉบับสมบูรณ์ (PDF)]
+ท่านสามารถเปิดดูไฟล์แบบฟอร์ม PDF ที่มีรายละเอียดครบถ้วน (ส่วนที่ 1, 2 และ 3 พร้อมลายเซ็นราชการ) ได้ที่ลิงก์นี้:
+>> เปิดดูแบบฟอร์ม PDF ฉบับสมบูรณ์: ${printUrl}
 >> ตรวจสอบสถานะออนไลน์: ${trackUrl}
 --------------------------------------------------
 
