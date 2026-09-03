@@ -23,6 +23,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<'draw' | 'type' | 'upload'>('draw');
   const [typedName, setTypedName] = useState(value?.name || '');
+  const [typedSignatureText, setTypedSignatureText] = useState('');
   const [dateStr, setDateStr] = useState(
     value?.date ||
       new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -106,7 +107,14 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
         finalDataUrl = canvas.toDataURL('image/png');
       }
     } else if (mode === 'type') {
-      finalDataUrl = typedName.trim() ? generateTypedSignatureDataUrl(typedName.trim()) : '';
+      if (!typedSignatureText.trim()) {
+        alert('กรุณาพิมพ์ชื่อ-สกุลในช่องพิมพ์ชื่อเพื่อสร้างลายมือชื่อ');
+        return;
+      }
+      finalDataUrl = generateTypedSignatureDataUrl(typedSignatureText.trim());
+      if (!typedName.trim()) {
+        setTypedName(typedSignatureText.trim());
+      }
     } else if (mode === 'upload') {
       finalDataUrl = value?.dataUrl || '';
     }
@@ -117,7 +125,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
 
     onChange({
       dataUrl: finalDataUrl,
-      name: typedName,
+      name: typedName.trim() || typedSignatureText.trim(),
       date: dateStr,
     });
     setIsOpen(false);
@@ -144,9 +152,10 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
   const handleClearSignature = () => {
     onChange({
       dataUrl: '',
-      name: '',
+      name: value?.name || '',
       date: dateStr,
     });
+    setTypedSignatureText('');
     setHasDrawn(false);
   };
 
@@ -176,6 +185,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
       <div
         onClick={() => {
           if (!disabled) {
+            setTypedSignatureText('');
             setIsOpen(true);
           }
         }}
@@ -341,20 +351,28 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
               {mode === 'type' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs font-semibold text-slate-700 block mb-1">พิมพ์ชื่อ-นามสกุล:</label>
+                    <label className="text-xs font-semibold text-slate-700 block mb-1">
+                      พิมพ์ชื่อ-นามสกุลเพื่อสร้างลายมือชื่อ:
+                    </label>
                     <input
                       type="text"
-                      value={typedName}
-                      onChange={(e) => setTypedName(e.target.value)}
-                      placeholder="เช่น นายรักเรียน เพียรศึกษา"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-md text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
+                      value={typedSignatureText}
+                      onChange={(e) => setTypedSignatureText(e.target.value)}
+                      placeholder="พิมพ์ชื่อ-นามสกุล..."
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                     />
                   </div>
-                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-center flex flex-col items-center justify-center min-h-[90px]">
-                    <span className="text-[11px] text-slate-400 font-normal block mb-1.5">แสดงผลลายเซ็นแบบตัวพิมพ์:</span>
-                    <div className="text-2xl font-serif italic text-indigo-950 font-bold tracking-wide">
-                      {typedName || <span className="text-xs font-sans not-italic text-slate-400 font-normal">(กรุณาพิมพ์ชื่อ-สกุลในช่องด้านบน)</span>}
-                    </div>
+                  <div className="p-4 bg-slate-50/70 rounded-xl border border-dashed border-slate-300 text-center flex flex-col items-center justify-center min-h-[95px]">
+                    <span className="text-[11px] text-slate-400 font-normal block mb-1">ช่องแสดงลายมือชื่อ:</span>
+                    {typedSignatureText.trim() ? (
+                      <div className="text-2xl font-serif italic text-indigo-950 font-bold tracking-wide py-1">
+                        {typedSignatureText.trim()}
+                      </div>
+                    ) : (
+                      <div className="text-xs text-slate-400 italic py-2">
+                        (ช่องลายมือชื่อว่างเปล่า — กรุณาพิมพ์ชื่อในช่องด้านบน)
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
