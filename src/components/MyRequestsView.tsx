@@ -23,6 +23,7 @@ import {
   Check,
   ExternalLink,
   Eye,
+  FileText,
 } from 'lucide-react';
 import { VetLabRequest, FormType, RequestStatus } from '../types';
 import { RequestDetailsModal } from './RequestDetailsModal';
@@ -407,8 +408,9 @@ export const MyRequestsView: React.FC<MyRequestsViewProps> = ({
                       type="button"
                       onClick={() => onSelectRequestForPrint(req)}
                       className="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                      title="กดเพื่อเปิดดูแบบฟอร์มคำขอและดาวน์โหลด PDF"
                     >
-                      <Printer className="w-4 h-4 text-indigo-600" /> พิมพ์แบบฟอร์ม PDF
+                      <FileText className="w-4 h-4 text-indigo-600" /> เปิดดูแบบฟอร์ม
                     </button>
                   </div>
                 </div>
@@ -527,14 +529,6 @@ export const MyRequestsView: React.FC<MyRequestsViewProps> = ({
                         )}
                       </div>
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={() => onSelectRequestForPrint(req)}
-                      className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shrink-0 cursor-pointer shadow-2xs active:scale-95"
-                    >
-                      ดาวน์โหลด PDF
-                    </button>
                   </div>
                 )}
               </div>

@@ -866,10 +866,10 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                   onClose();
                 }}
                 className="w-full sm:w-auto px-3.5 sm:px-4 py-2 rounded-full bg-white hover:bg-[#f1f3f4] text-[#3c4043] border border-[#dadce0] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                title="ดูเอกสารฉบับพิมพ์ทางการ / ดาวน์โหลด PDF"
+                title="เปิดดูแบบฟอร์มเอกสารฉบับทางการ"
               >
                 <FileDown className="w-4 h-4 text-[#1a73e8]" />
-                <span>ดูเอกสาร & ดาวน์โหลด PDF</span>
+                <span>ดูแบบฟอร์มเอกสาร</span>
               </button>
             )}
           </div>
