@@ -118,7 +118,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             el.style.color = '#000000';
             el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
             el.style.lineHeight = '1.3';
-            el.style.webkitFontSmoothing = 'antialiased';
+            (el.style as any).webkitFontSmoothing = 'antialiased';
           }
         },
       });
