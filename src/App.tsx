@@ -825,7 +825,7 @@ export function App() {
                     © 2026 Faculty of Veterinary Medicine, Khon Kaen University. All rights reserved.
                   </div>
                   <div className="text-slate-600 font-medium">
-                    ผู้พัฒนาระบบ: <strong className="text-slate-800">นางสาวลักขณา ฉันทะกลาง</strong>
+                    พัฒนาระบบโดย: <strong className="text-slate-800">นางสาวลักขณา ฉันทะกลาง</strong>
                   </div>
                 </div>
               </div>
