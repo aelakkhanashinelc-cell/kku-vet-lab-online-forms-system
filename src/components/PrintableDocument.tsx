@@ -40,8 +40,6 @@ const RenderSignatureStamp: React.FC<{
 
 export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, onClose }) => {
   const printContentRef = useRef<HTMLDivElement | null>(null);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [pdfSuccess, setPdfSuccess] = useState(false);
 
   const getFormCode = () => {
     switch (request.formType) {
