@@ -255,15 +255,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
 
       {/* Horizontal Scrollable Wrapper for Mobile Preview & Precise Fixed A4 Container */}
       <div className="w-full min-h-full flex justify-start lg:justify-center overflow-x-auto py-12 sm:py-6">
-        {/* A4 Paper Container - Fixed standard A4 width (794px / 210mm x 297mm) */}
+        {/* A4 Paper Container - Fixed standard A4 width & height (794px x 1123px / 210mm x 297mm) */}
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-6 sm:p-7 shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased"
+          className="printable-page-container bg-white text-black p-6 sm:p-7 shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-between"
           style={{
             width: '794px',
             minWidth: '794px',
             maxWidth: '794px',
+            height: '1123px',
             minHeight: '1123px',
             boxSizing: 'border-box',
             fontFamily: "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif",
@@ -271,7 +272,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
           }}
         >
         {/* Document Header */}
-        <div className="relative border-b-2 border-black pb-2.5 mb-3">
+        <div className="relative border-b-2 border-black pb-2.5 mb-2.5 shrink-0">
           <div className="absolute top-0 right-0 text-right">
             <span className="font-bold text-xs sm:text-sm tracking-wider border border-black px-2 py-0.5 rounded-xs">
               {getFormCode()}
@@ -294,7 +295,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         </div>
 
         {/* Part 1 Content */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           {/* Line 1: Name & Role */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
             <span><strong>ชื่อ-สกุล:</strong> <span className="border-b border-dotted border-black px-2 pb-0.5 font-medium">{request.applicantName || '...................................................'}</span></span>
@@ -368,6 +369,19 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
           </div>
 
           {/* Form specific Section 1 Body */}
+          {request.formType === 'VET_LAB_01' && (
+            <div className="space-y-1.5 pt-0.5">
+              <div className="font-bold text-[11.5px]">
+                การรับทราบระเบียบและข้อปฏิบัติความปลอดภัยในห้องปฏิบัติการ (VET.LAB 01)
+              </div>
+              <div className="border border-black p-2 bg-slate-50/50 rounded-none text-[10.5px] space-y-1">
+                <p>1. ข้าพเจ้าได้รับทราบและเข้าใจระเบียบการใช้ห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น เรียบร้อยแล้ว</p>
+                <p>2. ข้าพเจ้ายินยอมสวมใส่อุปกรณ์คุ้มครองความปลอดภัยส่วนบุคคล (PPE) และปฏิบัติตามมาตรฐานความปลอดภัยทุกประการ</p>
+                <p>3. หากเกิดความเสียหายต่อเครื่องมือ อุปกรณ์ หรือห้องปฏิบัติการ ข้าพเจ้ายินยอมรับผิดชอบชดใช้ค่าเสียหายตามระเบียบ</p>
+              </div>
+            </div>
+          )}
+
           {request.formType === 'VET_LAB_02' && (
             <div className="space-y-1.5 pt-0.5">
               <div className="font-bold text-[11.5px]">
