@@ -436,7 +436,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                         <tr>
-                          <th className="py-2 px-3 w-12 text-center">ลำดับ</th>
+                          <th className="py-2 px-3 w-16 text-center whitespace-nowrap">ลำดับ</th>
                           <th className="py-2 px-3">ห้องปฏิบัติการ / สาขาวิชา</th>
                           <th className="py-2 px-3">หมายเหตุ / วัตถุประสงค์เฉพาะ</th>
                         </tr>
@@ -502,7 +502,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                         <tr>
-                          <th className="py-2 px-3 w-12 text-center">ลำดับ</th>
+                          <th className="py-2 px-3 w-16 text-center whitespace-nowrap">ลำดับ</th>
                           <th className="py-2 px-3">รายการเครื่องมือวิทยาศาสตร์</th>
                           <th className="py-2 px-3 w-24 text-center">จำนวน</th>
                           <th className="py-2 px-3">ห้องปฏิบัติการ / สถานที่ตั้ง</th>
@@ -513,7 +513,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                         {request.equipmentItems && request.equipmentItems.length > 0 ? (
                           request.equipmentItems.map((item, idx) => (
                             <tr key={item.id || idx} className="hover:bg-slate-50">
-                              <td className="py-2 px-3 text-center font-mono text-slate-500">{idx + 1}</td>
+                              <td className="py-2 px-3 text-center font-mono text-slate-500 whitespace-nowrap">{idx + 1}</td>
                               <td className="py-2 px-3 font-medium text-slate-800">{item.itemName}</td>
                               <td className="py-2 px-3 text-center font-bold text-slate-700">{item.quantity}</td>
                               <td className="py-2 px-3 text-slate-600">{item.remarksLab || '-'}</td>
@@ -556,7 +556,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                         <tr>
-                          <th className="py-2 px-3 w-12 text-center">ลำดับ</th>
+                          <th className="py-2 px-3 w-16 text-center whitespace-nowrap">ลำดับ</th>
                           <th className="py-2 px-3">ชื่อสารเคมี / วัสดุวิทยาศาสตร์</th>
                           <th className="py-2 px-3 w-28 text-center">จำนวน / ปริมาณ</th>
                           <th className="py-2 px-3">หมายเหตุ / วัตถุประสงค์</th>

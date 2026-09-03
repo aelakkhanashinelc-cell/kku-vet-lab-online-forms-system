@@ -626,7 +626,7 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
                 <table className="w-full text-left text-xs sm:text-sm">
                   <thead className="bg-gradient-to-r from-blue-50/80 to-indigo-50/40 text-blue-950 border-b border-blue-100 font-bold text-xs sm:text-sm">
                     <tr>
-                      <th className="py-3 px-3.5 w-14 text-center">ลำดับ</th>
+                      <th className="py-3 px-3 w-16 sm:w-20 text-center whitespace-nowrap">ลำดับ</th>
                       <th className="py-3 px-3.5">ชื่อห้องปฏิบัติการ</th>
                       <th className="py-3 px-3.5 w-1/3">หมายเหตุ/กิจกรรมที่ทำ</th>
                       <th className="py-3 px-3.5 w-12 text-center">ลบ</th>
@@ -635,7 +635,7 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
                   <tbody className="divide-y divide-slate-100 bg-white">
                     {labItems.map((item, idx) => (
                       <tr key={item.id} className="hover:bg-blue-50/30 transition-colors">
-                        <td className="py-3 px-3.5 text-center font-bold text-blue-600 text-sm">
+                        <td className="py-3 px-3 text-center font-bold text-blue-600 text-sm whitespace-nowrap">
                           {idx + 1}
                         </td>
                         <td className="py-3 px-3.5">
