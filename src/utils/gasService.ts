@@ -28,7 +28,7 @@ export async function safeJsonFromResponse(response: Response): Promise<any> {
   }
 }
 
-export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbw1IIlIi3gPCrZ4GogYirDGIrY4LO3g5lmicnnXNaYwNyzFd_ZtAXM29hGOXLqnL1ERdQ/exec';
+export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxAS8NOJ8s8RM5cgrvPyP6pBQTnh0jhs5VakMYzAEqxfOVBMRELyP1IuasnX8b1i04eIA/exec';
 
 /**
  * Retrieve saved Google Apps Script Web App URL
