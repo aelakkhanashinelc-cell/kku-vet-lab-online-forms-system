@@ -70,31 +70,23 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
   const initialDraftRef = useRef(loadFormDraft<DraftVetLab03>('VET_LAB_03'));
   const initialDraft = initialDraftRef.current?.data;
 
-  // Part 1 States
+  // Part 1 States - Only applicantName and email from login, all other fields start blank
   const [applicantName, setApplicantName] = useState(() => initialDraft?.applicantName ?? initialApplicantName);
-  const [role, setRole] = useState<ApplicantRole>(() => initialDraft?.role ?? (initialStudentId ? 'student' : 'student'));
-  const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? initialStudentId);
+  const [role, setRole] = useState<ApplicantRole>(() => initialDraft?.role ?? ('' as any));
+  const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? '');
   const [otherRoleText, setOtherRoleText] = useState(() => initialDraft?.otherRoleText ?? '');
-  const [department, setDepartment] = useState(() => {
-    if (initialDraft?.department) return initialDraft.department;
-    if (initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
-    return 'กลุ่มวิชาพรีคลินิก (Pre-clinic)';
-  });
-  const [customDepartment, setCustomDepartment] = useState(() => {
-    if (initialDraft?.customDepartment !== undefined) return initialDraft.customDepartment;
-    if (initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
-    return '';
-  });
-  const [phone, setPhone] = useState(() => initialDraft?.phone ?? initialPhone);
+  const [department, setDepartment] = useState(() => initialDraft?.department ?? '');
+  const [customDepartment, setCustomDepartment] = useState(() => initialDraft?.customDepartment ?? '');
+  const [phone, setPhone] = useState(() => initialDraft?.phone ?? '');
   const [email, setEmail] = useState(() => initialDraft?.email ?? initialEmail);
-  const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? 'special_problem');
+  const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? ('' as any));
   const [workTypeOtherText, setWorkTypeOtherText] = useState(() => initialDraft?.workTypeOtherText ?? '');
   const [projectTitle, setProjectTitle] = useState(() => initialDraft?.projectTitle ?? '');
 
   // Equipment type: lab based vs field based
-  const [equipmentType, setEquipmentType] = useState<'lab_based' | 'field_based' | 'both'>(() => initialDraft?.equipmentType ?? 'lab_based');
+  const [equipmentType, setEquipmentType] = useState<'lab_based' | 'field_based' | 'both'>(() => initialDraft?.equipmentType ?? ('' as any));
 
-  // Equipment items table
+  // Equipment items table - starts with 1 empty row
   const [equipmentItems, setEquipmentItems] = useState<EquipmentItem03[]>(() => {
     if (initialDraft?.equipmentItems && initialDraft.equipmentItems.length > 0) return initialDraft.equipmentItems;
     return [
@@ -102,20 +94,20 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
         id: '1',
         no: 1,
         itemName: '',
-        quantity: '1 เครื่อง',
+        quantity: '',
         remarksLab: '',
       },
     ];
   });
 
-  // Duration & schedule
-  const [timeSlot, setTimeSlot] = useState<TimeSlot>(() => initialDraft?.timeSlot ?? 'official_hours');
-  const [startDate, setStartDate] = useState(() => initialDraft?.startDate ?? new Date().toISOString().split('T')[0]);
-  const [endDate, setEndDate] = useState(() => initialDraft?.endDate ?? new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0]);
-  const [durationDays, setDurationDays] = useState<number>(() => initialDraft?.durationDays ?? 5);
+  // Duration & schedule - starts blank
+  const [timeSlot, setTimeSlot] = useState<TimeSlot>(() => initialDraft?.timeSlot ?? ('' as any));
+  const [startDate, setStartDate] = useState(() => initialDraft?.startDate ?? '');
+  const [endDate, setEndDate] = useState(() => initialDraft?.endDate ?? '');
+  const [durationDays, setDurationDays] = useState<number>(() => initialDraft?.durationDays ?? 0);
 
   // Acknowledgement & Signatures
-  const [termsAccepted, setTermsAccepted] = useState(() => initialDraft?.termsAccepted ?? true);
+  const [termsAccepted, setTermsAccepted] = useState(() => initialDraft?.termsAccepted ?? false);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>(() => initialDraft?.applicantSignature ?? {
     name: initialApplicantName || '',
     date: thaiDate.fullStr,
@@ -240,31 +232,31 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
     if (window.confirm('คุณต้องการล้างข้อมูลที่ร่างไว้ทั้งหมด และเริ่มต้นกรอกใหม่ใช่หรือไม่?')) {
       clearFormDraft('VET_LAB_03');
       setApplicantName(initialApplicantName);
-      setRole(initialStudentId ? 'student' : 'student');
-      setStudentId(initialStudentId);
+      setRole('' as any);
+      setStudentId('');
       setOtherRoleText('');
-      setDepartment(initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : 'กลุ่มวิชาพรีคลินิก (Pre-clinic)');
-      setCustomDepartment(initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : '');
-      setPhone(initialPhone);
+      setDepartment('');
+      setCustomDepartment('');
+      setPhone('');
       setEmail(initialEmail);
-      setWorkType('special_problem');
+      setWorkType('' as any);
       setWorkTypeOtherText('');
       setProjectTitle('');
-      setEquipmentType('lab_based');
+      setEquipmentType('' as any);
       setEquipmentItems([
         {
           id: '1',
           no: 1,
           itemName: '',
-          quantity: '1 เครื่อง',
+          quantity: '',
           remarksLab: '',
         },
       ]);
-      setTimeSlot('official_hours');
-      setStartDate(new Date().toISOString().split('T')[0]);
-      setEndDate(new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0]);
-      setDurationDays(5);
-      setTermsAccepted(true);
+      setTimeSlot('' as any);
+      setStartDate('');
+      setEndDate('');
+      setDurationDays(0);
+      setTermsAccepted(false);
       setApplicantSignature({ name: initialApplicantName || '', date: thaiDate.fullStr, dataUrl: '' });
       setAdvisorSignature({ name: '', date: thaiDate.fullStr, dataUrl: '' });
       setLastDraftSavedTime(null);
@@ -636,6 +628,7 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                   onChange={(e) => setDepartment(e.target.value)}
                   className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm sm:text-base font-normal focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
                 >
+                  <option value="">-- กรุณาเลือกสังกัด/สาขาวิชา --</option>
                   {KKU_DEPARTMENTS.map((dept) => (
                     <option key={dept} value={dept}>
                       {dept}

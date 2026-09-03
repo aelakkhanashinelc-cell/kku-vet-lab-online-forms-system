@@ -67,28 +67,20 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
   const initialDraftRef = useRef(loadFormDraft<DraftVetLab04>('VET_LAB_04'));
   const initialDraft = initialDraftRef.current?.data;
 
-  // Part 1 States
+  // Part 1 States - Only applicantName and email from login, all other fields start blank
   const [applicantName, setApplicantName] = useState(() => initialDraft?.applicantName ?? initialApplicantName);
-  const [role, setRole] = useState<ApplicantRole>(() => initialDraft?.role ?? (initialStudentId ? 'student' : 'student'));
-  const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? initialStudentId);
+  const [role, setRole] = useState<ApplicantRole>(() => initialDraft?.role ?? ('' as any));
+  const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? '');
   const [otherRoleText, setOtherRoleText] = useState(() => initialDraft?.otherRoleText ?? '');
-  const [department, setDepartment] = useState(() => {
-    if (initialDraft?.department) return initialDraft.department;
-    if (initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
-    return 'กลุ่มวิชาพยาธิชีววิทยา (Pathobiology)';
-  });
-  const [customDepartment, setCustomDepartment] = useState(() => {
-    if (initialDraft?.customDepartment !== undefined) return initialDraft.customDepartment;
-    if (initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
-    return '';
-  });
-  const [phone, setPhone] = useState(() => initialDraft?.phone ?? initialPhone);
+  const [department, setDepartment] = useState(() => initialDraft?.department ?? '');
+  const [customDepartment, setCustomDepartment] = useState(() => initialDraft?.customDepartment ?? '');
+  const [phone, setPhone] = useState(() => initialDraft?.phone ?? '');
   const [email, setEmail] = useState(() => initialDraft?.email ?? initialEmail);
-  const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? 'research');
+  const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? ('' as any));
   const [workTypeOtherText, setWorkTypeOtherText] = useState(() => initialDraft?.workTypeOtherText ?? '');
   const [projectTitle, setProjectTitle] = useState(() => initialDraft?.projectTitle ?? '');
 
-  // Chemicals table
+  // Chemicals table - starts with 1 empty row
   const [chemicalItems, setChemicalItems] = useState<ChemicalItem04[]>(() => {
     if (initialDraft?.chemicalItems && initialDraft.chemicalItems.length > 0) return initialDraft.chemicalItems;
     return [
@@ -102,12 +94,12 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     ];
   });
 
-  // Pickup date & time
-  const [pickupDate, setPickupDate] = useState(() => initialDraft?.pickupDate ?? new Date(Date.now() + 86400000).toISOString().split('T')[0]);
-  const [pickupTime, setPickupTime] = useState(() => initialDraft?.pickupTime ?? '10:00');
+  // Pickup date & time - starts blank
+  const [pickupDate, setPickupDate] = useState(() => initialDraft?.pickupDate ?? '');
+  const [pickupTime, setPickupTime] = useState(() => initialDraft?.pickupTime ?? '');
 
   // Acknowledgement & Signatures
-  const [termsAccepted, setTermsAccepted] = useState(() => initialDraft?.termsAccepted ?? true);
+  const [termsAccepted, setTermsAccepted] = useState(() => initialDraft?.termsAccepted ?? false);
   const [applicantSignature, setApplicantSignature] = useState<SignatureData>(() => initialDraft?.applicantSignature ?? {
     name: initialApplicantName || '',
     date: thaiDate.fullStr,
@@ -212,14 +204,14 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
     if (window.confirm('คุณต้องการล้างข้อมูลที่ร่างไว้ทั้งหมด และเริ่มต้นกรอกใหม่ใช่หรือไม่?')) {
       clearFormDraft('VET_LAB_04');
       setApplicantName(initialApplicantName);
-      setRole(initialStudentId ? 'student' : 'student');
-      setStudentId(initialStudentId);
+      setRole('' as any);
+      setStudentId('');
       setOtherRoleText('');
-      setDepartment(initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : 'กลุ่มวิชาพยาธิชีววิทยา (Pathobiology)');
-      setCustomDepartment(initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : '');
-      setPhone(initialPhone);
+      setDepartment('');
+      setCustomDepartment('');
+      setPhone('');
       setEmail(initialEmail);
-      setWorkType('research');
+      setWorkType('' as any);
       setWorkTypeOtherText('');
       setProjectTitle('');
       setChemicalItems([
@@ -231,9 +223,9 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
           remarks: '',
         },
       ]);
-      setPickupDate(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
-      setPickupTime('10:00');
-      setTermsAccepted(true);
+      setPickupDate('');
+      setPickupTime('');
+      setTermsAccepted(false);
       setApplicantSignature({ name: initialApplicantName || '', date: thaiDate.fullStr, dataUrl: '' });
       setAdvisorSignature({ name: '', date: thaiDate.fullStr, dataUrl: '' });
       setLastDraftSavedTime(null);
@@ -579,6 +571,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
                   onChange={(e) => setDepartment(e.target.value)}
                   className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm sm:text-base font-normal focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none"
                 >
+                  <option value="">-- กรุณาเลือกสังกัด/สาขาวิชา --</option>
                   {KKU_DEPARTMENTS.map((dept) => (
                     <option key={dept} value={dept}>
                       {dept}

@@ -744,9 +744,6 @@ export function App() {
                 onPreviewPrint={(req) => setSelectedPrintRequest(req)}
                 initialApplicantName={authUser.name}
                 initialEmail={authUser.email}
-                initialPhone={authUser.phone}
-                initialDepartment={authUser.department}
-                initialStudentId={authUser.studentId}
               />
             )}
 
@@ -756,9 +753,6 @@ export function App() {
                 onPreviewPrint={(req) => setSelectedPrintRequest(req)}
                 initialApplicantName={authUser.name}
                 initialEmail={authUser.email}
-                initialPhone={authUser.phone}
-                initialDepartment={authUser.department}
-                initialStudentId={authUser.studentId}
               />
             )}
 
@@ -768,9 +762,6 @@ export function App() {
                 onPreviewPrint={(req) => setSelectedPrintRequest(req)}
                 initialApplicantName={authUser.name}
                 initialEmail={authUser.email}
-                initialPhone={authUser.phone}
-                initialDepartment={authUser.department}
-                initialStudentId={authUser.studentId}
               />
             )}
 
