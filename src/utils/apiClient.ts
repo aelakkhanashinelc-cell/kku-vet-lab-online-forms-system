@@ -224,6 +224,25 @@ export async function apiSubmitRequest(payload: any): Promise<{ success: boolean
   if (isGasConfigured() && isGasSyncEnabled()) {
     try {
       gasResult = await submitToGoogleAppsScript(newRequest);
+      
+      // If GAS succeeded and returned a canonical trackingNo, update our local record!
+      if (gasResult && gasResult.success && gasResult.trackingNo) {
+        newRequest.trackingNo = gasResult.trackingNo;
+        
+        // Update local storage with the canonical trackingNo
+        const listAfterGas = getLocalRequests();
+        const correctedList = listAfterGas.map(r => r.id === newRequest.id ? newRequest : r);
+        saveLocalRequests(correctedList);
+        
+        // Trigger a background fetch to immediately sync all data from GAS
+        setTimeout(() => {
+          apiGetRequests().then(() => {
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('vet_lab_requests_updated'));
+            }
+          });
+        }, 1000);
+      }
     } catch (gasErr) {
       console.warn('Google Apps Script submission notice:', gasErr);
     }
