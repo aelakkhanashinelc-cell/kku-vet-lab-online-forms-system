@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { X, FileDown, CheckCircle, ShieldCheck, Loader2, Printer } from 'lucide-react';
+import { X, FileDown, CheckCircle, ShieldCheck, Loader2 } from 'lucide-react';
 import { VetLabRequest, SignatureData } from '../types';
 import { generateTypedSignatureDataUrl, generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
 // @ts-ignore
@@ -241,16 +241,6 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
               <span>ดาวน์โหลด PDF (A4)</span>
             </>
           )}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer border border-slate-700 active:scale-95"
-          title="สั่งพิมพ์เอกสารผ่านระบบของเบราว์เซอร์ (Print to Paper/PDF)"
-        >
-          <Printer className="w-4 h-4 text-slate-300" />
-          <span className="hidden sm:inline">พิมพ์เอกสาร</span>
         </button>
 
         <button
