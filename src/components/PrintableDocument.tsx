@@ -24,18 +24,18 @@ const RenderSignatureStamp: React.FC<{
 
   if (!isApproved || !hasDrawnUrl || !name || name === '-' || name.startsWith('.')) {
     return (
-      <div className="h-14 flex items-center justify-center text-slate-400 text-[11px] italic text-center w-full">
+      <div className="h-10 flex items-center justify-center text-slate-400 text-[10.5px] italic text-center w-full">
         (ลงชื่อ)....................................................
       </div>
     );
   }
 
   return (
-    <div className="h-14 flex items-center justify-center w-full overflow-hidden">
+    <div className="h-10 flex items-center justify-center w-full overflow-hidden">
       <img
         src={signature!.dataUrl}
         alt={name}
-        className="h-12 max-h-12 max-w-[210px] object-contain mx-auto block"
+        className="h-9 max-h-9 max-w-[190px] object-contain mx-auto block"
       />
     </div>
   );
@@ -91,30 +91,33 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
       const cleanTrackingNo = request.trackingNo || 'FORM';
       const filename = `แบบฟอร์ม_${cleanTrackingNo}_${formCode}.pdf`;
 
-      // Render at fixed standard A4 width (794px = 210mm @ 96DPI) regardless of mobile viewport
+      // Render at standard A4 dimensions (794px width x 1123px height = 210mm x 297mm @ 96DPI)
       const canvas = await html2canvas(printContentRef.current, {
         scale: 2.5,
         useCORS: true,
         allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: 1024,
-        windowHeight: 1440,
+        windowWidth: 794,
+        windowHeight: 1123,
         onclone: (clonedDoc: Document) => {
           const el = clonedDoc.getElementById('printable-document-content');
           if (el) {
             el.style.width = '794px';
             el.style.minWidth = '794px';
             el.style.maxWidth = '794px';
-            el.style.padding = '32px';
+            el.style.height = '1123px';
+            el.style.minHeight = '1123px';
+            el.style.maxHeight = '1123px';
+            el.style.padding = '24px 28px 18px 28px';
             el.style.boxSizing = 'border-box';
             el.style.position = 'static';
             el.style.transform = 'none';
-            el.style.margin = '0 auto';
+            el.style.margin = '0';
             el.style.backgroundColor = '#ffffff';
             el.style.color = '#000000';
             el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
-            el.style.lineHeight = '1.35';
+            el.style.lineHeight = '1.3';
             el.style.webkitFontSmoothing = 'antialiased';
           }
         },
@@ -129,26 +132,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         compress: true,
       });
 
-      const pdfWidth = 210;
-      const pdfHeight = 297;
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const canvasRatio = canvasHeight / canvasWidth;
-
-      // Fit strictly within 1 A4 Page with exact margins
-      let renderWidth = pdfWidth;
-      let renderHeight = pdfWidth * canvasRatio;
-
-      if (renderHeight > pdfHeight) {
-        renderHeight = pdfHeight;
-        renderWidth = pdfHeight / canvasRatio;
-      }
-
-      const xOffset = Math.max(0, (pdfWidth - renderWidth) / 2);
-      const yOffset = Math.max(0, (pdfHeight - renderHeight) / 2);
-
-      // Single-page precise render using PNG
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, renderWidth, renderHeight, undefined, 'FAST');
+      // Exact 1-page A4 canvas fit (210mm x 297mm)
+      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
 
       pdf.save(filename);
       setPdfSuccess(true);
@@ -224,7 +209,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-8 shadow-2xl rounded-xs font-sans text-[12px] leading-snug my-auto mx-auto shrink-0 antialiased"
+          className="printable-page-container bg-white text-black p-6 sm:p-7 shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased"
           style={{
             width: '794px',
             minWidth: '794px',
@@ -232,7 +217,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             minHeight: '1123px',
             boxSizing: 'border-box',
             fontFamily: "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif",
-            lineHeight: '1.35',
+            lineHeight: '1.32',
           }}
         >
         {/* Document Header */}
