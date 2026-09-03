@@ -98,11 +98,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   useEffect(() => {
     fetchRequests();
-    // Real-time Live Sync: Refresh data automatically every 4 seconds
+    
+    // Instant Real-time Event: Reload data on form submission / approval in 0ms
+    const handleLiveUpdate = () => {
+      fetchRequests(true);
+    };
+    window.addEventListener('vet_lab_requests_updated', handleLiveUpdate);
+
+    // Live Sync Interval: Refresh data automatically every 3 seconds
     const interval = setInterval(() => {
       fetchRequests(true);
-    }, 4000);
-    return () => clearInterval(interval);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener('vet_lab_requests_updated', handleLiveUpdate);
+      clearInterval(interval);
+    };
   }, [filterFormType, filterStatus]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {

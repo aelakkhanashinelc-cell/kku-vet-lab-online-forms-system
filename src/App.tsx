@@ -151,6 +151,9 @@ export function App() {
 
   const handleFormSubmitSuccess = (request: VetLabRequest) => {
     setSubmittedRequest(request);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('vet_lab_requests_updated', { detail: { data: request } }));
+    }
   };
 
   // 1. Direct PDF Document View from Email (Available even before login)

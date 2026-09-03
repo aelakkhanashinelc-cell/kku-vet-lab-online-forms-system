@@ -194,6 +194,9 @@ export async function apiSubmitRequest(payload: any): Promise<{ success: boolean
     // Keep local cache in sync
     const list = getLocalRequests();
     saveLocalRequests([serverRes.data, ...list.filter((r) => r.id !== serverRes.data.id)]);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('vet_lab_requests_updated', { detail: { data: serverRes.data } }));
+    }
     return serverRes;
   }
 
@@ -211,6 +214,9 @@ export async function apiSubmitRequest(payload: any): Promise<{ success: boolean
 
   const updatedList = [newRequest, ...currentList];
   saveLocalRequests(updatedList);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('vet_lab_requests_updated', { detail: { data: newRequest } }));
+  }
 
   // 3. Real-time sync to Google Apps Script / Google Sheets
   let gasResult = null;
@@ -302,6 +308,9 @@ export async function apiApproveRequest(idOrTracking: string, approvalData: any)
   if (serverRes && serverRes.success && serverRes.data) {
     const list = getLocalRequests();
     saveLocalRequests(list.map((r) => (r.id === serverRes.data.id || r.trackingNo === serverRes.data.trackingNo ? serverRes.data : r)));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('vet_lab_requests_updated', { detail: { data: serverRes.data } }));
+    }
     return serverRes;
   }
 
@@ -363,6 +372,9 @@ export async function apiApproveRequest(idOrTracking: string, approvalData: any)
 
   list[idx] = updated;
   saveLocalRequests([...list]);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('vet_lab_requests_updated', { detail: { data: updated } }));
+  }
 
   // Sync to Google Apps Script
   if (isGasConfigured() && isGasSyncEnabled()) {
