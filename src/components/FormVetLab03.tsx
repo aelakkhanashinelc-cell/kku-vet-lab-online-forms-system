@@ -763,7 +763,64 @@ export const FormVetLab03: React.FC<FormVetLab03Props> = ({
                 </button>
               </div>
 
-              <div className="overflow-x-auto border border-emerald-100 rounded-2xl shadow-2xs">
+              {/* Mobile Cards (Visible on screens < md) */}
+              <div className="block md:hidden space-y-3">
+                {equipmentItems.map((item, idx) => (
+                  <div key={item.id} className="p-4 bg-emerald-50/40 rounded-2xl border border-emerald-200/80 space-y-3 relative shadow-2xs">
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-900 bg-emerald-100 px-2.5 py-1 rounded-lg">
+                        ลำดับที่ {idx + 1}
+                      </span>
+                      {equipmentItems.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeEquipmentRow(idx)}
+                          className="text-xs text-red-600 hover:text-red-700 font-medium inline-flex items-center gap-1 px-2.5 py-1 rounded-lg hover:bg-red-50 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> ลบรายการ
+                        </button>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">ชื่อเครื่องมือวิทยาศาสตร์ <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        required
+                        value={item.itemName}
+                        onChange={(e) => updateEquipmentRow(idx, 'itemName', e.target.value)}
+                        placeholder="พิมพ์ระบุชื่อเครื่องมือวิทยาศาสตร์"
+                        className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-700">จำนวน <span className="text-red-500">*</span></label>
+                        <input
+                          type="text"
+                          required
+                          value={item.quantity}
+                          onChange={(e) => updateEquipmentRow(idx, 'quantity', e.target.value)}
+                          placeholder="เช่น 1 เครื่อง"
+                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-700">ห้องปฏิบัติการที่ตั้ง (ถ้าทราบ)</label>
+                        <input
+                          type="text"
+                          value={item.remarksLab}
+                          onChange={(e) => updateEquipmentRow(idx, 'remarksLab', e.target.value)}
+                          placeholder="เช่น ห้องจุลชีววิทยา"
+                          className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table (Visible on md+) */}
+              <div className="hidden md:block overflow-x-auto border border-emerald-100 rounded-2xl shadow-2xs">
                 <table className="w-full text-left text-xs sm:text-sm">
                   <thead className="bg-gradient-to-r from-emerald-50/80 to-teal-50/40 text-emerald-950 border-b border-emerald-100 font-bold text-xs sm:text-sm">
                     <tr>

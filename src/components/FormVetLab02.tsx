@@ -717,7 +717,57 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
                 </button>
               </div>
 
-              <div className="overflow-x-auto border border-blue-100 rounded-2xl shadow-2xs">
+              {/* Mobile Cards (Visible on screens < md) */}
+              <div className="block md:hidden space-y-3">
+                {labItems.map((item, idx) => (
+                  <div key={item.id} className="p-4 bg-blue-50/40 rounded-2xl border border-blue-200/80 space-y-3 relative shadow-2xs">
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 bg-blue-100 px-2.5 py-1 rounded-lg">
+                        ลำดับที่ {idx + 1}
+                      </span>
+                      {labItems.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeLabRow(idx)}
+                          className="text-xs text-red-600 hover:text-red-700 font-medium inline-flex items-center gap-1 px-2.5 py-1 rounded-lg hover:bg-red-50 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> ลบรายการ
+                        </button>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">ชื่อห้องปฏิบัติการ <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        required
+                        value={item.labName}
+                        onChange={(e) => updateLabRow(idx, 'labName', e.target.value)}
+                        placeholder="เลือกหรือพิมพ์ชื่อห้องปฏิบัติการ"
+                        list={`preset-labs-m-${idx}`}
+                        className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                      />
+                      <datalist id={`preset-labs-m-${idx}`}>
+                        {PRESET_LABS_02.map((p) => (
+                          <option key={p} value={p} />
+                        ))}
+                      </datalist>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">หมายเหตุ / กิจกรรมที่ทำ</label>
+                      <input
+                        type="text"
+                        value={item.remarks}
+                        onChange={(e) => updateLabRow(idx, 'remarks', e.target.value)}
+                        placeholder="เช่น ย้อมสีเซลล์, สกัด DNA"
+                        className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table (Visible on md+) */}
+              <div className="hidden md:block overflow-x-auto border border-blue-100 rounded-2xl shadow-2xs">
                 <table className="w-full text-left text-xs sm:text-sm">
                   <thead className="bg-gradient-to-r from-blue-50/80 to-indigo-50/40 text-blue-950 border-b border-blue-100 font-bold text-xs sm:text-sm">
                     <tr>
