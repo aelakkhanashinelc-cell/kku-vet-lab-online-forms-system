@@ -103,23 +103,52 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
       const cleanTrackingNo = request.trackingNo || 'FORM';
       const filename = `แบบฟอร์ม_${cleanTrackingNo}_${formCode}.pdf`;
 
-      // Render at standard A4 width (794px @ 96DPI = 210mm)
+      // Render at standard A4 width (794px @ 96DPI = 210mm) and height (1123px = 297mm)
       const canvas = await html2canvas(printContentRef.current, {
         scale: 2.5,
         useCORS: true,
         allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
+        width: 794,
+        height: 1123,
         windowWidth: 794,
+        windowHeight: 1123,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
         onclone: (clonedDoc: Document) => {
+          const modal = clonedDoc.getElementById('printable-document-modal');
+          if (modal) {
+            modal.style.position = 'static';
+            modal.style.inset = 'auto';
+            modal.style.padding = '0';
+            modal.style.margin = '0';
+            modal.style.background = '#ffffff';
+            modal.style.overflow = 'visible';
+          }
+          const wrapper = clonedDoc.getElementById('printable-document-wrapper');
+          if (wrapper) {
+            wrapper.style.padding = '0';
+            wrapper.style.margin = '0';
+            wrapper.style.overflow = 'visible';
+            wrapper.style.display = 'block';
+          }
           const el = clonedDoc.getElementById('printable-document-content');
           if (el) {
             el.style.width = '794px';
             el.style.minWidth = '794px';
             el.style.maxWidth = '794px';
+            el.style.height = '1123px';
+            el.style.minHeight = '1123px';
+            el.style.maxHeight = '1123px';
+            el.style.padding = '24px 28px 18px 28px';
+            el.style.boxSizing = 'border-box';
             el.style.position = 'static';
             el.style.transform = 'none';
             el.style.margin = '0';
+            el.style.boxShadow = 'none';
             el.style.backgroundColor = '#ffffff';
             el.style.color = '#000000';
             el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
@@ -129,12 +158,6 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         },
       });
 
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const pdfWidth = 210; // A4 width in mm
-      const pdfHeight = 297; // A4 height in mm
-      const pageHeightPx = Math.round((canvasWidth * pdfHeight) / pdfWidth);
-
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -142,48 +165,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         compress: true,
       });
 
-      // If document fits within 1 A4 page (with 4% safety margin)
-      if (canvasHeight <= pageHeightPx * 1.04) {
-        const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
-      } else {
-        // Multi-page document: slice into exact A4 pages without distortion
-        let currentY = 0;
-        let pageIdx = 0;
-
-        while (currentY < canvasHeight) {
-          if (pageIdx > 0) {
-            pdf.addPage('a4', 'portrait');
-          }
-
-          const sliceHeight = Math.min(pageHeightPx, canvasHeight - currentY);
-          const sliceCanvas = document.createElement('canvas');
-          sliceCanvas.width = canvasWidth;
-          sliceCanvas.height = pageHeightPx;
-          const sliceCtx = sliceCanvas.getContext('2d');
-
-          if (sliceCtx) {
-            sliceCtx.fillStyle = '#ffffff';
-            sliceCtx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-            sliceCtx.drawImage(
-              canvas,
-              0,
-              currentY,
-              canvasWidth,
-              sliceHeight,
-              0,
-              0,
-              canvasWidth,
-              sliceHeight
-            );
-            const sliceImgData = sliceCanvas.toDataURL('image/png');
-            pdf.addImage(sliceImgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
-          }
-
-          currentY += pageHeightPx;
-          pageIdx++;
-        }
-      }
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
 
       pdf.save(filename);
       setPdfSuccess(true);
@@ -254,7 +237,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
       </div>
 
       {/* Horizontal Scrollable Wrapper for Mobile Preview & Precise Fixed A4 Container */}
-      <div className="w-full min-h-full flex justify-start lg:justify-center overflow-x-auto py-12 sm:py-6">
+      <div id="printable-document-wrapper" className="w-full min-h-full flex justify-start lg:justify-center overflow-x-auto py-12 sm:py-6">
         {/* A4 Paper Container - Fixed standard A4 width & height (794px x 1123px / 210mm x 297mm) */}
         <div
           id="printable-document-content"
