@@ -105,11 +105,34 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
   );
 
   // States for Assigning Lab Staff (Caretaker) with department filters
-  const [selectedDeptFilter, setSelectedDeptFilter] = useState<string>('all');
-  const [selectedStaffEmail, setSelectedStaffEmail] = useState<string>(PRESET_STAFF[0]?.email || 'custom');
-  const [customStaffName, setCustomStaffName] = useState('');
-  const [customStaffEmail, setCustomStaffEmail] = useState('');
+  const [selectedDeptFilter, setSelectedDeptFilter] = useState<string>(() => {
+    if (request.part2?.assignedStaffDepartment && STAFF_BY_DEPARTMENT[request.part2.assignedStaffDepartment]) {
+      return request.part2.assignedStaffDepartment;
+    }
+    // If request has assignedStaffEmail, check which department they belong to
+    if (request.part2?.assignedStaffEmail) {
+      const found = PRESET_STAFF.find((s) => s.email === request.part2?.assignedStaffEmail);
+      if (found?.dept && STAFF_BY_DEPARTMENT[found.dept]) {
+        return found.dept;
+      }
+    }
+    return 'all';
+  });
+  const [selectedStaffEmail, setSelectedStaffEmail] = useState<string>(
+    request.part2?.assignedStaffEmail || PRESET_STAFF[0]?.email || 'custom'
+  );
+  const [customStaffName, setCustomStaffName] = useState(
+    request.part2?.assignedStaffName && !PRESET_STAFF.some(s => s.email === request.part2?.assignedStaffEmail)
+      ? request.part2.assignedStaffName
+      : ''
+  );
+  const [customStaffEmail, setCustomStaffEmail] = useState(
+    request.part2?.assignedStaffEmail && !PRESET_STAFF.some(s => s.email === request.part2?.assignedStaffEmail)
+      ? request.part2.assignedStaffEmail
+      : ''
+  );
   const [assignedStaffComment, setAssignedStaffComment] = useState(
+    request.part2?.assignedStaffComment ||
     'มอบหมายเจ้าหน้าที่ดูแลห้องปฏิบัติการ/เครื่องมือวิทยาศาสตร์และตรวจสอบความเรียบร้อย'
   );
 
@@ -1021,102 +1044,131 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
               {headApproval === 'approved' && (
                 <div className="space-y-4 border-t border-indigo-100 pt-4">
                   {/* Staff Assignment Section */}
-                  <div className="space-y-3 bg-white p-4 rounded-lg border border-indigo-200 shadow-2xs">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <label className="text-xs font-bold text-indigo-950 flex items-center gap-1.5">
-                        <UserCheck className="w-4 h-4 text-indigo-600" />
-                        มอบหมายนักวิชาการวิทยาศาสตร์ / เจ้าหน้าที่ผู้รับผิดชอบ:
-                      </label>
-
-                      {/* Department Filter Pills */}
-                      <div className="flex items-center gap-1 overflow-x-auto text-[11px]">
-                        <button
-                          type="button"
-                          disabled={!isHeadAuthorized}
-                          onClick={() => setSelectedDeptFilter('all')}
-                          className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors cursor-pointer ${
-                            selectedDeptFilter === 'all'
-                              ? 'bg-indigo-600 text-white'
-                              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                          }`}
-                        >
-                          ทั้งหมด
-                        </button>
-                        {Object.keys(STAFF_BY_DEPARTMENT).map((dept) => (
-                          <button
-                            key={dept}
-                            type="button"
-                            disabled={!isHeadAuthorized}
-                            onClick={() => setSelectedDeptFilter(dept)}
-                            className={`px-2 py-0.5 rounded text-[11px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                              selectedDeptFilter === dept
-                                ? 'bg-indigo-600 text-white'
-                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                            }`}
-                          >
-                            {dept.replace('สาขาวิชา', '')}
-                          </button>
-                        ))}
+                  <div className="space-y-4 bg-white p-4 sm:p-5 rounded-2xl border border-indigo-200 shadow-2xs">
+                    <div className="flex items-center gap-2 pb-2 border-b border-indigo-100">
+                      <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
+                        <UserCheck className="w-4 h-4 text-indigo-700" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-indigo-950">
+                          มอบหมายนักวิชาการวิทยาศาสตร์ / เจ้าหน้าที่ผู้รับผิดชอบ
+                        </h4>
+                        <p className="text-xs text-slate-500">
+                          เลือกสาขาวิชาและเจ้าหน้าที่ผู้รับผิดชอบดูแลเครื่องมือ/ห้องปฏิบัติการ
+                        </p>
                       </div>
                     </div>
 
-                    {/* Staff Dropdown */}
-                    <div className="space-y-2">
-                      <select
-                        disabled={!isHeadAuthorized}
-                        value={selectedStaffEmail}
-                        onChange={(e) => setSelectedStaffEmail(e.target.value)}
-                        className="w-full text-xs px-3 py-2 border border-slate-300 rounded-md bg-white focus:ring-1 focus:ring-indigo-500 outline-none font-medium"
-                      >
-                        {Object.entries(STAFF_BY_DEPARTMENT)
-                          .filter(([deptName]) => selectedDeptFilter === 'all' || deptName === selectedDeptFilter)
-                          .map(([deptName, staffList]) => (
-                            <optgroup key={deptName} label={deptName}>
-                              {staffList.map((staff) => (
-                                <option key={staff.email} value={staff.email}>
-                                  {staff.name} — {staff.position || 'นักวิชาการวิทยาศาสตร์'} ({staff.email})
-                                </option>
-                              ))}
-                            </optgroup>
+                    {/* Department Dropdown and Staff Dropdown Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {/* 1. Dropdown เลือกสาขาวิชา */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                          <Building2 className="w-4 h-4 text-indigo-600" />
+                          <span>สาขาวิชา:</span>
+                        </label>
+                        <select
+                          disabled={!isHeadAuthorized}
+                          value={selectedDeptFilter}
+                          onChange={(e) => {
+                            const newDept = e.target.value;
+                            setSelectedDeptFilter(newDept);
+                            if (newDept !== 'all') {
+                              const deptStaff = STAFF_BY_DEPARTMENT[newDept];
+                              if (deptStaff && deptStaff.length > 0) {
+                                const alreadyInDept = deptStaff.some((s) => s.email === selectedStaffEmail);
+                                if (!alreadyInDept && selectedStaffEmail !== 'custom') {
+                                  setSelectedStaffEmail(deptStaff[0].email);
+                                }
+                              }
+                            }
+                          }}
+                          className="w-full text-xs sm:text-sm px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none font-medium text-slate-800 disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
+                        >
+                          <option value="all">-- ทุกสาขาวิชา (ทั้งหมด) --</option>
+                          {Object.keys(STAFF_BY_DEPARTMENT).map((dept) => (
+                            <option key={dept} value={dept}>
+                              {dept}
+                            </option>
                           ))}
-                        <option value="custom">-- กำหนดชื่อเจ้าหน้าที่เอง (ระบุอิสระ) --</option>
-                      </select>
+                        </select>
+                      </div>
 
-                      {/* Custom staff fields if selected */}
-                      {selectedStaffEmail === 'custom' && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2.5 bg-slate-50 rounded border border-slate-200 animate-in fade-in">
-                          <input
-                            type="text"
-                            placeholder="ชื่อ-สกุล เจ้าหน้าที่"
-                            disabled={!isHeadAuthorized}
-                            value={customStaffName}
-                            onChange={(e) => setCustomStaffName(e.target.value)}
-                            className="text-xs px-3 py-1.5 border border-slate-300 rounded bg-white"
-                          />
-                          <input
-                            type="email"
-                            placeholder="อีเมลเจ้าหน้าที่ (@kku.ac.th)"
-                            disabled={!isHeadAuthorized}
-                            value={customStaffEmail}
-                            onChange={(e) => setCustomStaffEmail(e.target.value)}
-                            className="text-xs px-3 py-1.5 border border-slate-300 rounded bg-white"
-                          />
-                        </div>
-                      )}
-
-                      {/* Selected staff detail badge */}
-                      {selectedStaffEmail !== 'custom' && (
-                        <div className="text-[11px] text-slate-600 bg-indigo-50/50 p-2 rounded border border-indigo-100 flex items-center justify-between">
-                          <span>
-                            ผู้ได้รับมอบหมาย: <strong>{PRESET_STAFF.find((s) => s.email === selectedStaffEmail)?.name}</strong>
-                          </span>
-                          <span className="font-mono text-indigo-700">{selectedStaffEmail}</span>
-                        </div>
-                      )}
+                      {/* 2. Dropdown เลือกเจ้าหน้าที่ผู้รับผิดชอบ */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                          <UserCheck className="w-4 h-4 text-indigo-600" />
+                          <span>เจ้าหน้าที่ผู้รับผิดชอบ:</span>
+                        </label>
+                        <select
+                          disabled={!isHeadAuthorized}
+                          value={selectedStaffEmail}
+                          onChange={(e) => {
+                            const email = e.target.value;
+                            setSelectedStaffEmail(email);
+                            if (email !== 'custom' && selectedDeptFilter === 'all') {
+                              const found = PRESET_STAFF.find((s) => s.email === email);
+                              if (found?.dept && STAFF_BY_DEPARTMENT[found.dept]) {
+                                setSelectedDeptFilter(found.dept);
+                              }
+                            }
+                          }}
+                          className="w-full text-xs sm:text-sm px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none font-medium text-slate-800 disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
+                        >
+                          {Object.entries(STAFF_BY_DEPARTMENT)
+                            .filter(([deptName]) => selectedDeptFilter === 'all' || deptName === selectedDeptFilter)
+                            .map(([deptName, staffList]) => (
+                              <optgroup key={deptName} label={deptName}>
+                                {staffList.map((staff) => (
+                                  <option key={staff.email} value={staff.email}>
+                                    {staff.name} — {staff.position || 'นักวิชาการวิทยาศาสตร์'}
+                                  </option>
+                                ))}
+                              </optgroup>
+                            ))}
+                          <option value="custom">-- กำหนดชื่อเจ้าหน้าที่เอง (ระบุอิสระ) --</option>
+                        </select>
+                      </div>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-semibold text-slate-600">
+                    {/* Custom staff fields if selected */}
+                    {selectedStaffEmail === 'custom' && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 bg-slate-50 rounded-xl border border-slate-200 animate-in fade-in">
+                        <input
+                          type="text"
+                          placeholder="ชื่อ-สกุล เจ้าหน้าที่"
+                          disabled={!isHeadAuthorized}
+                          value={customStaffName}
+                          onChange={(e) => setCustomStaffName(e.target.value)}
+                          className="text-xs sm:text-sm px-3.5 py-2 border border-slate-300 rounded-lg bg-white"
+                        />
+                        <input
+                          type="email"
+                          placeholder="อีเมลเจ้าหน้าที่ (@kku.ac.th)"
+                          disabled={!isHeadAuthorized}
+                          value={customStaffEmail}
+                          onChange={(e) => setCustomStaffEmail(e.target.value)}
+                          className="text-xs sm:text-sm px-3.5 py-2 border border-slate-300 rounded-lg bg-white"
+                        />
+                      </div>
+                    )}
+
+                    {/* Selected staff detail badge */}
+                    {selectedStaffEmail !== 'custom' && (
+                      <div className="text-xs text-slate-700 bg-indigo-50/70 p-3 rounded-xl border border-indigo-100 flex items-center justify-between flex-wrap gap-2">
+                        <span>
+                          ผู้ได้รับมอบหมาย: <strong className="text-indigo-950">{PRESET_STAFF.find((s) => s.email === selectedStaffEmail)?.name}</strong>
+                          <span className="text-slate-500 ml-1.5">({PRESET_STAFF.find((s) => s.email === selectedStaffEmail)?.dept})</span>
+                        </span>
+                        <span className="font-mono text-xs font-semibold text-indigo-700 bg-white px-2.5 py-1 rounded-lg border border-indigo-200">
+                          {selectedStaffEmail}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* คำสั่งการ / ข้อความมอบหมาย */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs sm:text-sm font-bold text-slate-800">
                         คำสั่งการ / ข้อความมอบหมายถึงเจ้าหน้าที่:
                       </label>
                       <input
@@ -1125,7 +1177,7 @@ export const AdminReviewModal: React.FC<AdminReviewModalProps> = ({
                         value={assignedStaffComment}
                         onChange={(e) => setAssignedStaffComment(e.target.value)}
                         placeholder="ระบุข้อความมอบหมาย..."
-                        className="w-full text-xs px-3 py-1.5 border border-slate-300 rounded bg-white focus:ring-1 focus:ring-indigo-500 outline-none"
+                        className="w-full text-xs sm:text-sm px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none"
                       />
                     </div>
                   </div>
