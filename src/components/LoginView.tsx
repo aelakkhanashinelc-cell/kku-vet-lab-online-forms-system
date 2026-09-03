@@ -238,7 +238,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, initialMes
         <div className="text-center text-xs text-slate-500 mt-6 space-y-1">
           <div>© 2026 Faculty of Veterinary Medicine, Khon Kaen University</div>
           <div className="text-slate-600 font-medium">
-            พัฒนาระบบโดย: <strong className="text-slate-800">นางสาวลักขณา ฉันทะกลาง</strong>
+            Developed by: <strong className="text-slate-800">Miss Lakkhana Chanthaklang</strong>
           </div>
         </div>
       </div>
