@@ -234,9 +234,6 @@ export function App() {
                     <span className="text-sm font-bold text-indigo-600 tracking-tight hidden min-[420px]:inline">
                       Online Forms
                     </span>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hidden md:inline-flex shadow-2xs">
-                      FVM KKU
-                    </span>
                   </div>
                   <p className="text-xs text-slate-500 font-normal hidden lg:block">
                     ระบบบริการและจัดการแบบฟอร์มห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มข.
@@ -535,9 +532,8 @@ export function App() {
                       <LayoutDashboard className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1 leading-snug">
-                      <div className="text-sm font-bold truncate flex items-center gap-1.5 text-slate-900">
+                      <div className="text-sm font-bold truncate text-slate-900">
                         <span>รายการคำขอ & การอนุมัติ</span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide shadow-2xs">Staff</span>
                       </div>
                       <div className={`text-xs truncate ${activeTab === 'DASHBOARD' ? 'text-indigo-800 font-medium' : 'text-slate-500'}`}>
                         พิจารณา & มอบหมาย
