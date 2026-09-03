@@ -1,10 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { X, FileDown, CheckCircle, ShieldCheck, Loader2 } from 'lucide-react';
 import { VetLabRequest, SignatureData } from '../types';
 import { generateTypedSignatureDataUrl, generateElectronicSignatureDataUrl } from '../utils/signatureHelper';
-// @ts-ignore
-import html2canvas from 'html2canvas-pro';
-import { jsPDF } from 'jspdf';
 
 interface PrintableDocumentProps {
   request: VetLabRequest;
@@ -76,77 +73,10 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
     }
   };
 
-  // Direct PDF Generation & Download with strict A4 scaling and exact web layout match
-  const handleSavePdf = async () => {
-    if (!printContentRef.current || isGeneratingPdf) return;
-    try {
-      setIsGeneratingPdf(true);
-
-      // Ensure all web fonts (Sarabun, Noto Sans Thai, etc.) are 100% loaded before rendering
-      if (typeof document !== 'undefined' && (document as any).fonts?.ready) {
-        await (document as any).fonts.ready;
-      }
-
-      // Ensure all images (signatures, stamps) are fully loaded
-      const imgElements = Array.from(printContentRef.current.getElementsByTagName('img')) as HTMLImageElement[];
-      await Promise.all(
-        imgElements.map((img) => {
-          if (img.complete) return Promise.resolve();
-          return new Promise((resolve) => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          });
-        })
-      );
-
-      const formCode = getFormCode().replace(/\s+/g, '_');
-      const cleanTrackingNo = request.trackingNo || 'FORM';
-      const filename = `แบบฟอร์ม_${cleanTrackingNo}_${formCode}.pdf`;
-
-      // Render at standard A4 width (794px @ 96DPI = 210mm) and height (1123px = 297mm)
-      const canvas = await html2canvas(printContentRef.current, {
-        scale: 2.5, // High resolution scale for clear text
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        width: 794,
-        height: 1123,
-        windowWidth: 794, // Force window width to match the element to avoid media query shifts
-        windowHeight: 1123,
-        scrollX: 0,
-        scrollY: 0,
-        onclone: (clonedDoc: Document) => {
-          // Add fonts explicitly to cloned document just to be absolutely sure html2canvas sees them
-          const fontLink = clonedDoc.createElement('link');
-          fontLink.href = 'https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap';
-          fontLink.rel = 'stylesheet';
-          clonedDoc.head.appendChild(fontLink);
-
-          // We don't modify the element's own styling here anymore, 
-          // because it already has explicit inline styles for A4 dimensions.
-          // Modifying padding here caused the layout shift compared to the web preview.
-        },
-      });
-
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true,
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
-
-      pdf.save(filename);
-      setPdfSuccess(true);
-      setTimeout(() => setPdfSuccess(false), 3500);
-    } catch (error) {
-      console.error('Failed to generate PDF:', error);
-    } finally {
-      setIsGeneratingPdf(false);
-    }
+  // Direct PDF Generation & Download via Native Print Engine (Guarantees 100% accurate vector reproduction)
+  const handleSavePdf = () => {
+    // native print dialog allows "Save as PDF" and uses perfect A4 @page CSS rules
+    window.print();
   };
 
   // Auto-download PDF if URL contains download=1 or download=pdf
@@ -175,26 +105,11 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <button
           type="button"
           onClick={handleSavePdf}
-          disabled={isGeneratingPdf}
-          className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:from-slate-700 disabled:to-slate-800 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg hover:shadow-emerald-500/25 transition-all cursor-pointer active:scale-95"
-          title="ดาวน์โหลดเอกสารเป็นไฟล์ PDF ขนาด 1 หน้า A4 มาตรฐาน"
+          className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg hover:shadow-emerald-500/25 transition-all cursor-pointer active:scale-95"
+          title="บันทึกเอกสารเป็นไฟล์ PDF ขนาด 1 หน้า A4 มาตรฐาน (พริ้นต์)"
         >
-          {isGeneratingPdf ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin text-cyan-300" />
-              <span>กำลังสร้าง PDF...</span>
-            </>
-          ) : pdfSuccess ? (
-            <>
-              <CheckCircle className="w-4 h-4 text-emerald-300" />
-              <span>ดาวน์โหลด PDF สำเร็จ</span>
-            </>
-          ) : (
-            <>
-              <FileDown className="w-4 h-4 text-cyan-200" />
-              <span>ดาวน์โหลด PDF (A4)</span>
-            </>
-          )}
+          <FileDown className="w-4 h-4 text-cyan-200" />
+          <span>บันทึก PDF / พิมพ์</span>
         </button>
 
         <button
