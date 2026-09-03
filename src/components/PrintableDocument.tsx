@@ -126,7 +126,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-[28px] shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-between"
+          className="printable-page-container bg-white text-black p-[28px] shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-start print:shadow-none print:m-0 print:p-0 print:w-[210mm] print:h-[297mm]"
           style={{
             width: '794px',
             minWidth: '794px',
@@ -150,7 +150,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             <h2 className="text-xs sm:text-sm font-semibold text-slate-900">งานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ</h2>
             <h3 className="text-xs font-semibold text-slate-800">คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น</h3>
           </div>
-          <div className="flex justify-between items-end mt-2 text-[11px]">
+          <div className="flex justify-start items-end mt-2 text-[11px]">
             <div className="font-bold text-xs underline decoration-1 underline-offset-2">
               สำหรับผู้ขอรับบริการ (ส่วนที่ 1)
             </div>
@@ -162,7 +162,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         </div>
 
         {/* Part 1 Content */}
-        <div className="space-y-2 flex-1">
+        <div className="space-y-2 mb-4">
           {/* Line 1: Name & Role */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
             <span><strong>ชื่อ-สกุล:</strong> <span className="border-b border-dotted border-black px-2 pb-0.5 font-medium">{request.applicantName || '...................................................'}</span></span>
@@ -688,7 +688,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         )}
 
         {/* Verification Footer Stamp */}
-        <div className="mt-2 pt-1 border-t border-slate-200 text-[9.5px] text-slate-500 flex justify-between items-center print:text-black">
+        <div className="mt-2 pt-1 border-t border-slate-200 text-[9.5px] text-slate-500 flex justify-start items-center print:text-black">
           <div>เอกสารอิเล็กทรอนิกส์ คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น (KKU Vet Lab Online Forms System)</div>
           <div className="flex items-center gap-1 font-mono">
             <ShieldCheck className="w-3 h-3 text-emerald-600" />
