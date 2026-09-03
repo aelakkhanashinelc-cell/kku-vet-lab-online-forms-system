@@ -57,8 +57,15 @@ export function App() {
   // Authentication State
   const [authUser, setAuthUser] = useState<AuthUser | null>(() => getStoredAuthUser());
 
-  // Navigation active tab
-  const [activeTab, setActiveTab] = useState<FormType | 'REGULATIONS' | 'DASHBOARD' | 'MY_REQUESTS'>('VET_LAB_02');
+  // Navigation active tab - Default to REGULATIONS (VET.LAB 01) for applicants, DASHBOARD for staff
+  const [activeTab, setActiveTab] = useState<FormType | 'REGULATIONS' | 'DASHBOARD' | 'MY_REQUESTS'>(() => {
+    const stored = getStoredAuthUser();
+    if (stored) {
+      const role = getUserRoleInfo(stored.email);
+      return role.isStaff ? 'DASHBOARD' : 'REGULATIONS';
+    }
+    return 'REGULATIONS';
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Modals state
@@ -140,7 +147,7 @@ export function App() {
     } else if (user.isStaff) {
       setActiveTab('DASHBOARD');
     } else {
-      setActiveTab('VET_LAB_02');
+      setActiveTab('REGULATIONS');
     }
   };
 
