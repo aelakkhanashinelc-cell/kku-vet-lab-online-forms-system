@@ -20,6 +20,29 @@ import { DigitalSignaturePad } from './DigitalSignaturePad';
 import { getCurrentThaiDateParts, calculateDaysBetween } from '../utils/thaiDate';
 import { apiSubmitRequest } from '../utils/apiClient';
 import { generateTypedSignatureDataUrl } from '../utils/signatureHelper';
+import { saveFormDraft, loadFormDraft, clearFormDraft } from '../utils/formDrafts';
+
+interface DraftVetLab02 {
+  applicantName: string;
+  role: ApplicantRole;
+  studentId: string;
+  otherRoleText: string;
+  department: string;
+  customDepartment: string;
+  phone: string;
+  email: string;
+  workType: WorkType;
+  workTypeOtherText: string;
+  projectTitle: string;
+  labItems: LabItem02[];
+  timeSlot: TimeSlot;
+  startDate: string;
+  endDate: string;
+  durationDays: number;
+  termsAccepted: boolean;
+  applicantSignature: SignatureData;
+  advisorSignature: SignatureData;
+}
 
 interface FormVetLab02Props {
   onSubmitSuccess: (request: VetLabRequest, emailResult: any) => void;
@@ -42,66 +65,61 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
 }) => {
   const thaiDate = getCurrentThaiDateParts();
 
-  // Part 1 States
-  const [applicantName, setApplicantName] = useState(initialApplicantName);
-  const [role, setRole] = useState<ApplicantRole>(initialStudentId ? 'student' : 'faculty_staff');
-  const [studentId, setStudentId] = useState(initialStudentId);
-  const [otherRoleText, setOtherRoleText] = useState('');
-  const [department, setDepartment] = useState(
-    initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : KKU_DEPARTMENTS[0]
-  );
-  const [customDepartment, setCustomDepartment] = useState(
-    initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : ''
-  );
-  const [phone, setPhone] = useState(initialPhone);
-  const [email, setEmail] = useState(initialEmail);
-  const [workType, setWorkType] = useState<WorkType>('research');
-  const [workTypeOtherText, setWorkTypeOtherText] = useState('');
-  const [projectTitle, setProjectTitle] = useState('');
+  // Load existing draft if present
+  const initialDraftRef = useRef(loadFormDraft<DraftVetLab02>('VET_LAB_02'));
+  const initialDraft = initialDraftRef.current?.data;
 
-  // Sync with prop updates if user switches account
-  React.useEffect(() => {
-    if (initialApplicantName) setApplicantName(initialApplicantName);
-    if (initialEmail) setEmail(initialEmail);
-    if (initialPhone) setPhone(initialPhone);
-    if (initialStudentId) {
-      setStudentId(initialStudentId);
-      setRole('student');
-    }
-    if (initialDepartment) {
-      if (KKU_DEPARTMENTS.includes(initialDepartment)) {
-        setDepartment(initialDepartment);
-      } else {
-        setDepartment('อื่นๆ (โปรดระบุ)');
-        setCustomDepartment(initialDepartment);
-      }
-    }
-  }, [initialApplicantName, initialEmail, initialPhone, initialDepartment, initialStudentId]);
+  // Part 1 States
+  const [applicantName, setApplicantName] = useState(() => initialDraft?.applicantName ?? initialApplicantName);
+  const [role, setRole] = useState<ApplicantRole>(() => initialDraft?.role ?? (initialStudentId ? 'student' : 'faculty_staff'));
+  const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? initialStudentId);
+  const [otherRoleText, setOtherRoleText] = useState(() => initialDraft?.otherRoleText ?? '');
+  const [department, setDepartment] = useState(() => {
+    if (initialDraft?.department) return initialDraft.department;
+    if (initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
+    return KKU_DEPARTMENTS[0];
+  });
+  const [customDepartment, setCustomDepartment] = useState(() => {
+    if (initialDraft?.customDepartment !== undefined) return initialDraft.customDepartment;
+    if (initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment)) return initialDepartment;
+    return '';
+  });
+  const [phone, setPhone] = useState(() => initialDraft?.phone ?? initialPhone);
+  const [email, setEmail] = useState(() => initialDraft?.email ?? initialEmail);
+  const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? 'research');
+  const [workTypeOtherText, setWorkTypeOtherText] = useState(() => initialDraft?.workTypeOtherText ?? '');
+  const [projectTitle, setProjectTitle] = useState(() => initialDraft?.projectTitle ?? '');
 
   // Lab items table
-  const [labItems, setLabItems] = useState<LabItem02[]>([
-    { id: '1', no: 1, labName: PRESET_LABS_02[0], remarks: 'งานย้อมสีชิ้นเนื้อตัวอย่าง' },
-  ]);
+  const [labItems, setLabItems] = useState<LabItem02[]>(() => {
+    if (initialDraft?.labItems && initialDraft.labItems.length > 0) return initialDraft.labItems;
+    return [{ id: '1', no: 1, labName: PRESET_LABS_02[0], remarks: 'งานย้อมสีชิ้นเนื้อตัวอย่าง' }];
+  });
 
   // Duration & schedule
-  const [timeSlot, setTimeSlot] = useState<TimeSlot>('official_hours');
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
-  const [endDate, setEndDate] = useState(
-    new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]
-  );
-  const [durationDays, setDurationDays] = useState<number>(14);
+  const [timeSlot, setTimeSlot] = useState<TimeSlot>(() => initialDraft?.timeSlot ?? 'official_hours');
+  const [startDate, setStartDate] = useState(() => initialDraft?.startDate ?? new Date().toISOString().split('T')[0]);
+  const [endDate, setEndDate] = useState(() => initialDraft?.endDate ?? new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]);
+  const [durationDays, setDurationDays] = useState<number>(() => initialDraft?.durationDays ?? 14);
 
   // Acknowledgement & Signatures
-  const [termsAccepted, setTermsAccepted] = useState(true);
-  const [applicantSignature, setApplicantSignature] = useState<SignatureData>({
+  const [termsAccepted, setTermsAccepted] = useState(() => initialDraft?.termsAccepted ?? true);
+  const [applicantSignature, setApplicantSignature] = useState<SignatureData>(() => initialDraft?.applicantSignature ?? {
     name: initialApplicantName || '',
     date: thaiDate.fullStr,
     dataUrl: '',
   });
-  const [advisorSignature, setAdvisorSignature] = useState<SignatureData>({
+  const [advisorSignature, setAdvisorSignature] = useState<SignatureData>(() => initialDraft?.advisorSignature ?? {
     name: '',
     date: thaiDate.fullStr,
     dataUrl: '',
+  });
+
+  const [lastDraftSavedTime, setLastDraftSavedTime] = useState<string | null>(() => {
+    if (initialDraftRef.current?.savedAt) {
+      return new Date(initialDraftRef.current.savedAt).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+    }
+    return null;
   });
 
   // Auto-sync applicantName into applicantSignature.name if user hasn't typed a different name
@@ -112,6 +130,59 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
     }
     prevApplicantNameRef.current = applicantName;
   }, [applicantName]);
+
+  // Auto-save draft on changes (debounced)
+  useEffect(() => {
+    const draftPayload: DraftVetLab02 = {
+      applicantName,
+      role,
+      studentId,
+      otherRoleText,
+      department,
+      customDepartment,
+      phone,
+      email,
+      workType,
+      workTypeOtherText,
+      projectTitle,
+      labItems,
+      timeSlot,
+      startDate,
+      endDate,
+      durationDays,
+      termsAccepted,
+      applicantSignature,
+      advisorSignature,
+    };
+
+    const timer = setTimeout(() => {
+      saveFormDraft('VET_LAB_02', draftPayload);
+      const now = new Date();
+      setLastDraftSavedTime(now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }));
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [
+    applicantName,
+    role,
+    studentId,
+    otherRoleText,
+    department,
+    customDepartment,
+    phone,
+    email,
+    workType,
+    workTypeOtherText,
+    projectTitle,
+    labItems,
+    timeSlot,
+    startDate,
+    endDate,
+    durationDays,
+    termsAccepted,
+    applicantSignature,
+    advisorSignature,
+  ]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -150,6 +221,32 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
       copy[index] = { ...copy[index], [field]: value };
       return copy;
     });
+  };
+
+  const handleResetDraft = () => {
+    if (window.confirm('คุณต้องการล้างข้อมูลที่ร่างไว้ทั้งหมด และเริ่มต้นกรอกใหม่ใช่หรือไม่?')) {
+      clearFormDraft('VET_LAB_02');
+      setApplicantName(initialApplicantName);
+      setRole(initialStudentId ? 'student' : 'faculty_staff');
+      setStudentId(initialStudentId);
+      setOtherRoleText('');
+      setDepartment(initialDepartment && KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : KKU_DEPARTMENTS[0]);
+      setCustomDepartment(initialDepartment && !KKU_DEPARTMENTS.includes(initialDepartment) ? initialDepartment : '');
+      setPhone(initialPhone);
+      setEmail(initialEmail);
+      setWorkType('research');
+      setWorkTypeOtherText('');
+      setProjectTitle('');
+      setLabItems([{ id: '1', no: 1, labName: PRESET_LABS_02[0], remarks: 'งานย้อมสีชิ้นเนื้อตัวอย่าง' }]);
+      setTimeSlot('official_hours');
+      setStartDate(new Date().toISOString().split('T')[0]);
+      setEndDate(new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]);
+      setDurationDays(14);
+      setTermsAccepted(true);
+      setApplicantSignature({ name: initialApplicantName || '', date: thaiDate.fullStr, dataUrl: '' });
+      setAdvisorSignature({ name: '', date: thaiDate.fullStr, dataUrl: '' });
+      setLastDraftSavedTime(null);
+    }
   };
 
   const handleFillDemo = () => {
@@ -264,6 +361,7 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
 
     try {
       const result = await apiSubmitRequest(payload);
+      clearFormDraft('VET_LAB_02');
       onSubmitSuccess(result.data, result.emailResult);
     } catch (err: any) {
       console.error(err);
@@ -334,10 +432,22 @@ export const FormVetLab02: React.FC<FormVetLab02Props> = ({
         </div>
         <div className="mt-5 pt-4 border-t border-white/20 flex flex-wrap items-center justify-between text-xs sm:text-sm text-blue-100 gap-2">
           <span>วันที่ยื่นคำขอ: <strong className="text-white font-bold">{thaiDate.fullStr}</strong></span>
-          <span className="text-blue-100 font-semibold flex items-center gap-2 text-xs sm:text-sm bg-white/10 px-3 py-1 rounded-full border border-white/20">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            ระบบลงนามดิจิทัลและส่งแจ้งเตือนอัตโนมัติ
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            {lastDraftSavedTime && (
+              <span className="text-emerald-300 font-medium flex items-center gap-1.5 text-xs bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                บันทึกร่างอัตโนมัติแล้ว ({lastDraftSavedTime} น.)
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={handleResetDraft}
+              className="text-xs text-blue-200 hover:text-white underline hover:no-underline px-2 py-1 transition-colors cursor-pointer"
+              title="ล้างข้อมูลที่กรอกค้างไว้และเริ่มใหม่"
+            >
+              ล้างข้อมูลร่าง
+            </button>
+          </div>
         </div>
       </div>
 
