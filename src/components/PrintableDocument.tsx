@@ -126,13 +126,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-[28px] shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-start print:shadow-none print:m-0 print:p-0 print:w-[210mm] print:h-[297mm]"
+          className="printable-page-container bg-white text-black p-[28px] shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-start w-[794px] min-w-[794px] max-w-[794px] min-h-[1123px] print:w-full print:min-w-0 print:max-w-none print:h-auto print:min-h-0 print:m-0 print:p-0 print:shadow-none"
           style={{
-            width: '794px',
-            minWidth: '794px',
-            maxWidth: '794px',
-            height: '1123px',
-            minHeight: '1123px',
             boxSizing: 'border-box',
             fontFamily: "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif",
             lineHeight: '1.32',
