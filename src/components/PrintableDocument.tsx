@@ -105,56 +105,27 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
 
       // Render at standard A4 width (794px @ 96DPI = 210mm) and height (1123px = 297mm)
       const canvas = await html2canvas(printContentRef.current, {
-        scale: 2.5,
+        scale: 2.5, // High resolution scale for clear text
         useCORS: true,
         allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
         width: 794,
         height: 1123,
-        windowWidth: 794,
+        windowWidth: 794, // Force window width to match the element to avoid media query shifts
         windowHeight: 1123,
         scrollX: 0,
         scrollY: 0,
-        x: 0,
-        y: 0,
         onclone: (clonedDoc: Document) => {
-          const modal = clonedDoc.getElementById('printable-document-modal');
-          if (modal) {
-            modal.style.position = 'static';
-            modal.style.inset = 'auto';
-            modal.style.padding = '0';
-            modal.style.margin = '0';
-            modal.style.background = '#ffffff';
-            modal.style.overflow = 'visible';
-          }
-          const wrapper = clonedDoc.getElementById('printable-document-wrapper');
-          if (wrapper) {
-            wrapper.style.padding = '0';
-            wrapper.style.margin = '0';
-            wrapper.style.overflow = 'visible';
-            wrapper.style.display = 'block';
-          }
-          const el = clonedDoc.getElementById('printable-document-content');
-          if (el) {
-            el.style.width = '794px';
-            el.style.minWidth = '794px';
-            el.style.maxWidth = '794px';
-            el.style.height = '1123px';
-            el.style.minHeight = '1123px';
-            el.style.maxHeight = '1123px';
-            el.style.padding = '24px 28px 18px 28px';
-            el.style.boxSizing = 'border-box';
-            el.style.position = 'static';
-            el.style.transform = 'none';
-            el.style.margin = '0';
-            el.style.boxShadow = 'none';
-            el.style.backgroundColor = '#ffffff';
-            el.style.color = '#000000';
-            el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
-            el.style.lineHeight = '1.32';
-            (el.style as any).webkitFontSmoothing = 'antialiased';
-          }
+          // Add fonts explicitly to cloned document just to be absolutely sure html2canvas sees them
+          const fontLink = clonedDoc.createElement('link');
+          fontLink.href = 'https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap';
+          fontLink.rel = 'stylesheet';
+          clonedDoc.head.appendChild(fontLink);
+
+          // We don't modify the element's own styling here anymore, 
+          // because it already has explicit inline styles for A4 dimensions.
+          // Modifying padding here caused the layout shift compared to the web preview.
         },
       });
 
@@ -242,7 +213,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         <div
           id="printable-document-content"
           ref={printContentRef}
-          className="printable-page-container bg-white text-black p-6 sm:p-7 shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-between"
+          className="printable-page-container bg-white text-black p-[28px] shadow-2xl rounded-xs font-sans text-[11px] leading-snug my-auto mx-auto shrink-0 antialiased flex flex-col justify-between"
           style={{
             width: '794px',
             minWidth: '794px',
