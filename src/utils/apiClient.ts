@@ -11,6 +11,7 @@ import {
   submitToGoogleAppsScript,
   syncUpdateToGoogleAppsScript,
   logLoginToGoogleAppsScript,
+  fetchRequestsFromGoogleAppsScript,
 } from './gasService';
 
 const CLIENT_REQUESTS_KEY = 'kku_vet_lab_client_requests';
@@ -237,7 +238,7 @@ export async function apiSubmitRequest(payload: any): Promise<{ success: boolean
 }
 
 /**
- * 2. Get all requests (Supports filtering)
+ * 2. Get all requests (Supports filtering & Cloud Multi-Device Sync)
  */
 export async function apiGetRequests(filter?: { formType?: string; status?: string; q?: string }): Promise<{ success: boolean; data: VetLabRequest[]; count: number }> {
   // 1. Attempt Node.js server API
@@ -252,7 +253,40 @@ export async function apiGetRequests(filter?: { formType?: string; status?: stri
     return serverRes;
   }
 
-  // 2. Client-side fallback
+  // 2. Fetch from Google Apps Script (Cloud Database for Cross-Device Real-Time Sync)
+  if (isGasConfigured()) {
+    try {
+      const remoteRequests = await fetchRequestsFromGoogleAppsScript();
+      if (remoteRequests && Array.isArray(remoteRequests) && remoteRequests.length > 0) {
+        const localList = getLocalRequests();
+        const mergedMap = new Map<string, VetLabRequest>();
+
+        // Remote first
+        remoteRequests.forEach((r) => {
+          if (r && (r.id || r.trackingNo)) {
+            mergedMap.set(r.trackingNo || r.id, r);
+          }
+        });
+
+        // Local next (preserve local requests that haven't synced yet)
+        localList.forEach((r) => {
+          if (r && (r.id || r.trackingNo)) {
+            const key = r.trackingNo || r.id;
+            if (!mergedMap.has(key)) {
+              mergedMap.set(key, r);
+            }
+          }
+        });
+
+        const mergedList = Array.from(mergedMap.values());
+        saveLocalRequests(mergedList);
+      }
+    } catch (e) {
+      console.warn('Sync from Google Apps Script skipped:', e);
+    }
+  }
+
+  // 3. Filter and return
   let list = getLocalRequests();
   if (filter?.formType && filter.formType !== 'all') {
     list = list.filter((r) => r.formType === filter.formType);
@@ -273,12 +307,12 @@ export async function apiGetRequests(filter?: { formType?: string; status?: stri
     );
   }
 
-  list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  list.sort((a, b) => new Date(b.createdAt || b.updatedAt || 0).getTime() - new Date(a.createdAt || a.updatedAt || 0).getTime());
   return { success: true, data: list, count: list.length };
 }
 
 /**
- * 3. Get single request by ID or TrackingNo
+ * 3. Get single request by ID or TrackingNo (Supports Cloud Lookup)
  */
 export async function apiGetRequestById(idOrTracking: string): Promise<{ success: boolean; data: VetLabRequest | null }> {
   const clean = idOrTracking.trim();
@@ -288,10 +322,30 @@ export async function apiGetRequestById(idOrTracking: string): Promise<{ success
     return serverRes;
   }
 
-  // 2. Client fallback
-  const list = getLocalRequests();
-  const found = list.find((r) => r.id === clean || (r.trackingNo && r.trackingNo.toLowerCase() === clean.toLowerCase()));
-  return { success: !!found, data: found || null };
+  // 2. Check Local store first
+  let list = getLocalRequests();
+  let found = list.find((r) => r.id === clean || (r.trackingNo && r.trackingNo.toLowerCase() === clean.toLowerCase()));
+  if (found) {
+    return { success: true, data: found };
+  }
+
+  // 3. If not found locally, fetch latest from Google Apps Script cloud database
+  if (isGasConfigured()) {
+    try {
+      const remoteRequests = await fetchRequestsFromGoogleAppsScript();
+      if (remoteRequests && Array.isArray(remoteRequests)) {
+        saveLocalRequests(remoteRequests);
+        found = remoteRequests.find((r) => r.id === clean || (r.trackingNo && r.trackingNo.toLowerCase() === clean.toLowerCase()));
+        if (found) {
+          return { success: true, data: found };
+        }
+      }
+    } catch (e) {
+      console.warn('Lookup from Google Apps Script skipped:', e);
+    }
+  }
+
+  return { success: false, data: null };
 }
 
 /**

@@ -286,6 +286,56 @@ export async function syncUpdateToGoogleAppsScript(
 }
 
 /**
+ * Fetch all requests directly from Google Apps Script for real-time multi-device synchronization
+ */
+export async function fetchRequestsFromGoogleAppsScript(): Promise<VetLabRequest[] | null> {
+  const gasUrl = getGasUrl();
+  if (!gasUrl) return null;
+
+  try {
+    // Attempt GET with cache buster
+    const url = new URL(gasUrl);
+    url.searchParams.set('action', 'get_requests');
+    url.searchParams.set('_t', String(Date.now()));
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+    });
+
+    if (response.ok) {
+      const json = await safeJsonFromResponse(response);
+      if (json && json.success && Array.isArray(json.data)) {
+        return json.data;
+      }
+    }
+
+    // Fallback: Attempt POST if GET is blocked by browser CORS
+    const postRes = await fetch(gasUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({
+        action: 'get_requests',
+        timestamp: new Date().toISOString(),
+      }),
+    });
+
+    if (postRes.ok) {
+      const postJson = await safeJsonFromResponse(postRes);
+      if (postJson && postJson.success && Array.isArray(postJson.data)) {
+        return postJson.data;
+      }
+    }
+
+    return null;
+  } catch (err) {
+    console.warn('Google Apps Script fetch requests notice:', err);
+    return null;
+  }
+}
+
+/**
  * Log user login event to Google Apps Script Sheet: เข้าสู่ระบบ in real-time
  */
 export async function logLoginToGoogleAppsScript(

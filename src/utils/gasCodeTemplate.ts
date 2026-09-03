@@ -42,14 +42,26 @@ function doPost(e) {
       const result = processNewSubmission(ss, requestData);
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
-        message: "บันทึกลง Google Sheets และส่งอีเมลพร้อมแนบไฟล์ PDF A4 สำเร็จ",
+        message: "บันทึกลง Google Sheets สำเร็จ",
         trackingNo: result.trackingNo,
         row: result.row,
-        sheetName: result.sheetName
+        sheetName: result.sheetName,
+        data: requestData
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 2. ทดสอบการเชื่อมต่อ
+    // 2. ดึงรายการคำขอทั้งหมดแบบ Real-time ข้ามอุปกรณ์
+    if (action === "get_requests" || action === "list") {
+      const requests = fetchAllRequestsFromSheets(ss);
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        data: requests,
+        count: requests.length,
+        timestamp: new Date().toISOString()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // 3. ทดสอบการเชื่อมต่อ
     if (action === "test_connection" || action === "ping") {
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
@@ -60,17 +72,17 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 3. อัปเดตสถานะการอนุมัติ (Workflow ขั้นที่ 2 และ 3 พร้อมแนบ PDF A4 ล่าสุด)
+    // 4. อัปเดตสถานะการอนุมัติ (Workflow ขั้นที่ 2 และ 3)
     if (action === "update_status" || action === "review_request") {
       const updateResult = processStatusUpdate(ss, data);
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
-        message: "อัปเดตสถานะและส่งอีเมลแจ้งเตือนพร้อมแนบไฟล์ PDF A4 เรียบร้อย",
+        message: "อัปเดตสถานะและส่งอีเมลแจ้งเตือนเรียบร้อย",
         data: updateResult
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 4. บันทึกประวัติการเข้าสู่ระบบ
+    // 5. บันทึกประวัติการเข้าสู่ระบบ
     if (action === "log_login" || action === "login") {
       const loginResult = processLoginLog(ss, data);
       return ContentService.createTextOutput(JSON.stringify({
@@ -87,11 +99,105 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({
-    success: true,
-    status: "online",
-    message: "KKU Vet Lab Service Ready"
-  })).setMimeType(ContentService.MimeType.JSON);
+  try {
+    const action = (e && e.parameter && e.parameter.action) || "get_requests";
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    if (action === "get_requests" || action === "list" || !e.parameter || Object.keys(e.parameter).length === 0) {
+      const requests = fetchAllRequestsFromSheets(ss);
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        data: requests,
+        count: requests.length,
+        timestamp: new Date().toISOString()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (action === "ping" || action === "test_connection") {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        status: "online",
+        message: "KKU Vet Lab Service is active",
+        spreadsheetName: ss.getName()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      success: true,
+      status: "online",
+      message: "KKU Vet Lab Service Ready"
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * บันทึกและดึงข้อมูลคำขอทั้งหมดในรูปแบบ JSON เพื่อเชื่อมต่อทุกอุปกรณ์แบบ Real-time
+ */
+function fetchAllRequestsFromSheets(ss) {
+  const sheetName = "ข้อมูลระบบ_JSON";
+  let sheet = ss.getSheetByName(sheetName);
+  if (!sheet) {
+    sheet = ss.insertSheet(sheetName);
+    sheet.appendRow(["TrackingNo", "JSON_Data", "UpdatedAt"]);
+    sheet.setFrozenRows(1);
+    return [];
+  }
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow <= 1) return [];
+
+  const data = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+  const list = [];
+  for (let i = 0; i < data.length; i++) {
+    const jsonStr = data[i][0];
+    if (jsonStr && typeof jsonStr === "string" && jsonStr.trim().startsWith("{")) {
+      try {
+        const obj = JSON.parse(jsonStr);
+        if (obj && (obj.trackingNo || obj.id)) {
+          list.push(obj);
+        }
+      } catch (e) {}
+    }
+  }
+  return list;
+}
+
+function saveOrUpdateRequestJson(ss, req) {
+  if (!req || (!req.trackingNo && !req.id)) return;
+  const trackingNo = req.trackingNo || req.id;
+  const sheetName = "ข้อมูลระบบ_JSON";
+  let sheet = ss.getSheetByName(sheetName);
+  if (!sheet) {
+    sheet = ss.insertSheet(sheetName);
+    sheet.appendRow(["TrackingNo", "JSON_Data", "UpdatedAt"]);
+    sheet.setFrozenRows(1);
+  }
+
+  const lastRow = sheet.getLastRow();
+  let foundRow = -1;
+  if (lastRow > 1) {
+    const trackingValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (let i = 0; i < trackingValues.length; i++) {
+      if (trackingValues[i][0] == trackingNo) {
+        foundRow = i + 2;
+        break;
+      }
+    }
+  }
+
+  const nowStr = new Date().toISOString();
+  const jsonStr = JSON.stringify(req);
+  if (foundRow > 0) {
+    sheet.getRange(foundRow, 2).setValue(jsonStr);
+    sheet.getRange(foundRow, 3).setValue(nowStr);
+  } else {
+    sheet.appendRow([trackingNo, jsonStr, nowStr]);
+  }
 }
 
 /**
@@ -148,6 +254,9 @@ function processNewSubmission(ss, req) {
   ];
   sheet.appendRow(rowData);
 
+  // บันทึก JSON สำเนาเพื่อรองรับการดึงข้อมูลแบบ Real-time ข้ามทุกอุปกรณ์
+  saveOrUpdateRequestJson(ss, req);
+
   // 1. ส่งใบตอบรับไปยังผู้ขอรับบริการ (พร้อมแนบไฟล์ PDF A4)
   sendApplicantReceiptEmail(req, trackingNo, formType, itemsSummary, webAppUrl);
 
@@ -171,6 +280,9 @@ function processStatusUpdate(ss, data) {
 
   // อัปเดตแถวในสเปรดชีต
   updateSheetRow(ss, trackingNo, status, req);
+
+  // อัปเดต JSON สำเนาเพื่อรองรับการดึงข้อมูลแบบ Real-time ข้ามทุกอุปกรณ์
+  saveOrUpdateRequestJson(ss, req);
 
   // กรณี 2B: หัวหน้าห้องปฏิบัติการไม่อนุมัติส่วนที่ 2 (Rejected) -> ส่งอีเมลแจ้งผู้ขอ + แนบ PDF A4
   if (req.part2 && req.part2.approvalStatus === "rejected") {

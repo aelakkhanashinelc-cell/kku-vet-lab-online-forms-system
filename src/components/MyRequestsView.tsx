@@ -95,19 +95,23 @@ export const MyRequestsView: React.FC<MyRequestsViewProps> = ({
     fetchMyRequests(currentUserEmail, searchQuery);
     setCustomEmailFilter(currentUserEmail);
 
-    // Instant Real-time Event: Reload data on form submission / approval in 0ms
+    // Instant Real-time Event: Reload data on form submission / approval
     const handleLiveUpdate = () => {
       fetchMyRequests(customEmailFilter || currentUserEmail, searchQuery, true);
     };
     window.addEventListener('vet_lab_requests_updated', handleLiveUpdate);
+    window.addEventListener('focus', handleLiveUpdate);
+    document.addEventListener('visibilitychange', handleLiveUpdate);
 
-    // Live Sync Interval: Automatically refresh status every 3 seconds
+    // Live Sync Interval: Automatically refresh status across all devices every 4 seconds
     const interval = setInterval(() => {
       fetchMyRequests(customEmailFilter || currentUserEmail, searchQuery, true);
-    }, 3000);
+    }, 4000);
 
     return () => {
       window.removeEventListener('vet_lab_requests_updated', handleLiveUpdate);
+      window.removeEventListener('focus', handleLiveUpdate);
+      document.removeEventListener('visibilitychange', handleLiveUpdate);
       clearInterval(interval);
     };
   }, [currentUserEmail, customEmailFilter, searchQuery]);
