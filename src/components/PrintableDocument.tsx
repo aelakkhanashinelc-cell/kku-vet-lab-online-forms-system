@@ -76,7 +76,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
     }
   };
 
-  // Direct PDF Generation & Download with strict 1-page A4 scaling (Device & Screen independent)
+  // Direct PDF Generation & Download with strict A4 scaling and exact web layout match
   const handleSavePdf = async () => {
     if (!printContentRef.current || isGeneratingPdf) return;
     try {
@@ -87,11 +87,23 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         await (document as any).fonts.ready;
       }
 
+      // Ensure all images (signatures, stamps) are fully loaded
+      const imgElements = Array.from(printContentRef.current.getElementsByTagName('img')) as HTMLImageElement[];
+      await Promise.all(
+        imgElements.map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        })
+      );
+
       const formCode = getFormCode().replace(/\s+/g, '_');
       const cleanTrackingNo = request.trackingNo || 'FORM';
       const filename = `แบบฟอร์ม_${cleanTrackingNo}_${formCode}.pdf`;
 
-      // Render at standard A4 dimensions (794px width x 1123px height = 210mm x 297mm @ 96DPI)
+      // Render at standard A4 width (794px @ 96DPI = 210mm)
       const canvas = await html2canvas(printContentRef.current, {
         scale: 2.5,
         useCORS: true,
@@ -99,32 +111,30 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         logging: false,
         backgroundColor: '#ffffff',
         windowWidth: 794,
-        windowHeight: 1123,
         onclone: (clonedDoc: Document) => {
           const el = clonedDoc.getElementById('printable-document-content');
           if (el) {
             el.style.width = '794px';
             el.style.minWidth = '794px';
             el.style.maxWidth = '794px';
-            el.style.height = '1123px';
-            el.style.minHeight = '1123px';
-            el.style.maxHeight = '1123px';
-            el.style.padding = '24px 28px 18px 28px';
-            el.style.boxSizing = 'border-box';
             el.style.position = 'static';
             el.style.transform = 'none';
             el.style.margin = '0';
             el.style.backgroundColor = '#ffffff';
             el.style.color = '#000000';
             el.style.fontFamily = "'Sarabun', 'Noto Sans Thai', 'TH Sarabun New', 'Cordia New', sans-serif";
-            el.style.lineHeight = '1.3';
+            el.style.lineHeight = '1.32';
             (el.style as any).webkitFontSmoothing = 'antialiased';
           }
         },
       });
 
-      // Use PNG format for crisp, lossless Thai text rendering without JPEG halos
-      const imgData = canvas.toDataURL('image/png');
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const pdfWidth = 210; // A4 width in mm
+      const pdfHeight = 297; // A4 height in mm
+      const pageHeightPx = Math.round((canvasWidth * pdfHeight) / pdfWidth);
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -132,8 +142,48 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
         compress: true,
       });
 
-      // Exact 1-page A4 canvas fit (210mm x 297mm)
-      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+      // If document fits within 1 A4 page (with 4% safety margin)
+      if (canvasHeight <= pageHeightPx * 1.04) {
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      } else {
+        // Multi-page document: slice into exact A4 pages without distortion
+        let currentY = 0;
+        let pageIdx = 0;
+
+        while (currentY < canvasHeight) {
+          if (pageIdx > 0) {
+            pdf.addPage('a4', 'portrait');
+          }
+
+          const sliceHeight = Math.min(pageHeightPx, canvasHeight - currentY);
+          const sliceCanvas = document.createElement('canvas');
+          sliceCanvas.width = canvasWidth;
+          sliceCanvas.height = pageHeightPx;
+          const sliceCtx = sliceCanvas.getContext('2d');
+
+          if (sliceCtx) {
+            sliceCtx.fillStyle = '#ffffff';
+            sliceCtx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+            sliceCtx.drawImage(
+              canvas,
+              0,
+              currentY,
+              canvasWidth,
+              sliceHeight,
+              0,
+              0,
+              canvasWidth,
+              sliceHeight
+            );
+            const sliceImgData = sliceCanvas.toDataURL('image/png');
+            pdf.addImage(sliceImgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+          }
+
+          currentY += pageHeightPx;
+          pageIdx++;
+        }
+      }
 
       pdf.save(filename);
       setPdfSuccess(true);
@@ -191,6 +241,16 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
               <span>ดาวน์โหลด PDF (A4)</span>
             </>
           )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer border border-slate-700 active:scale-95"
+          title="สั่งพิมพ์เอกสารผ่านระบบของเบราว์เซอร์ (Print to Paper/PDF)"
+        >
+          <Printer className="w-4 h-4 text-slate-300" />
+          <span className="hidden sm:inline">พิมพ์เอกสาร</span>
         </button>
 
         <button
