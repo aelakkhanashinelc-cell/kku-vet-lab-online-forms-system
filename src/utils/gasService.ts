@@ -308,8 +308,12 @@ export async function fetchRequestsFromGoogleAppsScript(): Promise<VetLabRequest
         return json.data;
       }
     }
+  } catch (error) {
+    console.warn('GET request to GAS failed (CORS?), attempting POST fallback...');
+  }
 
-    // Fallback: Attempt POST if GET is blocked by browser CORS
+  try {
+    // Fallback: Attempt POST if GET is blocked by browser CORS or threw an error
     const postRes = await fetch(gasUrl, {
       method: 'POST',
       headers: {
@@ -327,12 +331,11 @@ export async function fetchRequestsFromGoogleAppsScript(): Promise<VetLabRequest
         return postJson.data;
       }
     }
-
-    return null;
-  } catch (err) {
-    console.warn('Google Apps Script fetch requests notice:', err);
-    return null;
+  } catch (postError) {
+    console.error('POST fallback to GAS also failed:', postError);
   }
+
+  return null;
 }
 
 /**
