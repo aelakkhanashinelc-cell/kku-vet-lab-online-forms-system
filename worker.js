@@ -9,8 +9,6 @@ export default {
         return new Response("Missing url param", { status: 400 });
       }
 
-      // Reconstruct the request to Google Apps Script
-      // Only proxy GET and POST methods
       if (request.method === "OPTIONS") {
         return new Response(null, {
           headers: {
