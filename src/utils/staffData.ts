@@ -12,7 +12,7 @@ export const SUPER_ADMIN_EMAILS = [
 
 // 2. หัวหน้าห้องปฏิบัติการ (Head of Lab)
 export const HEAD_OF_LAB_EMAILS = [
-  'aelakkhana.shine.lc@gmail.com', // หัวหน้าห้องปฏิบัติการ (Head of Lab)
+  'sutvir@kku.ac.th', // หัวหน้าห้องปฏิบัติการ (Head of Lab)
 ];
 
 // 3. รายชื่อนักวิชาการวิทยาศาสตร์และบุคลากรห้องปฏิบัติการ แยกตามสาขาวิชา (ตามเอกสารทางการ)
@@ -20,7 +20,7 @@ export const STAFF_BY_DEPARTMENT: Record<string, Scientist[]> = {
   'สาขาวิชาสุขภาพหนึ่งเดียวและศาสตร์วินิจฉัย': [
     {
       name: 'นางสุธิดา จันทร์ลุน',
-      email: 'aelakkhana.shine.lc@gmail.com',
+      email: 'sutvir@kku.ac.th',
       position: 'หัวหน้างานห้องปฏิบัติการ งานวิจัยและบริการวิชาการ / นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ',
       department: 'สาขาวิชาสุขภาพหนึ่งเดียวและศาสตร์วินิจฉัย',
     },

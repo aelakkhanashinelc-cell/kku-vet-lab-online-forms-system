@@ -16,7 +16,7 @@ export const GOOGLE_APPS_SCRIPT_CODE = `/**
  */
 
 // อีเมลหัวหน้าห้องปฏิบัติการ (สำหรับรับแจ้งเตือนคำขอใหม่เพื่อพิจารณาส่วนที่ 2)
-const HEAD_OF_LAB_EMAIL = "aelakkhana.shine.lc@gmail.com";
+const HEAD_OF_LAB_EMAIL = "sutvir@kku.ac.th";
 const SENDER_NAME = "งานห้องปฏิบัติการ คณะสัตวแพทยศาสตร์ มข.";
 
 /**

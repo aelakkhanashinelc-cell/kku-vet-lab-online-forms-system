@@ -59,7 +59,7 @@ export const EmailOutboxModal: React.FC<EmailOutboxModalProps> = ({
     user: '',
     hasPass: false,
     secure: true,
-    adminEmail: 'aelakkhana.shine.lc@gmail.com',
+    adminEmail: 'sutvir@kku.ac.th',
     senderName: 'งานห้องปฏิบัติการฯ คณะสัตวแพทยศาสตร์ มข.',
   });
   const [smtpUser, setSmtpUser] = useState('');
@@ -67,7 +67,7 @@ export const EmailOutboxModal: React.FC<EmailOutboxModalProps> = ({
   const [smtpHost, setSmtpHost] = useState('smtp.gmail.com');
   const [smtpPort, setSmtpPort] = useState<number>(465);
   const [smtpSecure, setSmtpSecure] = useState(true);
-  const [smtpAdminEmail, setSmtpAdminEmail] = useState('aelakkhana.shine.lc@gmail.com');
+  const [smtpAdminEmail, setSmtpAdminEmail] = useState('sutvir@kku.ac.th');
   const [smtpSenderName, setSmtpSenderName] = useState('งานห้องปฏิบัติการฯ คณะสัตวแพทยศาสตร์ มข.');
   const [showPass, setShowPass] = useState(false);
   const [isSavingSmtp, setIsSavingSmtp] = useState(false);

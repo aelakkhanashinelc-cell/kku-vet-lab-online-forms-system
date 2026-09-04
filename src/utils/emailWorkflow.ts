@@ -6,14 +6,14 @@ export const LAB_OFFICIALS = {
     position: 'นักวิชาการวิทยาศาสตร์ ชำนาญการพิเศษ',
     roleTitle: 'หัวหน้าห้องปฏิบัติการ',
     department: 'คณะสัตวแพทยศาสตร์ มหาวิทยาลัยขอนแก่น',
-    email: 'aelakkhana.shine.lc@gmail.com',
+    email: 'sutvir@kku.ac.th',
   },
   coordinator: {
     name: 'คุณรัตนา หลายวิวัฒน์',
     roleTitle: 'ผู้ประสานงานห้องปฏิบัติการ',
   },
-  primaryEmail: 'aelakkhana.shine.lc@gmail.com',
-  fallbackEmails: ['aelakkhana.shine.lc@gmail.com', 'lakkch@kku.ac.th'],
+  primaryEmail: 'sutvir@kku.ac.th',
+  fallbackEmails: ['sutvir@kku.ac.th', 'lakkch@kku.ac.th'],
 };
 
 export function getFormTypeName(formType: string): string {

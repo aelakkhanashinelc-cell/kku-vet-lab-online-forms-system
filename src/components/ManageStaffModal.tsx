@@ -218,7 +218,7 @@ export const ManageStaffModal: React.FC<ManageStaffModalProps> = ({
                             ผู้ดูแลระบบ
                           </span>
                         )}
-                        {(staff.email === 'sutvir@kku.ac.th' || staff.email === 'suthidaj@kku.ac.th' || staff.email === 'aelakkhana.shine.lc@gmail.com') && (
+                        {(staff.email === 'sutvir@kku.ac.th' || staff.email === 'suthidaj@kku.ac.th' || staff.email === 'sutvir@kku.ac.th') && (
                           <span className="px-1.5 py-0.2 bg-indigo-100 text-indigo-800 rounded text-[10px] font-bold">
                             หัวหน้างาน
                           </span>
