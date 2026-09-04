@@ -568,40 +568,17 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                     )}
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-3 text-[10.5px]">
-                  <div className="border-r border-black pr-2 space-y-0.5">
-                    <div className="font-semibold">สภาพเครื่องมือก่อนใช้งาน (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)</div>
-                    <div className="h-5 border-b border-dotted border-black text-slate-700">
-                      {request.part3?.beforeConditionCheck || '................................................................................'}
-                    </div>
-                    <div className="text-center pt-1 space-y-0.5">
-                      <RenderSignatureStamp
-                        signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้ส่งมอบ'}
-                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้ส่งมอบ"
-                        isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
-                      />
-                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้ส่งมอบ</div>
-                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
-                    </div>
-                  </div>
-                  <div className="pl-2 space-y-0.5">
-                    <div className="font-semibold">สภาพเครื่องมือหลังใช้งาน (นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ)</div>
-                    <div className="h-5 border-b border-dotted border-black text-slate-700">
-                      {request.part3?.afterConditionCheck || '................................................................................'}
-                    </div>
-                    <div className="text-center pt-1 space-y-0.5">
-                      <RenderSignatureStamp
-                        signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับคืน'}
-                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับคืน"
-                        isApproved={request.status === 'completed'}
-                      />
-                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้รับคืน</div>
-                      <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
-                    </div>
+                <div className="flex justify-end text-[10.5px] pr-12">
+                  <div className="text-center pt-1 space-y-0.5 min-w-[200px]">
+                    <RenderSignatureStamp
+                      signature={request.part3?.signature}
+                      fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้ส่งมอบ'}
+                      fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
+                      roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ"
+                      isApproved={request.part3?.approvalStatus === 'approved' || request.status === 'completed'}
+                    />
+                    <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '..........................................'} ) ผู้ส่งมอบ</div>
+                    <div className="text-[10px]">วันที่ {request.part3?.signature?.date || '........./........./.........'}</div>
                   </div>
                 </div>
               </div>
