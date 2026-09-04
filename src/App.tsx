@@ -163,7 +163,21 @@ export function App() {
     }
   };
 
-  // 1. Direct PDF Document View from Email (Available even before login)
+  // 1. If user is not logged in, render the Login Gate (MUST LOGIN FIRST)
+  if (!authUser) {
+    return (
+      <LoginView
+        onLoginSuccess={handleLoginSuccess}
+        initialMessage={
+          pendingReviewTarget
+            ? `โปรดเข้าสู่ระบบเพื่อเข้าพิจารณาคำขอรหัส: ${pendingReviewTarget}`
+            : (selectedPrintRequest ? `โปรดเข้าสู่ระบบเพื่อดาวน์โหลดแบบฟอร์ม PDF` : undefined)
+        }
+      />
+    );
+  }
+
+  // 2. If print/pdf mode is activated, ONLY render the printable document (no layout, no nav)
   if (selectedPrintRequest) {
     return (
       <PrintableDocument
@@ -177,20 +191,6 @@ export function App() {
           url.searchParams.delete('track');
           window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
         }}
-      />
-    );
-  }
-
-  // 2. If user is not logged in, render the Login Gate
-  if (!authUser) {
-    return (
-      <LoginView
-        onLoginSuccess={handleLoginSuccess}
-        initialMessage={
-          pendingReviewTarget
-            ? `โปรดเข้าสู่ระบบเพื่อเข้าพิจารณาคำขอรหัส: ${pendingReviewTarget}`
-            : undefined
-        }
       />
     );
   }
