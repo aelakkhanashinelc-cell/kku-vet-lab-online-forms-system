@@ -603,28 +603,18 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                     )}
                   </div>
                 )}
-                <div className="max-w-sm text-[10.5px]">
-                  <div className="space-y-1">
-                    <div className="font-semibold flex items-center gap-1">
-                      <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part3?.isDispensed ? 'bg-black text-white font-bold' : ''}`}>
-                        {request.part3?.isDispensed ? '✓' : ''}
-                      </span>
-                      จ่ายสารเคมี/วัสดุเรียบร้อย
-                    </div>
-                    <div className="text-center space-y-0.5 pt-1">
-                      <RenderSignatureStamp
-                        signature={request.part3?.signature}
-                        fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
-                        fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
-                        roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ"
-                        isApproved={request.part3?.isDispensed || request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed'}
-                      />
-                      <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '......................................'} )</div>
-                      <div className="font-semibold text-[9.5px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ (ผู้จ่ายของ)</div>
-                    </div>
+                <div className="flex justify-end text-[10.5px] pr-12">
+                  <div className="text-center pt-1 space-y-0.5 min-w-[200px]">
+                    <RenderSignatureStamp
+                      signature={request.part3?.signature}
+                      fallbackName={request.part3?.signature?.name || request.part2?.assignedStaffName || 'นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ'}
+                      fallbackDate={request.part3?.signature?.date || request.submissionDateTh}
+                      roleLabel="นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ"
+                      isApproved={request.part3?.isDispensed || request.part3?.approvalStatus === 'approved' || request.status === 'completed' || request.status === 'dispensed'}
+                    />
+                    <div className="text-[10.5px]">( {request.part3?.signature?.name || request.part2?.assignedStaffName || '......................................'} )</div>
+                    <div className="font-semibold text-[9.5px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ (ผู้จ่ายของ)</div>
                   </div>
-                  
-                  
                 </div>
               </div>
             )}
