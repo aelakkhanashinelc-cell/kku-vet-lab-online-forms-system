@@ -17,96 +17,7 @@ import {
 const CLIENT_REQUESTS_KEY = 'kku_vet_lab_client_requests';
 
 // Initial seed requests (same as server.ts)
-const SEED_REQUESTS: VetLabRequest[] = [
-  {
-    id: 'req-001',
-    trackingNo: 'VL02-2026-001',
-    formType: 'VET_LAB_02',
-    status: 'approved',
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    submissionDateTh: '28 สิงหาคม 2569',
-    applicantName: 'นายสมชาย พันธุ์งาม',
-    role: 'student',
-    studentId: '653180123-4',
-    department: 'กลุ่มวิชาอายุรศาสตร์ (Medicine)',
-    phone: '081-234-5678',
-    email: 'somchai.p@kkumail.com',
-    workType: 'research',
-    projectTitle: 'การศึกษาการดื้อยาปฏิชีวนะของเชื้อแบคทีเรียในสุนัข',
-    labItems: [
-      { id: '1', no: 1, labName: 'ห้องปฏิบัติการจุลชีววิทยา ชั้น 3 อาคารพิเชฏฐ์ฯ', remarks: 'งานเพาะเลี้ยงเชื้อ' },
-      { id: '2', no: 2, labName: 'ห้องปฏิบัติการชีวเคมีคลินิก ชั้น 2 อาคารพิเชฏฐ์ฯ', remarks: 'ทดสอบความไวต่อยา' },
-    ],
-    timeSlot: 'official_hours',
-    durationDays: 5,
-    startDate: '2026-09-01',
-    endDate: '2026-09-05',
-    termsAccepted: true,
-    applicantSignature: {
-      name: 'นายสมชาย พันธุ์งาม',
-      date: '28 สิงหาคม 2569',
-    },
-    advisorSignature: {
-      name: 'ผศ.ดร.ลักขณา ฉัตรทอง',
-      date: '28 สิงหาคม 2569',
-    },
-    part2: {
-      approvalStatus: 'approved',
-      comment: 'เห็นควรอนุมัติให้ใช้ห้องปฏิบัติการตามกำหนดเวลา',
-      signature: {
-        name: 'ผศ.ดร.ลักขณา ฉัตรทอง',
-        date: '28 สิงหาคม 2569',
-      },
-      reviewedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-      assignedStaffName: 'นางสาววันศิริ สุขสวัสดิ์',
-      assignedStaffEmail: 'wansiri@kku.ac.th',
-      assignedStaffComment: 'ประสานงานเปิดห้องและแนะนำอุปกรณ์ความปลอดภัย',
-    },
-    part3: {
-      approvalStatus: 'approved',
-      comment: 'ตรวจสอบความพร้อมของห้องปฏิบัติการและตู้ชีวนิรภัยเรียบร้อย',
-      signature: {
-        name: 'นางสาววันศิริ สุขสวัสดิ์',
-        date: '28 สิงหาคม 2569',
-      },
-      reviewedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    },
-  },
-  {
-    id: 'req-002',
-    trackingNo: 'VL03-2026-002',
-    formType: 'VET_LAB_03',
-    status: 'pending',
-    createdAt: new Date(Date.now() - 86400000).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000).toISOString(),
-    submissionDateTh: '29 สิงหาคม 2569',
-    applicantName: 'ผศ.น.สพ.ดร.กิตติคม วงศ์สว่าง',
-    role: 'faculty_staff',
-    department: 'กลุ่มวิชาศัลยศาสตร์ (Surgery)',
-    phone: '089-765-4321',
-    email: 'kittikom@kku.ac.th',
-    workType: 'research',
-    projectTitle: 'การวิเคราะห์โครงสร้างกระดูกและเนื้อเยื่อข้อต่อด้วยกล้องจุลทรรศน์',
-    equipmentType: 'lab_based',
-    equipmentItems: [
-      { id: '1', no: 1, itemName: 'กล้องจุลทรรศน์สเตอริโอ (Stereo Microscope)', quantity: '1 เครื่อง', remarksLab: 'ห้องจุลทรรศน์ ชั้น 2' },
-    ],
-    timeSlot: 'official_hours',
-    durationDays: 3,
-    startDate: '2026-09-02',
-    endDate: '2026-09-04',
-    termsAccepted: true,
-    applicantSignature: {
-      name: 'ผศ.น.สพ.ดร.กิตติคม วงศ์สว่าง',
-      date: '29 สิงหาคม 2569',
-    },
-    advisorSignature: {
-      name: '-',
-      date: '-',
-    },
-  },
-];
+const SEED_REQUESTS: VetLabRequest[] = [];
 
 /**
  * Get client-stored requests
@@ -276,29 +187,9 @@ export async function apiGetRequests(filter?: { formType?: string; status?: stri
   if (isGasConfigured()) {
     try {
       const remoteRequests = await fetchRequestsFromGoogleAppsScript();
-      if (remoteRequests && Array.isArray(remoteRequests) && remoteRequests.length > 0) {
-        const localList = getLocalRequests();
-        const mergedMap = new Map<string, VetLabRequest>();
-
-        // Remote first
-        remoteRequests.forEach((r) => {
-          if (r && (r.id || r.trackingNo)) {
-            mergedMap.set(r.trackingNo || r.id, r);
-          }
-        });
-
-        // Local next (preserve local requests that haven't synced yet)
-        localList.forEach((r) => {
-          if (r && (r.id || r.trackingNo)) {
-            const key = r.trackingNo || r.id;
-            if (!mergedMap.has(key)) {
-              mergedMap.set(key, r);
-            }
-          }
-        });
-
-        const mergedList = Array.from(mergedMap.values());
-        saveLocalRequests(mergedList);
+      if (remoteRequests && Array.isArray(remoteRequests)) {
+        // We sync directly with remote. If remote is empty, we clear local.
+        saveLocalRequests(remoteRequests);
       }
     } catch (e) {
       console.warn('Sync from Google Apps Script skipped:', e);
