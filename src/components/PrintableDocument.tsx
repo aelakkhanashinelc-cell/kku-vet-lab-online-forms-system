@@ -610,7 +610,7 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
             {request.formType === 'VET_LAB_04' && (
               <div>
                 <div className="font-bold text-[11.5px] mb-0.5">
-                  ส่วนที่ 3 : สำหรับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบและสรุปค่าใช้จ่าย
+                  ส่วนที่ 3 : สำหรับนักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ
                 </div>
                 {/* แสดงความเห็น/เหตุผล ถ้ามี */}
                 {(request.part3?.comment || request.part3?.rejectionReason) && (
@@ -626,8 +626,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                     )}
                   </div>
                 )}
-                <div className="grid grid-cols-3 gap-2 text-[10.5px]">
-                  <div className="border-r border-black pr-2 space-y-1">
+                <div className="max-w-sm text-[10.5px]">
+                  <div className="space-y-1">
                     <div className="font-semibold flex items-center gap-1">
                       <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part3?.isDispensed ? 'bg-black text-white font-bold' : ''}`}>
                         {request.part3?.isDispensed ? '✓' : ''}
@@ -646,36 +646,8 @@ export const PrintableDocument: React.FC<PrintableDocumentProps> = ({ request, o
                       <div className="font-semibold text-[9.5px]">นักวิชาการวิทยาศาสตร์ผู้รับผิดชอบ (ผู้จ่ายของ)</div>
                     </div>
                   </div>
-                  <div className="border-r border-black pr-2 space-y-1">
-                    <div className="font-semibold flex items-center gap-1">
-                      <span className={`w-3 h-3 rounded-full border border-black inline-flex items-center justify-center text-[9px] ${request.part3?.isReceived ? 'bg-black text-white font-bold' : ''}`}>
-                        {request.part3?.isReceived ? '✓' : ''}
-                      </span>
-                      ได้รับของครบถ้วนแล้ว
-                    </div>
-                    <div className="text-center space-y-0.5 pt-1">
-                      <RenderSignatureStamp
-                        signature={request.applicantSignature}
-                        fallbackName={request.applicantSignature?.name || request.applicantName}
-                        fallbackDate={request.applicantSignature?.date || request.submissionDateTh}
-                        roleLabel="ผู้รับของ"
-                        isApproved={request.part3?.isReceived || request.status === 'completed' || request.status === 'dispensed'}
-                      />
-                      <div className="text-[10.5px]">( {request.applicantSignature?.name || request.applicantName || '......................................'} )</div>
-                      <div className="font-semibold text-[10px]">ผู้รับของ</div>
-                    </div>
-                  </div>
-                  <div className="space-y-0.5">
-                    <div className="font-semibold">สรุปค่าใช้จ่าย</div>
-                    <table className="w-full text-[10px] border border-black">
-                      <tbody>
-                        <tr>
-                          <td className="p-0.5 px-1 border-b border-black">รวมทั้งสิ้น</td>
-                          <td className="p-0.5 px-1 text-right font-mono font-bold border-b border-black">{request.part3?.totalExpense || '0'} บ.</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  
+                  
                 </div>
               </div>
             )}
