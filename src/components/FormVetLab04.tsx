@@ -73,7 +73,6 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
   const [studentId, setStudentId] = useState(() => initialDraft?.studentId ?? '');
   const [otherRoleText, setOtherRoleText] = useState(() => initialDraft?.otherRoleText ?? '');
   const [department, setDepartment] = useState(() => initialDraft?.department ?? '');
-  const [customDepartment, setCustomDepartment] = useState(() => initialDraft?.customDepartment ?? '');
   const [phone, setPhone] = useState(() => initialDraft?.phone ?? '');
   const [email, setEmail] = useState(() => initialDraft?.email ?? initialEmail);
   const [workType, setWorkType] = useState<WorkType>(() => initialDraft?.workType ?? ('' as any));
@@ -315,7 +314,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       role,
       studentId: role === 'student' ? studentId : undefined,
       otherRoleText: (role === 'other' || role === 'external') ? otherRoleText : undefined,
-      department: department === 'อื่นๆ (ระบุ)' ? customDepartment : department,
+      department: department.trim(),
       phone,
       email,
       workType,
@@ -363,7 +362,7 @@ export const FormVetLab04: React.FC<FormVetLab04Props> = ({
       role,
       studentId,
       otherRoleText: (role === 'other' || role === 'external') ? otherRoleText : undefined,
-      department: department === 'อื่นๆ (ระบุ)' ? customDepartment : department,
+      department: department.trim(),
       phone,
       email,
       workType,
