@@ -28,7 +28,7 @@ export async function safeJsonFromResponse(response: Response): Promise<any> {
   }
 }
 
-export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxAS8NOJ8s8RM5cgrvPyP6pBQTnh0jhs5VakMYzAEqxfOVBMRELyP1IuasnX8b1i04eIA/exec';
+export const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwZiyxUfO0rokgqPFWaIfH-LNWnSOAHGDO4gwFcPMFWkQ2xGO_XsMkLjMSizDfWgo99Fg/exec';
 
 /**
  * Retrieve saved Google Apps Script Web App URL
@@ -37,7 +37,7 @@ export function getGasUrl(): string {
   try {
     const saved = localStorage.getItem(GAS_URL_STORAGE_KEY);
     // If the saved URL is empty or matches the old inactive URL, migrate to new default
-    if (!saved || saved.includes('AKfycbzI_t4oiogCWZRE1kNhdn4v2ojaJIzDEDJP-hIHxZxGs_lRNPTKHwad5XUDydK5xWuG')) {
+    if (!saved || saved.includes('AKfycbzI_t4oiogCWZRE1kNhdn4v2ojaJIzDEDJP-hIHxZxGs_lRNPTKHwad5XUDydK5xWuG') || saved.includes('AKfycbxAS8NOJ8s8RM5cgrvPyP6pBQTnh0jhs5VakMYzAEqxfOVBMRELyP1IuasnX8b1i04eIA')) {
       localStorage.setItem(GAS_URL_STORAGE_KEY, DEFAULT_GAS_URL);
       return DEFAULT_GAS_URL;
     }
